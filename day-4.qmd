@@ -1,0 +1,1359 @@
+---
+title: "Generative<br>Network Analysis"
+subtitle: "[DAY FOUR]{.kn-pink} [GESIS Fall Seminar in Computational Social Science]{.kn-blue}"
+author:
+  - name: John McLevey
+    affiliations:
+      - name: University of Waterloo
+  - name: Johannes B. Gruber
+    affiliations:
+      - name: VU Amsterdam
+format:
+  revealjs:
+    theme: [default, custom.scss]
+    width: 1600
+    height: 900
+    embed-resources: true
+    execute:
+      eval: true
+      echo: true
+      warning: false
+      cache: true
+      freeze: true
+    slide-number: false
+    chalkboard: false
+    preview-links: auto
+    smaller: true
+    fig-align: left
+    fig-format: svg
+    lightbox: true
+    scrollable: true
+    code-overflow: scroll
+    code-fold: false
+    code-line-numbers: true
+    code-copy: hover
+    reference-location: document
+    tbl-cap-location: margin
+    logo: media/logo_gesis.png
+    footer: "[CC BY-SA 4.0]{.nord-footer}"
+    email-obfuscation: javascript
+highlight-style: "nord"
+bibliography: references.bib
+---
+
+# Introduction
+## Schedule: GESIS Fall Seminar in Computational Social Science
+
+| time   | Session                                      |
+|--------|----------------------------------------------|
+| Day 1  | Introduction to Computational Social Science |
+| Day 2  | Obtaining Data                               |
+| Day 3  | Computational Text Analysis                  |
+| **Day 4**  | **Computational Network Analysis**               |
+| Day 5  | Social Simulation & Agent-based Models       |
+| Day 6  | Project Work Day and Outlook                 |
+
+: Course Schedule {.striped .hover}
+
+<!-- This is a comment. You can leave them here to take notes linked to the slides. -->
+
+
+
+## SNA Origins
+[@freeman2004development]{.nord-light}
+
+:::: {.columns}
+::: {.column width="45%"}
+![](media/Simmel.png){width=41.5%} ![](media/jacob_moreno.jpg){width=41%}<br>[Left, Georg **Simmel** (1858-1918)<br>Right, Jacob **Moreno** (1889-1974)]{.nord-footer}
+
+**Simmel**'s [[-@simmel2010conflict]]{.nord-light} "The Web of Group Affiliations" and **Moreno**'s [[-@moreno1934shall]]{.nord-light} *Who Shall Survive?* are generally considered to be the intellectual beginnings of SNA.
+:::
+
+::: {.column width="10%"}
+:::
+
+::: {.column width="45%"}
+![](media/who_shall_survive.gif){width=100%}
+
+*Who Shall Survive?* Helen Hall **Jennings** co-authored this classic without credit.
+:::
+::::
+
+
+##
+
+:::: {.columns}
+::: {.column width="45%"}
+![The vertical line marks the publication of the first edition of the<br>*Sage Handbook of Social Network Analysis* [[@scott2011sage]]{.nord-light}.<br>Figure reproduced from [[@mclevey2023sage]]{.nord-light}.](media/social_networks_over_time.png){#fig-social_networks_over_time width=80%}
+:::
+
+::: {.column width="55%"}
+![](media/SHSNA-Contents.png){width=100%}
+:::
+::::
+
+##
+
+![Latent topics in *Social Networks* over time. Reproduced from [@mclevey2023sage]{.nord-light}.](media/mclevey_scott_carrington_sna_topic_heatmap.png){#fig-mclevey_scott_carrington_sna_topic_heatmap}
+
+SNA (and network science more generally) is [increasingly computational]{.kn-pink} [[see also @tindall2022big]]{.nord-light}. Subgroup analysis, clustering, multilevel models, statistical modelling, Bayesian inference, and social influence are especially important topics.
+
+
+## Learning Objectives
+
+We will focus on [generative modelling]{.kn-pink} for network analysis, especially "community detection" and visualization.
+
+<br>
+
+:::: {.columns}
+::: {.column width="60%"}
+By the end of this module, students will be able to:
+
+- differentiate heuristic and generative approaches to network analysis in general, and community detection in particular
+- explain problems with heuristic approaches to community detection, specifically modularity-maximization
+- understand the logic of generative modelling and Bayesian data analysis (BDA) applied to networks
+- understand how Bayesian Stochastic Blockmodels offer a flexible, interpretable, and statistically principled approach to analyzing networks
+- iteratively fit, refine, assess, compare, visualize, and interpret Nested Stochastic Blockmodels in Python using `graph-tool`
+:::
+::: {.column width="40%"}
+:::
+::::
+
+##
+
+:::: {.columns}
+::: {.column width="50%"}
+![](media/reduction.jpg){width=70% .shadow-img}
+
+### Community Detection
+[is like a good reduction]{.nord-footer}
+:::
+
+::: {.column width="50%"}
+- an essential topic in network analysis [[see @prell2011social; @robins2015doing; @light2020oxford; @mclevey2022doing; @moody2023cohesion; @peixoto2023descriptive; @mclevey2023sage; @borgatti2024analyzing]]{.nord-light}
+- high-level goal is to simplify network structure by partitioning and [reducing]{.kn-pink} complex observed networks
+- there are different kinds of structure and subgroups
+  - assortative-connective, equivalent-positional
+- there are different methods and models we can use
+  - **heuristic-descriptive**
+    - have been popular for some time
+    - are deeply flawed and should be avoided
+  - **generative-inferential**
+    - not new [[e.g., @holland1983stochastic; @snijders1997estimation; @bearman2004chains]]{.nord-light}, better and more accessible than ever
+    - strong opinion: must become be the standard
+:::
+::::
+
+::: {.notes}
+**The reduction analogy**
+
+- Starting with Complexity: Just as you begin cooking with a variety of ingredients in a sauce, you start with a complex network that has many nodes and edges representing different interactions or relationships.
+- Reducing to Essentials: In cooking, reducing a sauce involves simmering it to evaporate excess liquid, concentrating the flavors, and focusing on the essential ingredients. Similarly, blockmodeling simplifies the network by grouping similar nodes into blocks or communities, thereby reducing the complexity of the network and focusing on the essential structural patterns.
+- Enhancing Understanding: The goal of reducing a sauce is to create a richer, more flavorful dish that enhances the overall meal. Likewise, the goal of blockmodeling is to create a clearer, more understandable representation of the network, making it easier to identify key patterns, relationships, and structures.
+- Striking the Right Balance: Just as you must be careful not to reduce a sauce too much (which could lead to an overly intense or burnt flavor), in blockmodeling, it’s important to strike the right balance between simplification and preserving the network’s meaningful structure. Over-simplification could result in loss of important details.
+:::
+
+##
+
+<br><br>
+
+![](media/heuristic.png){width=40% .shadow-img}
+
+### pitfalls and problems <br>with [heuristic]{.kn-pink} network analysis
+
+##
+
+:::: {.columns}
+::: {.column width="50%"}
+![](media/divided_they_blog.png){#fig-divided_they_blog width="100%" .shadow-img}
+
+### Divided They Blog
+:::
+
+::: {.column width="50%"}
+$\longleftarrow$<br>This famous figure from @adamic2005political shows a conservative-liberal divide in the American political blogosphere circa 2004.
+
+- Nodes: political blogs
+- Edges: links [("citations")]{.nord-light} to other blogs
+- Color: liberal (blue), conservative (red) [(not CD!)]{.nord-light}
+- Size: indegree
+- Layout: force directed
+
+<br>
+
+[Is the network structure<br>[[self-evident]{.kn-pink}]{.large-text}<br>here?]{.fragment}
+
+:::
+::::
+
+
+##
+
+:::: {.columns}
+::: {.column width="55%"}
+![Wickham's loop.](media/data-science.png){#fig-data-science width=60%}
+
+<br>
+
+### Common First Steps
+
+- reduce the network [(e.g., detect subgroup structure)]{.nord-light}
+- visualize network [(usually force-directed layouts)]{.nord-light}
+- interpret and ...
+
+When do we exit the loop?
+
+Can we trust intuition?
+:::
+
+::: {.column width="5%"}
+:::
+
+::: {.column width="40%"}
+![Box's loop.](media/box_loop.png){#fig-box_loop width=60%}
+
+<br>
+
+![](media/divided_they_blog.png){width=60% .shadow-img}
+:::
+::::
+
+##
+
+:::: {.columns}
+::: {.column width="50%"}
+![](media/divided_they_blog.png){width=100% .shadow-img}
+
+### How sure are you?
+:::
+
+::: {.column width="50%"}
+<br>
+
+#### Common pitfalls and problems
+
+[@peixoto2021modularity; @peixoto2023descriptive; @peixoto2021hairball]{.nord-footer}
+
+- (Implicitly?) believing some approaches are more "model-free" than others
+- (Implicitly?) believing that network structure will be self-evident and our intuitions will hold up when reasoning about high-dimensional network structure
+
+<br>
+
+Which often translates to:
+
+- using heuristic approaches [(esp. modularity-maximization)]{.nord-light} to partition/reduce networks
+- interpreting generic network visualizations [(esp. force-directed)]{.nord-light} without sufficient model criticism
+:::
+::::
+
+##
+
+![These loops encourage us to explicate, criticize, and refine **models** in order to be confident in our inferences.](media/box_loop.png){width=80% .shadow-img}
+
+There is [no inference without models]{.kn-blue}, so we should always make our models explicit.
+
+##
+
+### Heuristic Community Detection<br>via Modularity Maximization
+
+<br><br>
+
+:::: {.columns}
+::: {.column width="55%"}
+
+The Louvain [[@blondel2008fast]]{.nord-light} algorithm purports to detect communities in networks by maximizing a "modularity" score $Q$ [[@newman2004finding]]{.nord-light}, where higher $Q$ values indicate more modular networks.
+
+![](media/Louvain.png){width=100%}
+:::
+
+::: {.column width="5%"}
+:::
+
+::: {.column width="40%"}
+![Figure reproduced from [@blondel2008fast]{.nord-light}](media/Louvain_alg.png){.shadow-img width=100%}
+:::
+::::
+
+::: {.notes}
+It starts by assuming that every node in a network is in it's own community and calculates a modularity score $Q$ for the network. Nodes are then randomly moved into different groups and $Q$ is re-calculated. If it increased, the community assignment is retained. This process continues until the node assignments have maximized $Q$ at the level of the observed network.
+
+Next, a simplified network is created by aggregating nodes into their assigned communities and the modularity maximization process is repeated. Communities are merged with other communities, and the mergers are retained if $Q$ increases. This process continues iteratively until $Q$ has been maximized.
+:::
+
+
+##
+
+:::: {.columns}
+::: {.column width="55%"}
+
+[😲😰😰😰]{.large-text}
+
+Some **well-known problems**:
+
+- the resolution limit
+- getting stuck in local optima
+- creating disconnected communities
+- can only identify assortative structure
+- finds "communities" in random networks
+- the illusion of greater objectivity<br>[[see @moody2023cohesion]]{.nord-footer}
+- simultaneously over- and under-fit<br>[[see @peixoto2023descriptive]]{.nord-footer}
+- often has a degenerate solution space<br>[[see @peixoto2023descriptive]]{.nord-footer}
+- etc.
+
+[There have been some improvements to modularity-maximization approaches [[e.g., @traag2019louvain]]{.nord-light}, but these only go so far. There are **fundamental problems** with the modularity-maximization idea, and heuristic approaches in general.]{.fragment}
+:::
+::: {.column width=45%}
+:::
+::::
+
+::: {.notes}
+...
+
+There are well-known problems with the Louvain algorithm, including **the resolution limit**, which prevents Louvain from detecting meaningful small communities due to inappropriate merging at higher levels. Louvain can also get **stuck in local optima**, causing it to stop looking for better partitions because it "thinks" (incorrectly) that $Q$ has been maximized. And sometimes it **creates disconnected communities**!
+:::
+
+
+##
+
+
+### What is $Q$?
+
+[[@newman2004finding; @blondel2008fast]]{.nord-footer}
+
+<br>
+
+:::: {.columns}
+::: {.column width="45%"}
+$$
+Q(A, b) = \frac{1}{2E} \sum_{ij} \left( A_{ij} - \gamma \frac{k_i k_j}{2E} \right) \delta_{b_i, b_j}
+$$
+:::
+
+::: {.column width=10%}
+:::
+
+::: {.column width=45%}
+$A$ is the binary adjacency matrix for an observed network and $b$ is a vector of node community assignments, so $Q(A,b)$ is the modularity score we would obtain for matrix $A$ given a proposed vector of community assignments $b$.
+
+<br>
+
+The goal is to find $\hat{b}$, the vector $b$ that maximizes $Q$.
+
+$$
+\hat{b} = \mathop{\mathrm{argmax}}_{b} \, Q(A, b)
+$$
+
+<!-- $$
+More recent version include a [resolution parameter]{.kn-pink} $\gamma$ that determines how the algorithm considers within community edges relative to a null model. Larger $\gamma$ values tend to result in a larger number of smaller communities. In the original equation ($\longleftarrow$), this was set to 1 by default, which **gave the impression** that researchers could find the optimal community partition with little subjective judgement. -->
+:::
+
+::::
+
+
+
+
+##
+
+
+### What is $Q$?
+
+[[@newman2004finding; @blondel2008fast]]{.nord-footer}
+
+<br>
+
+:::: {.columns}
+::: {.column width="40%"}
+
+$$
+Q(A, b) = \frac{1}{2E} \sum_{ij} \left( A_{ij} - \gamma \frac{k_i k_j}{2E} \right) \delta_{b_i, b_j}
+$$
+
+$$
+\hat{b} = \mathop{\mathrm{argmax}}_{b} \, Q(A, b)
+$$
+:::
+
+::: {.column width=10%}
+:::
+
+::: {.column width=50%}
+- $E$ is the total weight of edges in the network.
+- $A_{ij}$ is a specific entry in $A$ [($A_{ij} \in \{0, 1\}$ if $A$ is binary)]{.nord-light}.
+- $\gamma$ is a resolution parameter [(more recent addition)]{.nord-light} that governs the size and number of communities detected.
+- $\frac{k_i k_j}{2E}$ is a null model for baseline expectations [(next slide)]{.nord-light}.
+- $\delta(c_i, c_j)$ is an indicator function that equals 1 if $i$ and $j$ are in the same community and 0 if not. This limits the summation to within-community edges.
+- Normalizing with $\frac{1}{2E}$ constrains the maximum modularity score to 1.
+- $\hat{b}$ is the vector of community assignments $b$ with the maximum $Q$ score.
+:::
+::::
+
+
+
+##
+
+
+### What is $Q$?
+
+[[@newman2004finding; @blondel2008fast]]{.nord-footer}
+
+<br>
+
+:::: {.columns}
+::: {.column width="40%"}
+
+$$
+Q(A, b) = \frac{1}{2E} \sum_{ij} \left( A_{ij} - \gamma \frac{k_i k_j}{2E} \right) \delta_{b_i, b_j}
+$$
+
+$$
+\hat{b} = \mathop{\mathrm{argmax}}_{b} \, Q(A, b)
+$$
+:::
+
+::: {.column width=5%}
+:::
+
+::: {.column width=55%}
+$\frac{k_i k_j}{2E}$ represents the edges expected under a **null model with no community structure at all**, in which the probability of an edge is proportional to node degrees ($k_i k_j$) and otherwise random.
+
+<br>
+
+The resolution parameter $\gamma$ varies the number and size of clusters identified by weighting the comparison of observed edges with edges expected under this [entirely implausible and inappropriate]{.nord-light} null model.
+
+$$
+\sum_{ij} \left( A_{ij} - \gamma \frac{k_i k_j}{2E} \right)
+$$
+
+This is not good inference.
+:::
+::::
+
+
+
+
+##
+
+[But wait, there's more...]{.nord-light}
+
+### Force Directed Visualization
+
+:::: {.columns}
+::: {.column width="60%"}
+![](media/divided_they_blog.png){width=100% .shadow-img}
+:::
+
+::: {.column width="40%"}
+<br><br><br><br><br><br>
+
+Is the network structure<br>[self-evident? 🤔]{.large-text}
+:::
+::::
+
+::: {.notes}
+Nodes are initially placed randomly. Repulsive forces push then away from one another, but edges act like springs to pull connected nodes back towards one another. Repulsive and attractive forces are then summed to update node positions. This continues until equilibrium or the maximum number of iterations has been reached.
+:::
+
+
+## Nope
+
+:::: {.columns}
+::: {.column width="55%"}
+![Figure reproduced from @peixoto2023descriptive](media/face_mars.png){width=86%}
+:::
+
+::: {.column width="5%"}
+:::
+
+::: {.column width="40%"}
+![😂 [From https://x.com/GrandjeanMartin/status/1600154712380014594]{.nord-light}](media/jaws.png){width=80%}
+:::
+::::
+
+
+## Force Directed Visualization
+
+[From @peixoto2021hairball]{.nord-light}
+
+:::: {.columns}
+::: {.column width="50%"}
+![The political blogs network from @adamic2005political, redrawn for easier comparison with @fig-divided_they_blog_sbm.](media/divided_they_blog_tiago.png){width=100% #fig-divided_they_blog_tiago}
+:::
+
+
+::: {.column width="50%"}
+![Subgroup membership assigned using a generative network model.<br>Which is the problem? The visualization model, or the SBM? [(It's the visualization...)]{.nord-light}](media/divided_they_blog_sbm.png){width=90%  #fig-divided_they_blog_sbm}
+:::
+::::
+
+
+##
+
+:::: {.columns}
+::: {.column width="69%"}
+![Things look *very* different if we add attractive forces between nodes placed in the same group rather than just between adjacent nodes. [Image reproduced from @peixoto2021hairball.]{.nord-light}](media/divided_they_blog_lay.png){width=100% #fig-divided_they_blog_lay}
+:::
+
+::: {.column width="1%"}
+:::
+
+::: {.column width="30%"}
+$\longleftarrow$<br>
+This is still force directed, but this time the **model has been explicated, criticized, and refined** for the task at hand.
+<br><br>
+
+<!-- > [There’s no good reason for us to accept the status quo: We can simply modify how the layout behaves based on what we know about the network data, or what we have discovered using a well-defined methodology that is relevant for our research question. Equipped with this information, we can then use it to constrain the visualization, rather than the other way around. In the case of a force-directed layout we can simply add an additional attractive force between nodes that belong to the same detected module.<br><br>@peixoto2021hairball]{.small-text} -->
+We are not limited to force directed visualizations, of course.
+
+![Another view of subgroup structure in the political blogs network, this time with hierarchical edge bundling.](media/divided_they_blog_chordal.png){width=60% #fig-divided_they_blog_chordal}
+
+:::
+::::
+
+## Generative Network Analysis
+
+"generative," "Bayesian," "probabilistic," "inferential," ...
+
+:::: {.columns}
+::: {.column width="30%"}
+<br>
+
+![Tiago Peixoto is the developer of `graph-tool` and has made many important contributions to network science, primarily the nested stochastic blockmodel.](media/tiago.png){.shadow-img width=70%}
+:::
+
+::: {.column width="5%"}
+:::
+
+::: {.column width="65%"}
+<br><br>
+
+> "The remedy to this problem is to **think probabilistically**. We need to ascribe to each possible explanation of the data a probability that it is correct, which takes into account modeling assumptions, the statistical evidence available in the data, as well as any source of prior information we may have. Imbued in the whole procedure must be the principle of parsimony -- or **Occam's razor** -- where a simpler model is preferred if the evidence is not sufficient to justify a more complicated one."
+>
+> Tiago @peixoto2019bayesian, page 291
+:::
+::::
+
+::: {.notes}
+NOTES
+:::
+
+
+##
+
+[Thinking probabilistically about networks]{.nord-light}
+
+### Generative Modelling, BDA, & Stochastic Blockmodels
+
+:::: {.columns}
+::: {.column width="45%"}
+<br>
+
+[First]{.kn-blue}, we'll focus on understanding latent variables and the generative logic of Bayesian data analysis (**BDA**).
+
+![Several people have translated SR2's base R code into tidyverse R code, Julia, and **Python** using `PyMC` and `bambi`. See [xcelab.net/rm/](https://xcelab.net/rm/) for links.](media/statistical_rethinking.png){.shadow-img width=90%}
+:::
+
+::: {.column width="10%"}
+:::
+
+::: {.column width="45%"}
+<br>
+
+[Second]{.kn-blue}, we'll learn about stochastic blockmodelling as a principled **application of BDA** to networks.
+
+![McElreath's 2023 lecture series (YouTube) features new content on modelling networks that will be part of SR3. I recommend the entire playlist!](media/statistical_rethinking_2023_yt_networks.png){.shadow-img width=100%}
+:::
+::::
+
+##
+
+<br><br><br><br>
+
+:::: {.columns}
+::: {.column width="45%"}
+### Bayesian data analysis (BDA)
+:::
+
+::: {.column width="10%"}
+:::
+
+::: {.column width="45%"}
+1. is a workflow
+2. is mature and statistically principled
+3. re-allocates credibility
+4. infers the distribution of latent variables
+:::
+::::
+
+
+##
+
+[Thinking probabilistically about networks]{.nord-light}
+
+### BDA is a workflow
+
+<br>
+
+:::: {.columns}
+::: {.column width="55%"}
+@blei2014build "Build, Compute, Critique, Repeat"
+
+> [(...) Here, we take the perspective -- inspired by the work of George Box -- that **models are developed in an iterative process: we formulate a model, use it to analyze data, assess how the analysis succeeds and fails, revise the model, and repeat**. With this view, we describe how new research in statistics and machine learning has transformed each of these essential activities. (...)]{.small-text}
+
+<br>
+
+@gelman2020bayesian "Bayesian Workflow"
+
+> [(...) Beyond inference, the workflow also includes **iterative model building**, model checking, validation and troubleshooting of computational problems, model understanding, and model comparison. We review all these aspects of workflow in the context of several examples, keeping in mind that in practice we will be **fitting many models** for any given problem, even if only a subset of them will ultimately be relevant for our conclusions.]{.small-text}
+:::
+
+::: {.column width="45%"}
+![Box's loop for iterative model-based data analysis.](media/box_loop.png){#fig-box_loop width=85%}
+:::
+::::
+
+
+
+##
+
+[Thinking probabilistically about networks]{.nord-light}
+
+### BDA is mature and statistically principled
+
+<br><br>
+
+Bayes' theorem
+
+$$
+P(A|B)=\frac{P(B|A)P(A)}{P(B)}
+$$
+
+<br>
+
+is not really "Bayesian!" It's ubiquitous in statistics, including in Frequentism. It becomes "Bayesian" when we use it to compare the relative plausibility of different hypotheses [[@mcelreath2018statistical]]{.nord-light}. The **BDA** version of Bayes' theorem is often presented as
+
+$$
+P(H|E)=\frac{P(E|H)P(H)}{P(E)}
+$$
+
+<br>
+
+where $H$ represents our hypotheses and $E$ represents the observed evidence.
+
+##
+
+[Thinking probabilistically about networks]{.nord-light}
+
+### BDA re-allocates credibility
+[@kruschke2014doing]{.nord-footer}
+<br>
+
+:::: {.columns}
+::: {.column width="25%"}
+$$
+P(H|E)=\frac{P(E|H)P(H)}{P(E)}
+$$
+:::
+
+::: {.column width="5%"}
+:::
+
+::: {.column width="70%"}
+$P(H|E)$ is the **posterior probability** of a given hypothesis conditional upon the observed evidence. [This is what we want to learn.]{.kn-pink}
+
+<br>
+
+$P(E|H)$ is the **likelihood**, or 'sampling probability.' As in Frequentism, it measures the probability of observing the evidence we observed under the assumption that the hypothesis is true.
+
+<br>
+
+$P(H)$ is the **prior**. It represents our knowledge about the hypothesis before observing the data. Bayesian models treat priors as latent variables whose probability distributions are logically determined by the information available [[see @cox1946probability; @jaynes2003probability]]{.nord-light}.
+
+<br>
+
+$P(E)$ is the **unconditional probability of the evidence** and is sometimes referred to as the 'Bayes Denominator' or 'Marginal Probability of the Data.' It's often analytically intractable, so we approximate it (e.g., with MCMC).
+:::
+::::
+
+##
+
+[Thinking probabilistically about networks]{.nord-light}
+
+### BDA infers the distribution of latent variables
+<br><br>
+
+[Bayesian SBMs]{.kn-pink} apply the inferential logic of BDA to network analysis. We have:
+
+- **observed data**^[Although, [as Richard McElreath argues](https://www.youtube.com/watch?v=hnYhJzYAQ60) we can't literally observe a network, so it doesn't really make sense to talk about network "data." From this perspective, all network "data" are latent variables in some sense. The main implication is that we need more generative thinking and Bayesian data analysis.] in the form of an adjacency matrix describing connections among nodes, and
+- **unobserved latent variables** for our block or community memberships.
+
+We want to **infer the distributions of the latent variables** (i.e. the assignment of nodes into latent blocks) conditional on the observed data and our model. In other words, we want to learn $P(b|A)$, which is the **posterior probability** of a latent block partition $b$ conditional on the adjacency matrix $A$ of the network we observed.
+
+<br>
+
+$$
+P(b|A) = \frac{P(A|b)P(b)}{P(A)}
+$$
+
+##
+
+<br><br><br><br>
+
+This SBM is still rather limited.
+
+For example, like most approaches it requires us to pre-specify the number of blocks.
+
+<br>
+
+### The [nested]{.kn-pink} SBM overcomes this problem.
+
+##
+
+[Thinking probabilistically about networks]{.nord-light}
+
+### The Nested Stochastic Blockmodel
+:::: {.columns}
+::: {.column width="45%"}
+![Reproduced from @peixoto2014hierarchical.](media/nested_sbm.png){#fig-nested_sbm width=80%}
+:::
+
+::: {.column width="55%"}
+<br>
+
+The [nested]{.kn-pink} SBM extends the SBM by modelling block structure **hierarchically**. It puts the SBM at the bottom of this nested structure, where it partitions nodes in the observed network based on their probability of connecting to other nodes. Those blocks are then grouped into other blocks as you move up the hierarchy. The number of blocks and their connections are also latent variables. It:
+
+- is not limited to assortative structure
+- can be applied to nearly any type of network
+- does not require pre-specifying the number of blocks
+- does not detect spurious communities
+- can be easily evaluated, refined, and compared
+- scales to large networks well
+:::
+::::
+
+
+##
+
+[Thinking probabilistically about networks]{.nord-light}
+
+### The Nested Stochastic Blockmodel
+
+:::: {.columns}
+::: {.column width=55%}
+![](media/mind_blown.gif){.shadow-img width=100%}
+:::
+
+::: {.column width=10%}
+:::
+
+::: {.column width=35%}
+![](media/nested_sbm.png){width=90%}
+:::
+::::
+
+Nested SBMs can be a **lot** to wrap your head around, so let's code our way through some examples.
+
+<!-- Tutorials -->
+
+<!-- {{< include _day-4-tutorial-plan.qmd >}} -->
+
+# Example: Political Blog Networks
+## Foundations
+
+Political Blog Networks<br>[[@adamic2005political; @peixoto2021hairball]]{.nord-footer}
+
+- graph data structures
+- graph visualisations
+- assess communities using the Louvain and Leiden algorithms
+- fit a first nested Stochastic Blockmodel
+
+## Working with networks in R
+
+:::: {.columns}
+
+::: {.column width="50%"}
+- `igraph`: the "workhorse"; provides functions for modelling, manipulating and plotting
+- `tidygraph`: wraps `igraph` in a familiar "tidyversesque" syntax
+- `ggraph`: uses ggplot2-like syntax to provide network plotting
+- `graphlayouts`: extends `tidygraph`'s/`igraph`'s community detection and `ggraph`'s layouts for plotting
+:::
+
+::: {.column .fragment width="50%"}
+![igraph](https://r.igraph.org/logo.png)
+![tidygraph](https://tidygraph.data-imaginist.com/reference/figures/logo.png)
+![ggraph](https://ggraph.data-imaginist.com/reference/figures/logo.png)
+![graphlayouts](https://github.com/schochastics/graphlayouts/raw/main/man/figures/logo.png)
+:::
+
+::::
+
+## The Blogosphere data
+
+:::: {.columns}
+::: {.column width="25%"}
+
+```{r}
+graph_file <- "data/polblogs.zip"
+if (!file.exists(graph_file)) {
+  curl::curl_download(
+    "https://public.websites.umich.edu/~mejn/netdata/polblogs.zip",
+    graph_file
+  )
+}
+```
+
+
+```{r}
+#| eval: false
+unz(graph_file, "polblogs.txt") |> 
+  readLines() |> 
+  cat(sep = "\n")
+```
+
+:::
+
+
+::: {.column width="65%"}
+> Political blogosphere Feb. 2005  
+> Data compiled by Lada Adamic and Natalie Glance
+> 
+> Node "value" attributes indicate political leaning according to:
+> 
+>   0 (left or liberal)
+>   1 (right or conservative)
+> 
+> Data on political leaning comes from blog directories as indicated.  Some
+> blogs were labeled manually, based on incoming and outgoing links and posts
+> around the time of the 2004 presidential election.  Directory-derived
+> labels are prone to error; manual labels even more so.
+> 
+> Links between blogs were automatically extracted from a crawl of the front
+> page of the blog.
+> 
+> These data should be cited as Lada A. Adamic and Natalie Glance, "The
+> political blogosphere and the 2004 US Election", in Proceedings of the
+> WWW-2005 Workshop on the Weblogging Ecosystem (2005).
+:::
+::::
+
+## graph data structure in `R`
+
+Let's first look at the `igraph` graph class:
+
+```{r}
+polblogs_igraph <- igraph::read_graph(unz(graph_file, "polblogs.gml"), format = "gml") 
+class(polblogs_igraph)
+polblogs_igraph
+```
+
+## graph data structure in `R`
+
+We can convert this to a `tidygraph` object:
+
+```{r}
+#| message: false
+library(tidyverse)
+library(tidygraph)
+polblogs_tbl <- tidygraph::as_tbl_graph(polblogs_igraph)
+class(polblogs_tbl)
+polblogs_tbl
+```
+
+## graph data structure in `R`
+
+Both `igraph` and `tbl_graph` objects essentially consist of two linked tables containing [nodes]{.kn-pink} (aka vertices) and [edges]{.kn-pink}.
+
+:::: {.columns}
+::: {.column width="50%"}
+```{r}
+polblogs_tbl |> 
+  activate("nodes") |> 
+  as_tibble()
+```
+:::
+::: {.column width="50%"}
+```{r}
+polblogs_tbl |> 
+  activate("edges") |> 
+  as_tibble()
+```
+:::
+::::
+
+## working with graph data structures in `R`
+
+We can look up the variables (like political class) for any given node by filtering.
+For example, let's see the node with ID 30:
+
+```{r}
+polblogs_tbl |> 
+  filter(id == 30)
+```
+
+:::{.incremental}
+- we can simply use `filter` like this was a normal table 🤯
+- since the data is linked, all the edges belonging to missing nodes disappear as well 😱
+:::
+
+## working with graph data structures in `R`
+
+If we want to see how many left and right blogs are in the data, we can use `count`.
+But only after converting the nodes to a `data.frame`!
+
+```{r}
+polblogs_tbl |>
+  activate("nodes") |>
+  as_tibble() |> 
+  count(ideology = value)
+```
+
+## working with graph data structures in `R`
+
+The `value` variable is named terribly and stored in a strange format.
+Let's change that using some more tidyverse functions that work out-of-the-box with `tidygraph` graphs:
+
+```{r}
+polblogs_tbl_new <- polblogs_tbl |> 
+  activate("nodes") |> 
+  mutate(ideology = recode_factor(value, 
+                                  "0" = "left",
+                                  "1" = "right"))
+```
+
+:::{.notes}
+It's not necessary to store ideology as a factor, but generally good practice in `R`.
+Whenever you have a variable with just a few repeating character values, a factor is more efficient.
+:::
+
+## first insights
+
+We can answer some initial questions about the data:
+
+- how many left and right blogs are there? 
+
+```{r}
+polblogs_tbl_new |> 
+  as_tibble() |> 
+  count(ideology)
+```
+
+## first insights
+
+We can answer some initial questions about the data:
+
+- how many connections (edges) do nodes have to other nodes?
+
+:::: {.columns}
+::: {.column width="50%"}
+```{r}
+polblogs_tbl_new |> 
+  activate(edges) |> 
+  as_tibble() |> 
+  count(from, sort = TRUE)
+```
+
+Let's have a closer look at the top node:
+
+```{r}
+polblogs_tbl_new |> 
+  filter(id == 855) |> 
+  as_tibble()
+```
+
+:::
+::: {.column width="50%"}
+```{r}
+polblogs_tbl_new |> 
+  activate(edges) |> 
+  as_tibble() |> 
+  count(to, sort = TRUE)
+```
+
+Let's have a closer look at the top node:
+
+```{r}
+polblogs_tbl_new |> 
+  filter(id == 155) |> 
+  as_tibble()
+```
+:::
+::::
+
+## first insights
+
+We can answer some initial questions about the data:
+
+- do left and right blogs reference each other?
+
+```{r}
+polblogs_tbl_new |> 
+  activate(edges) |> 
+  mutate(from_ideo = .N()$ideology[from],
+         to_ideo = .N()$ideology[to]) |> 
+  as_tibble() |> 
+  count(from_ideo, to_ideo)
+```
+
+## visualising graphs in `R`
+
+:::: {.columns}
+::: {.column width="65%"}
+- `ggraph` inherits the idea of a grammar of graphics from `ggplot`
+- hence, we build up plots in layers with visual aesthetics mapped to data
+- the difference is, we address map data from the nodes and edges table
+:::
+
+::: {.column .fragment width="20%"}
+![ggraph](https://ggraph.data-imaginist.com/reference/figures/logo.png)
+:::
+::::
+
+## visualising graphs in `R`
+
+```{r}
+#| output-location: column
+library(ggraph)
+ggraph(graph = polblogs_tbl_new) + 
+  geom_edge_link() + 
+  geom_node_point(aes(colour = ideology))
+```
+
+
+## Recreate the plot from @adamic2005political
+
+```{r}
+#| output-location: column
+polblogs_tbl_new |> 
+  # you can sample the graph to make plotting quicker (but incomplete)
+  # sample_frac(0.1) |> 
+  # the size of the bubbles is influenced by the number of blogs that link to it
+  mutate(referenced = centrality_degree(mode = "in", loops = FALSE)) |> 
+  # remove isolated nodes
+  activate(nodes) |>
+  filter(!node_is_isolated()) |>
+  # the colour of edges is influenced by whether the connection is left, right 
+  # or bipartisan
+  activate(edges) |> 
+  mutate(col = case_when(
+    .N()$ideology[from] == "left" & .N()$ideology[to] == "left" ~ "#2F357E",
+    .N()$ideology[from] == "right" & .N()$ideology[to] == "right" ~ "#D72F32",
+    .N()$ideology[from] == "left" & .N()$ideology[to] == "right" ~ "#f4c23b",
+    .N()$ideology[from] == "right" & .N()$ideology[to] == "left" ~ "#f4c23b"
+  )) |> 
+  # the stress majorization algorithm in ggraph is the closed to the original
+  # force directed layout from
+  ggraph(layout = "stress") +
+  geom_edge_link(aes(colour = col),
+                 arrow = arrow(length = unit(2, "mm"), type = "closed")) +
+  # we map the number of references to the size
+  geom_node_point(aes(fill = ideology, size = referenced),
+                  # black border and a different shape creates bubbles
+                  colour = "black", pch = 21) +
+  scale_fill_manual(values = c(left = "#2F357E", right = "#D72F32")) +
+  scale_edge_colour_identity() + 
+  theme_graph()
+```
+
+## volatile layouts
+
+One thing that always makes me cautious about interpreting network plots is how [volatile]{.kn-pink} the placement of nodes in the plot is and how much it can trick you into finding a pattern where none exists.
+So let's look at an experiment:
+
+:::: {.columns}
+::: {.column width="50%"}
+
+Prepare data for plotting:
+
+```{r}
+set.seed(1)
+plot_data <- polblogs_tbl_new |> 
+  # you can sample the graph to make plotting quicker (but incomplete)
+  sample_frac(0.25) |> 
+  mutate(referenced = centrality_degree(mode = "in", loops = FALSE)) |> 
+  activate(nodes) |>
+  filter(!node_is_isolated()) |>
+  activate(edges) |> 
+  mutate(col = case_when(
+    .N()$ideology[from] == "left" & .N()$ideology[to] == "left" ~ "#2F357E",
+    .N()$ideology[from] == "right" & .N()$ideology[to] == "right" ~ "#D72F32",
+    .N()$ideology[from] == "left" & .N()$ideology[to] == "right" ~ "#f4c23b",
+    .N()$ideology[from] == "right" & .N()$ideology[to] == "left" ~ "#f4c23b"
+  ))
+```
+:::
+::: {.column width="50%"}
+
+Get all available layouts:
+
+```{r}
+layouts <- c(
+  "auto",       # Automatic layout
+  "circle",     # Circular layout
+  "dh",         # Davidson-Harel layout
+  "drl",        # Distributed Recursive Layout
+  "eigen",      # Eigenvector-based layout
+  "fr",         # Fruchterman-Reingold layout
+  "gem",        # GEM layout
+  "graphopt",   # Graphopt layout
+  "grid",       # Grid layout
+  "kk",         # Kamada-Kawai layout
+  "lgl",        # Large Graph Layout
+  "linear",     # Linear layout
+  "mds",        # Multidimensional Scaling layout
+  "randomly",   # Random layout
+  "sphere",     # Spherical layout
+  "star",       # Star layout
+  "stress",     # Stress majorization layout
+  "sugiyama",   # Sugiyama layout (for layered graphs)
+  "tree"        # Tree layout
+)
+```
+:::
+::::
+
+
+## volatile layouts
+
+```{r layouts}
+#| output-location: column
+dir.create("media/layouts/")
+for (layout in layouts) {
+  
+  # plot status message in interactive sessions
+  if (interactive()) {
+    message("plotting using layout ", layout)
+  }
+  
+  plot_f <- paste0("media/layouts/network_", layout, ".png")
+  
+  if (!file.exists(plot_f)) {
+    p <- plot_data |> 
+      ggraph(layout = layout) +
+      geom_edge_link(aes(colour = col),
+                     arrow = arrow(length = unit(2, "mm"), type = "closed")) +
+      # we map the number of references to the size
+      geom_node_point(aes(fill = ideology, size = referenced),
+                      # black border and a different shape creates bubbles
+                      colour = "black", pch = 21) +
+      scale_fill_manual(values = c(left = "#2F357E", right = "#D72F32")) +
+      scale_edge_colour_identity() + 
+      theme_graph() +
+      labs(caption = paste0("Layout: ", layout))
+    ggsave(filename = plot_f, plot = p, width = 7, height = 7)
+  }
+  
+}
+gif_file <- list.files("media/layouts/", full.names = TRUE) |> 
+  gifski::gifski(gif_file = "media/layouts.gif")
+knitr::include_graphics(gif_file)
+```
+
+## community detection
+
+In the previous figure we used the political orientation of blogs manually assigned by @adamic2005political.
+Usually, we want to detect communities from the network structure itself.
+We learned about the [Louvain]{.kn-pink} and [Leiden]{.kn-pink} algorithms (and about their downsides).
+So let's start with these.
+
+```{r}
+#| output-location: column
+polblogs_tbl_new_grouped <- polblogs_tbl_new |> 
+  activate(nodes) |>
+  to_undirected() |> 
+  mutate(group_louvain = group_louvain(),
+         group_leiden = group_leiden())
+
+polblogs_tbl_new_grouped |> 
+  as_tibble()
+```
+
+## community detection
+
+```{r}
+#| output-location: column
+polblogs_tbl_new_grouped |> 
+  activate(nodes) |>
+  mutate(group_louvain = factor(group_louvain()),
+         group_leiden = factor(group_leiden())) |> 
+  # the size of the bubbles is influenced by the number of blogs that link to it
+  mutate(referenced = centrality_degree(mode = "in", loops = FALSE)) |> 
+  # remove isolated nodes
+  filter(!node_is_isolated()) |>
+  ggraph(layout = "stress") +
+  geom_edge_link(colour = "gray",
+                 arrow = arrow(length = unit(2, "mm"), type = "closed")) +
+  # we map the number of references to the size
+  geom_node_point(aes(fill = group_louvain, size = referenced),
+                  # black border and a different shape creates bubbles
+                  colour = "black", pch = 21) +
+  theme_graph() +
+  labs(title = "Blogosphere grouped by Louvain")
+```
+
+## community detection
+
+```{r}
+#| output-location: column
+polblogs_tbl_new_grouped |> 
+  activate(nodes) |>
+  mutate(group_louvain = factor(group_louvain()),
+         group_leiden = factor(group_leiden())) |> 
+  # the size of the bubbles is influenced by the number of blogs that link to it
+  mutate(referenced = centrality_degree(mode = "in", loops = FALSE)) |> 
+  # remove isolated nodes
+  filter(!node_is_isolated()) |>
+  ggraph(layout = "stress") +
+  geom_edge_link(colour = "gray",
+                 arrow = arrow(length = unit(2, "mm"), type = "closed")) +
+  # we map the number of references to the size
+  geom_node_point(aes(fill = group_leiden, size = referenced),
+                  # black border and a different shape creates bubbles
+                  colour = "black", pch = 21, show.legend = FALSE) +
+  theme_graph() +
+  labs(title = "Blogosphere grouped by Leiden")
+```
+
+## (better) community detection
+
+The Nested Stochastic Blockmodel is not currently available in `R`, but only in Python.
+However: 
+
+![](https://raw.githubusercontent.com/JBGruber/python_for_r_users/main/media/reticulate.jpg){.fragment}
+
+## Reticulate setup
+
+```{r}
+envname <- "r-graph_tool"
+# check if a version of miniconda is available and install if not
+try(reticulate::install_miniconda(update = TRUE), silent = TRUE)
+
+# check if the conda environment exists already and create if not
+if (!reticulate::condaenv_exists(envname)) {
+  reticulate::conda_install(envname, packages = "graph-tool")
+}
+# make sure reticulate is using the correct environment
+reticulate::use_condaenv(envname)
+
+# check the version graph-tool
+reticulate::py_list_packages(envname) |> 
+  filter(package == "graph-tool")
+```
+
+## push graph to Python
+
+```{r}
+igraph::write_graph(polblogs_igraph, file = "data/polblogs_tbl_new_grouped.graphml", format = "graphml")
+```
+
+```{r}
+library(reticulate)
+gt <- reticulate::import("graph_tool.all")
+polblogs_gt <- gt$load_graph("data/polblogs_tbl_new_grouped.graphml")
+polblogs_gt
+```
+
+## fit a Nested Stochastic Blockmodel
+
+```{r}
+# extract center part of the graph
+giant <- gt$extract_largest_component(polblogs_gt, directed = TRUE)
+
+# fit model
+blockmodel <- gt$minimize_nested_blockmodel_dl(giant)
+
+# Extract the First Level of the NSBM, which contains membership
+blockstate <- blockmodel$levels[[1]]$get_blocks()
+
+# convert the node membership back into R
+node_membership <- tibble(
+  id = blockstate$get_graph()$vp["id"]$get_array()$tolist() |> 
+    map_int(\(x) x$astype("int")$tolist()),
+  group_nsbm = blockstate$get_array()$tolist()
+) |> 
+  mutate(group_nsbm = paste0("Cluster_", group_nsbm)) |> 
+  # subset to reduced graph
+  slice(giant$get_vertices()$tolist() + 1)
+
+# if you run into issues with Python, you can load the memberships I fitted
+# saveRDS(node_membership, "data/nsbm_group.rds")
+# node_membership <- readRDS("data/nsbm_group.rds") 
+```
+
+## Plot  Nested Stochastic Blockmodel
+
+```{r}
+#| output-location: column
+polblogs_tbl_new_grouped |> 
+  activate(nodes) |> 
+  right_join(node_membership, by = "id") |> 
+  # the size of the bubbles is influenced by the number of blogs that link to it
+  mutate(referenced = centrality_degree(mode = "in", loops = FALSE)) |> 
+  # remove isolated nodes
+  activate(nodes) |>
+  filter(!node_is_isolated()) |>
+  ggraph(layout = "stress") +
+  geom_edge_link(colour = "gray",
+                 arrow = arrow(length = unit(2, "mm"), type = "closed")) +
+  # we map the number of references to the size
+  geom_node_point(aes(fill = group_nsbm, size = referenced),
+                  # black border and a different shape creates bubbles
+                  colour = "black", pch = 21, show.legend = FALSE) +
+  theme_graph() +
+  labs(title = "Blogosphere grouped by nested Stochastic Block Model")
+```
+
+## Plot  Nested Stochastic Blockmodel (but better)
+
+```{r}
+polblogs_tbl_new_grouped_nsbm <- polblogs_tbl_new_grouped |> 
+  # right join removes all nodes not in the membership table
+  right_join(node_membership, by = "id") |> 
+  mutate(referenced = centrality_degree(mode = "in", loops = FALSE)) |> 
+  # remove isolated nodes
+  activate(nodes) |>
+  filter(!node_is_isolated()) |> 
+  activate(edges) |> 
+  mutate(same_group = .N()$group_nsbm[from] == .N()$group_nsbm[to],
+         weight = ifelse(same_group, 1, 0.04))
+```
+
+```{r}
+#| output-location: column
+polblogs_tbl_new_grouped_nsbm |> 
+  ggraph(layout = "stress", weight = weight) +
+  geom_edge_link(colour = "gray",
+                 arrow = arrow(length = unit(2, "mm"), type = "closed")) +
+  # we map the number of references to the size
+  geom_node_point(aes(fill = group_nsbm, size = referenced),
+                  # black border and a different shape creates bubbles
+                  colour = "black", pch = 21, show.legend = FALSE) +
+  theme_graph() +
+  labs(title = "Blogosphere grouped by nested Stochastic Block Model")
+```
+
+## Plot  Nested Stochastic Blockmodel (but better)
+
+```{r}
+#| output-location: column
+polblogs_tbl_new_grouped_nsbm |> 
+  ggraph(layout = "stress", weight = weight) +
+  geom_edge_link(colour = "gray",
+                 arrow = arrow(length = unit(2, "mm"), type = "closed")) +
+  # we map the number of references to the size
+  geom_node_point(aes(fill = ideology, size = referenced),
+                  # black border and a different shape creates bubbles
+                  colour = "black", pch = 21, show.legend = FALSE) +
+  theme_graph() +
+  labs(title = "Blogosphere grouped by nested Stochastic Block Model")
+```
+
+## Conclusion
+
+We just:
+
+- used some graph data structure
+- learned about graph visualisations
+- looked at some graph layout and how much they change how a graph might be interpreted
+- learned about community detection using classical methods like Louvain and Leiden
+- fit and plotted a first nested Stochastic Blockmodel
+
+# References

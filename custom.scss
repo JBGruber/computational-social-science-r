@@ -1,0 +1,226 @@
+/*-- scss:defaults --*/
+
+
+
+$nord-dark-bg: #2E3440;
+
+$kn-pink: #FF42A1;
+
+$kn-blue: #00A1FF;
+
+$kn-yellow: #FEAE00;
+
+$kn-green: #60D937;
+
+$kn-red: #ED220D;
+
+
+
+$link-color: $nord-dark-bg;
+
+
+
+@import url('https://fonts.googleapis.com/css2?family=Hack:wght@400;700&display=swap');
+
+
+
+$presentation-heading-font: 'Helvetica', sans-serif;
+
+$font-family-sans-serif: 'Helvetica', sans-serif;
+
+$font-family-monospace: 'Hack', monospace;
+
+
+
+/*-- scss:rules --*/
+
+
+
+// STYLE TITLE SLIDE
+
+
+
+#title-slide {
+
+  text-align: center;
+
+  padding-left: 20;
+
+
+
+  .quarto-title-authors {
+    justify-content: center;
+    .quarto-title-author {
+      padding-left: 0;
+      width: 100%;
+    }
+  }
+}
+
+
+
+// STYLE HEADINGS
+
+
+
+h1, h2, h3, h4, h5 {
+
+  color: $nord-dark-bg !important;
+
+}
+
+
+
+// STYLE INLINE CODE
+
+
+
+code {
+
+  background-color: $nord-dark-bg !important;
+
+  padding: 5px 12px !important;
+
+  border-radius: 6px !important;
+
+  font-size: 0.95em !important;
+
+}
+
+
+
+// STYLE CODE BLOCKS: NORD, FULL WIDTH
+
+
+
+.reveal pre code {
+
+  background-color: $nord-dark-bg !important;
+
+  color: #FFFFFF !important;
+
+  text-align: left !important;
+
+}
+
+
+
+.reveal div.sourceCode pre code {
+
+  padding: 25px !important;
+
+  background-color: $nord-dark-bg !important;
+
+  color: #FFFFFF !important;
+
+  text-align: left !important;
+
+}
+
+
+
+.reveal div.sourceCode {
+
+  border: none !important;
+
+  border-radius: 5px !important;
+
+  margin-bottom: 10px !important;
+
+  width: auto !important;
+
+  margin: 0 !important;
+
+}
+
+
+
+code span.er {
+
+  color: $nord-dark-bg !important;
+
+  text-decoration: none !important;
+
+}
+
+
+
+// STYLE FOOTER
+
+
+
+.nord-footer {
+
+  color: $nord-dark-bg;
+
+  font-weight: normal;
+
+  font-size: 0.75em;
+
+  opacity: 0.6;
+
+}
+
+
+
+// FOR EMPHASIS
+
+
+
+.nord {
+
+  color: $nord-dark-bg;
+
+  font-weight: bold;
+
+}
+
+
+
+.kn-pink {
+
+  color: $kn-pink;
+
+  font-weight: bold;
+
+}
+
+
+
+.kn-blue {
+
+  color: $kn-blue;
+
+  font-weight: bold;
+
+}
+
+
+
+.kn-yellow {
+
+  color: $kn-yellow;
+
+  font-weight: bold;
+
+}
+
+
+
+.kn-green {
+
+  color: $kn-green;
+
+  font-weight: bold;
+
+}
+
+
+
+.kn-red {
+
+  color: $kn-red;
+
+  font-weight: bold;
+
+}

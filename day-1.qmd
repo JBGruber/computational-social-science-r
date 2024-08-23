@@ -1,0 +1,343 @@
+---
+title: "Introduction"
+subtitle: "[**Module 01**]{.kn-pink} [GESIS Fall Seminar \"Introduction to Computational Social Science\"]{.kn-blue}"
+author:
+  - name: Johannes B. Gruber
+    affiliations:
+      - name: VU Amsterdam
+  - name: John McLevey
+    affiliations:
+      - name: University of Waterloo
+format:
+  revealjs:
+    theme: [default, custom.scss]
+    width: 1600
+    height: 900
+    embed-resources: true
+    execute:
+      echo: true
+      warning: false
+      cache: true
+      freeze: true
+    slide-number: false
+    chalkboard: false
+    preview-links: auto
+    smaller: true
+    fig-align: left
+    fig-format: svg
+    lightbox: true
+    scrollable: true
+    code-overflow: scroll
+    code-fold: false
+    code-line-numbers: true
+    code-copy: hover
+    reference-location: document
+    tbl-cap-location: margin
+    logo: media/logo_gesis.png
+    footer: "[CC BY-SA 4.0]{.nord-footer}"
+    email-obfuscation: javascript
+highlight-style: "nord"
+bibliography: references.bib
+---
+
+## Schedule: GESIS Fall Seminar in Computational Social Science
+
+| time   | Session                                      |
+|--------|----------------------------------------------|
+| **Day 1**  | **Introduction to Computational Social Science** |
+| Day 2  | Obtaining Data                               |
+| Day 3  | Computational Text Analysis                  |
+| Day 4  | Computational Network Analysis               |
+| Day 5  | Social Simulation & Agent-based Models       |
+| Day 6  | Project Work Day and Outlook                 |
+
+: Course Schedule {.striped .hover}
+
+<!-- This is a comment. You can leave them here to take notes linked to the slides. -->
+
+
+## Who is Johannes?
+
+:::: {.columns}
+
+::: {.column width="60%"}
+- PostDoc at Department of Language, Literature and Communication at Vrije Universiteit Amsterdam and University of Amsterdam
+- Interested in:
+  - Computational Social Science
+  - Automated Text Analysis
+  - Hybrid Media Systems and Information Flows
+  - Protest and Democracy
+- Experience:
+  - R user since 2015 years
+  - R package developer since 2017
+  - Worked on several packages for text analysis, API access and web scraping (spacyr, quanteda.textmodels, LexisNexisTools, paperboy, traktok, rollama, amcat4-r, and more)
+:::
+
+::: {.column width="40%"}
+Contact:
+
+- [j.b.gruber@vu.nl](mailto:j.b.gruber@vu.nl)
+- [\@jbgruber.bsky.social](https://bsky.app/profile/jbgruber.bsky.social)
+- [\@JohannesBGruber](https://twitter.com/JohannesBGruber)
+:::
+
+::::
+
+## Who is John?
+
+:::: {.columns}
+
+::: {.column width="60%"}
+John McLevey (he / him)<br>
+Associate Professor, University of Waterloo<br>
+PI, [Computational Social Science Lab]{.kn-pink}<br>
+[john.mclevey@uwaterloo.ca](mailto:john.mclevey@uwaterloo.ca)
+
+<br>
+I first got into computational social science via natural language processing and probabilistic topic modelling as a PhD student ~ 2009.
+
+<br>
+Within computational social science, my interests and expertise are primarily in network science, computational text analysis, generative modelling, bayesian data analysis, causal inference, and scientific computing. I also work in cognitive social science, political sociology, sociology of science, and environmental sociology.
+:::
+
+::: {.column width="40%"}
+![](media/DCSS.png){width=70%}
+:::
+
+::::
+
+## What is computational social science?
+
+:::: {.columns}
+
+::: {.column width="60%"}
+> "Anything that's cool."<br>
+> - [Matt Salganik](https://www.princeton.edu/~mjs3/) (Author of [Bit by Bit](https://www.bitbybitbook.com))
+
+<br>
+Computational social science is diverse and multi-paradigmatic
+
+::: {.incremental}
+- often involves working with "found" / "readymade" data [[@salganik2019bit]]{.nord-footer}
+- often employs machine learning frameworks, computational experiments, and/or *generative* models [[@edelmann2020computational; @centola2018behavior; @bail2022breaking; @mcelreath2018statistical; @grimmer2022text; @kitts2023rethinking; @smaldino2023modeling]]{.nord-footer}
+- involves difficult interpretative work [[@grigoropoulou2022data; @nelson2020computational]]{.nord-footer}
+- generally requires scientific computing and software development skills to develop data processing and modelling *pipelines* [[@cssbook; @mclevey2022doing; @mclevey2021reproducibility]]{.nord-footer}
+- should meet a higher bar for privacy protection, research ethics, transparency, and accountability [[@o2017weapons]]{.nord-footer}
+- is computational **and** social scientific
+:::
+:::
+
+::: {.column width="40%"}
+![](media/super-straho-CPtKXzwGKiw-unsplash.jpg){width=70%}
+
+[Photo by <a href="https://unsplash.com/@superstraho?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Super Straho</a> on <a href="https://unsplash.com/photos/purple-and-pink-love-neon-light-signage-CPtKXzwGKiw?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>]{.nord-footer}
+:::
+
+::::
+
+
+
+# Exploratory Data Analysis
+## The process
+
+<center>
+![](media/data-science.png){width="90%"}
+</center>
+
+::: {.ref}
+Source: @WickhamR4DS
+:::
+
+::: {.incremental}
+- "Data science is the process by which data becomes understanding, knowledge and insight"--Hadley Wickham
+- "You can't do data science in a GUI"--Hadley Wickham
+:::
+
+## The steps
+
+::: {.incremental}
+1. Generate questions about your data.
+2. Search for answers by visualising, transforming, and modelling your data.
+3. Use what you learn to refine your questions and/or generate new questions.
+:::
+
+<center>
+![](media/data-science.png){width="90%"}
+</center>
+
+# CSS Examples
+## Sounding the alarm based COVID numbers
+
+![](media/ggplot-covid.png)
+
+## Trump's tweets
+
+Data from <http://varianceexplained.org>:
+
+```{r}
+#| echo: false
+#| message: false
+library(tidyverse)
+# source: 
+# load(url("http://varianceexplained.org/files/trump_tweets_df.rda"))
+# saveRDS(trump_tweets_df, "data/trump_tweets.rds")
+trump_tweets_raw <- readRDS("data/trump_tweets.rds")
+glimpse(trump_tweets_raw, width = 170)
+```
+
+
+## Time of Day
+
+```{r}
+#| echo: false
+#| out.width: "90%"
+#| out.height: "90%"
+trump_tweets <- trump_tweets_raw |> 
+  # wrangling
+  mutate(
+    # extract source, could be done with one regex
+    source = str_extract(statusSource, "Twitter for (.*?)<"), 
+    source = str_remove_all(source, "Twitter for |<")
+  )
+
+trump_tweets |> 
+  count(source, hour = hour(with_tz(created, "EST")))|> 
+  mutate(percent = n / sum(n))|> 
+  ggplot(aes(hour, percent, color = source)) +
+  geom_line() +
+  scale_y_continuous(labels = scales::percent_format()) +
+  labs(x = "Hour of day (EST)",
+       y = "% of tweets",
+       color = "") +
+  labs(title = "Source of Trump's Tweets as provided by Twitter") +
+  theme_minimal()
+```
+
+
+::: {.ref}
+Part of tutorial: @robinson_david_text_2016
+:::
+
+## Overrepresented words
+
+```{r}
+#| echo: false
+#| out.width: "90%"
+#| out.height: "90%"
+trump_tweets_long <- trump_tweets |>
+  filter(
+    is.na(replyToSID),
+    !str_detect(text, '^"')
+  ) |>
+  tidytext::unnest_tokens(word, text,
+    token = "regex",
+    patter = "([^A-Za-z\\d#@']|'(?![A-Za-z\\d#@]))"
+  )
+
+trump_tweets_long |>
+  count(word, source) |>
+  filter(
+    sum(n) >= 5,
+    !is.na(source),
+    nchar(word) > 4,
+    !word %in% tidytext::stop_words$word
+  ) |>
+  pivot_wider(names_from = source, values_from = n, values_fill = 0) |>
+  ungroup() |>
+  mutate(across(where(is.numeric), \(x) x + 1)) |>
+  mutate(logratio = log2(Android / iPhone)) |>
+  arrange(desc(logratio)) |>
+  mutate(col = ifelse(logratio < 0, "iPhone", "Android")) |>
+  group_by(col) |>
+  slice_max(order_by = abs(logratio), n = 15) |>
+  mutate(word = fct_reorder(word, logratio, .desc = TRUE)) |>
+  ggplot(aes(x = logratio, y = word, fill = col)) +
+  geom_col() +
+  scale_fill_manual(values = c("Android" = "#3DDC84", "iPhone" = "#9DA5A8")) +
+  theme_minimal()
+```
+
+::: {.ref}
+Part of tutorial: @robinson_david_text_2016
+:::
+
+## Sentiment analysis
+
+```{r}
+#| echo: false
+#| out.width: "90%"
+#| out.height: "90%"
+nrc_dict <- textdata::lexicon_nrc()
+trump_tweets_long |> 
+  filter(source %in% c("Android", "iPhone")) |> 
+  inner_join(nrc_dict, by = "word") |> 
+  count(sentiment, source, sort = TRUE) |>
+  group_by(source) |> 
+  mutate(pct = n / sum(n)) |> 
+  ggplot(aes(x = pct, y = sentiment, fill = source)) +
+  geom_col(position = "dodge") +
+  scale_fill_manual(values = c("Android" = "#3DDC84", "iPhone" = "#9DA5A8")) +
+  theme_minimal()
+```
+
+::: {.ref}
+Part of tutorial: @robinson_david_text_2016
+:::
+
+
+## Sentiment analysis
+
+![](media/tweet.png)
+
+## Reverse Engineering Chinese Social Media Censorship
+
+## Background
+
+::: {.incremental}
+- collected massive dataset of Chinese social media posts and blogs
+- goal of the study: evaluate text-as-data methods in Chinese
+- to validate: go back to the posts to see context
+- But wait! they are gone!
+- Since the scraping of Chinese media was done faster than the deletions: opportunity to study traces of censorship!
+:::
+
+::: {.ref}
+Source: @king_chinse_censortship; @king_reverse
+:::
+
+## Research Question: Which ones are gone?
+
+:::: {.columns}
+
+::: {.column width="50%"}
+::: {.incremental}
+- Criticism of the government? 
+  - <span style='color:red;'>**No!**</span>
+- Is collective action censored?
+  - <span style='color:green;'>**Yes!**</span>
+:::
+:::
+
+::: {.column width="50%"}
+![](media/king_plot.png){.fragment width="90%"}
+
+::: {.ref}
+Source: @king_chinse_censortship
+:::
+:::
+::::
+
+## Manterrupting in the German Bundestag
+
+RQ: are women more often interrupted than men in politics? @och_manterrupting_2020
+
+![](media/interuption.png)
+
+## Manterrupting in the German Bundestag  {visibility="uncounted"}
+
+RQ: are women more often interrupted than men in politics? @och_manterrupting_2020
+
+![](media/Manterrupting.png)
+
+# References
+
