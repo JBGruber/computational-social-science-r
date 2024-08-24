@@ -25,7 +25,7 @@ format:
     preview-links: auto
     smaller: true
     fig-align: left
-    fig-format: svg
+    fig-format: png
     lightbox: true
     scrollable: true
     code-overflow: scroll
@@ -1090,7 +1090,6 @@ layouts <- c(
   "circle",     # Circular layout
   "dh",         # Davidson-Harel layout
   "drl",        # Distributed Recursive Layout
-  "eigen",      # Eigenvector-based layout
   "fr",         # Fruchterman-Reingold layout
   "gem",        # GEM layout
   "graphopt",   # Graphopt layout
