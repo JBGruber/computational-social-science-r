@@ -18,7 +18,7 @@ media/machine-learning.pptx
 media/machine-learning.pdf
 media/layouts/
 cookies.txt
-*.html
+day*.html
 data/bundestag18_speeches.rds
 data/Corp_Bundestag_V2.rds
 data/imdb.rds
@@ -27,4 +27,3 @@ data/speeches_pmi.rds
 data/polblogs_tbl_new_grouped_nsbm.graphml
 data/polblogs_tbl_new_grouped.graphml
 data/polblogs.zip
-polblogs.zip

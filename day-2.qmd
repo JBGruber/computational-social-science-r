@@ -33,7 +33,7 @@ format:
     code-line-numbers: true
     code-copy: hover
     reference-location: document
-    logo: ../media/logo_gesis.png
+    logo: media/logo_gesis.png
     footer: "[CC BY-SA 4.0]{.nord-footer}"
     email-obfuscation: javascript
 highlight-style: "nord" 
