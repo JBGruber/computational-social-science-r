@@ -1,0 +1,111 @@
+bounded_confidence_model_1:
+  N: 100
+  convergence_threshold: 0.01
+  epsilon: 0.5
+  grid_height: 40
+  grid_width: 40
+  max_agent_step_size: 1
+  n_iterations: 1500
+model_1:
+  N: 100
+  grid_height: 40
+  grid_width: 40
+  infection_rate: 0.3
+  max_agent_step_size: 1
+  n_initial_infections: 2
+  n_iterations: 150
+  recovery_time_range:
+  - 14
+  - 24
+model_2:
+  N: 100
+  grid_height: 40
+  grid_width: 40
+  infection_rate: 0.15
+  max_agent_step_size: 1
+  n_initial_infections: 2
+  n_iterations: 150
+  recovery_time_range:
+  - 14
+  - 24
+model_3:
+  N: 150
+  grid_height: 40
+  grid_width: 40
+  infection_rate: 0.15
+  max_agent_step_size: 2
+  n_initial_infections: 2
+  n_iterations: 100
+  recovery_time_range:
+  - 7
+  - 14
+model_4:
+  N: 150
+  grid_height: 40
+  grid_width: 40
+  infection_rate: 0.15
+  max_agent_step_size: 4
+  n_initial_infections: 2
+  n_iterations: 100
+  recovery_time_range:
+  - 7
+  - 14
+model_5:
+  N: 150
+  grid_height: 40
+  grid_width: 40
+  infection_rate: 0.15
+  max_agent_step_size: 6
+  n_initial_infections: 2
+  n_iterations: 100
+  recovery_time_range:
+  - 7
+  - 14
+model_6:
+  N: 150
+  grid_height: 40
+  grid_width: 40
+  infection_rate: 0.15
+  max_agent_step_size: 8
+  n_initial_infections: 2
+  n_iterations: 100
+  recovery_time_range:
+  - 7
+  - 14
+ontario_population: 14.4
+results_sir_model_1_max_infected: 0.17
+results_sir_model_2_max_infected: 0.05
+threshold_model_1:
+  arange_num_initial_AGREE:
+    start: 1
+    step: 2
+    stop: 51
+  batch_run:
+    data_collection_period: -1
+    display_progress: true
+    iterations: 10
+    max_steps: 100
+    number_processes: 1
+  connected_watts_strogatz_graph:
+    k: 4
+    n: 100
+    p: 0.5
+    seed: 42
+    tries: 100
+  threshold_params_alpha_beta:
+  - - 2
+    - 2
+  - - 2
+    - 4
+  - - 2
+    - 6
+  - - 2
+    - 8
+  - - 2
+    - 10
+  - - 2
+    - 12
+  - - 2
+    - 14
+  - - 2
+    - 16

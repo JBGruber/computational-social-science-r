@@ -1,0 +1,2559 @@
+---
+title: "Simulation &<br>Agent-based Models"
+subtitle: "[DAY FIVE]{.kn-pink} [GESIS Fall Seminar in Computational Social Science]{.kn-blue}"
+author:
+  - name: John McLevey
+    affiliations:
+      - name: University of Waterloo
+  - name: Johannes B. Gruber
+    affiliations:
+      - name: VU Amsterdam
+format:
+  revealjs:
+    theme: [default, custom.scss]
+    width: 1600
+    height: 900
+    embed-resources: true
+    execute:
+      eval: false
+      echo: true
+      warning: false
+      cache: false
+      freeze: true
+    slide-number: false
+    chalkboard: false
+    preview-links: auto
+    smaller: true
+    fig-align: left
+    fig-format: png
+    lightbox: true
+    scrollable: true
+    code-overflow: scroll
+    code-fold: false
+    code-line-numbers: true
+    code-copy: hover
+    reference-location: document
+    tbl-cap-location: margin
+    logo: media/logo_gesis.png
+    footer: "[CC BY-SA 4.0]{.nord-footer}"
+    email-obfuscation: javascript
+highlight-style: "nord"
+bibliography: references.bib
+engine: knitr
+---
+
+<!-- {{< include _day-5-introduction.qmd >}} -->
+
+<br>
+
+:::: {.columns}
+::: {.column width="30%"}
+### Today
+Agent-based modelling with [Mesa]{.kn-pink}
+:::
+
+::: {.column width="5%"}
+:::
+
+::: {.column width="65%"}
+1. What are agent-based [(individual-based)]{.nord-light} models?<br>[From equation-based models to agent-based models<br>Example: SIR models of disease diffusion]{.nord-footer}
+2. Designing, documenting, and developing ABMs<br>[The agent-based modelling cycle]{.nord-footer}
+3. Model design concepts and pattern-oriented modelling
+4. Developing your first ABM in Mesa<br>[OOP and Mesa 101<br>Extended example: developing a SIR model]{.nord-footer}
+5. Analyzing an ABM<br>[Parameter sweeps and sensitivity analysis]{.nord-footer}
+6. Social Learning, Influence, and Opinion Dynamics<br>[Bounded confidence models]{.nord-footer}
+7. Reduction, Realism, and Model Trade-offs<br>[$\longleftarrow$ Fine-grained vs. course-grained models $\longrightarrow$<br>What's hot now?]{.nord-footer}
+:::
+::::
+
+
+
+##
+
+<br>
+
+:::: {.columns}
+::: {.column width="30%"}
+### Approach
+Python, R
+:::
+
+::: {.column width="55%"}
+I will spend a lot of time explaining how the models are implemented in Python, but the primary [learning objectives]{.kn-pink} are to
+
+<br>
+
+1. understand these models conceptually
+2. set up their inputs and
+3. analyze their outputs within a theoretical or applied context
+
+<br>
+
+**If you are in the R course**, focus on the logic of the Python code to better understand the models themselves; there is no expectation that you will "learn Python." Johannes will still show you how to setup, run, and analyze these models using R.
+:::
+
+::: {.column width="15%"}
+:::
+::::
+
+<!-- {{< include _day-5-abms-101.qmd >}} -->
+
+# [What are<br>Agent-based Models<br>(ABMs)?]{.light-against-image} {background-image="media/flocking.jpg" background-opacity=1}
+
+## What are ABMs?
+
+[[@macy2002factors; @squazzoni2012agent; @bruch2015agent; @wilensky2015introduction; @crooks2018agent; @railsback2019agent; @smaldino2023modeling]]{.nord-footer}
+
+ABMs have been central to computational social science from the start. There are plenty of good review articles, applications, and textbooks in just about any field going back 30 years or more.
+
+![Sociology](media/factors_to_actors.png){.shadow-img width=17.75%} ![Political Science](media/abm-polisci.png){.shadow-img width=22%} ![Statistics](media/abms-micro-simulation.png){.shadow-img width=21.5%}
+
+##
+
+:::: {.columns}
+::: {.column width="25%"}
+<br><br><br>
+
+### An Illustration
+
+SIR Models
+
+[Equation vs. Agent-based]{.nord-footer}
+:::
+
+::: {.column width="5%"}
+:::
+
+::: {.column width="70%"}
+![[Photo by <a href="https://unsplash.com/@kellysikkema?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Kelly Sikkema</a> on <a href="https://unsplash.com/photos/girl-in-black-long-sleeve-shirt-reading-book-r2hTBxEkgWQ?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
+  ]{.nord-light}](media/kelly-sikkema-r2hTBxEkgWQ-unsplash.jpg){.shadow-img width="100%"}
+:::
+::::
+
+
+## Classic SIR
+
+:::: {.columns}
+::: {.column width="45%"}
+How do diseases spread through a population?
+
+- Divide the population into three "compartments"<br>**[S]{.kn-pink}usceptible**, **[I]{.kn-pink}nfected**, **[R]{.kn-pink}ecovered/Removed**
+- Model the movement of people in and out of the compartments in continuous time
+- Traditionally done with differential equations
+
+<br>
+
+$$
+\begin{align}
+\frac{{dS}}{{dt}} &= - \left( \frac{{a}}{{N}}\right)  I S \\
+\frac{{dI}}{{dt}} &= \left( \frac{{a}}{{N}}\right)  I S - b I \\
+\frac{{dR}}{{dt}} &= bI
+\end{align}
+$$
+:::
+
+::: {.column width="10%"}
+:::
+
+::: {.column width="45%" .fragment}
+
+Don't worry if your calculus is rusty! A **derivative** describes how one quantity changes in response to another quantity.
+
+$$\frac{{d}}{{dt}}$$
+
+is the derivative with respect to time, which represents the **rate of change** for a quantity given another quantity.
+
+<br>
+
+- $\frac{{dS}}{{dt}}$ changes in the [s]{.kn-pink}**usceptible** compartment over time
+- $\frac{{dI}}{{dt}}$ changes in the [i]{.kn-pink}**nfected** compartment over time
+- $\frac{{dR}}{{dt}}$ changes in the [r]{.kn-pink}**ecovered** compartment over time
+:::
+::::
+
+
+## Classic SIR
+
+:::: {.columns}
+::: {.column width="45%"}
+How do diseases spread through a population?
+
+- Divide the population into three "compartments"<br>**[S]{.kn-pink}usceptible**, **[I]{.kn-pink}nfected**, **[R]{.kn-pink}ecovered/Removed**
+- Model the movement of people in and out of the compartments in continuous time
+- Traditionally done with differential equations
+
+<br>
+
+$$
+\begin{align}
+\frac{{dS}}{{dt}} &= - \left( \frac{{a}}{{N}}\right)  I S \\
+\frac{{dI}}{{dt}} &= \left( \frac{{a}}{{N}}\right)  I S - b I \\
+\frac{{dR}}{{dt}} &= bI
+\end{align}
+$$
+:::
+
+::: {.column width="10%"}
+:::
+
+::: {.column width="45%"}
+
+#### The Susceptible Compartment
+
+$$
+\frac{{dS}}{{dt}} = - \left( \frac{{a}}{{N}}\right)  I S
+$$
+
+- $I S$ means that the more infected people ($I$) and susceptible people ($S$) there are, the more likely it is that susceptible people will become infected.
+- $\frac{{a}}{{N}}$ represents the rate at which the disease spreads in the population, where $a$ is a constant that reflects how easily the disease spreads, and $N$ is the size of the population.
+- The minus sign indicates that the number of people in this compartment will decrease as they become infected or are removed.
+:::
+::::
+
+
+
+
+## Classic SIR
+
+:::: {.columns}
+::: {.column width="45%"}
+How do diseases spread through a population?
+
+- Divide the population into three "compartments"<br>**[S]{.kn-pink}usceptible**, **[I]{.kn-pink}nfected**, **[R]{.kn-pink}ecovered/Removed**
+- Model the movement of people in and out of the compartments in continuous time
+- Traditionally done with differential equations
+
+<br>
+
+$$
+\begin{align}
+\frac{{dS}}{{dt}} &= - \left( \frac{{a}}{{N}}\right)  I S \\
+\frac{{dI}}{{dt}} &= \left( \frac{{a}}{{N}}\right)  I S - b I \\
+\frac{{dR}}{{dt}} &= bI
+\end{align}
+$$
+:::
+
+::: {.column width="10%"}
+:::
+
+::: {.column width="45%"}
+
+#### The Infected Compartment
+
+$$
+\frac{{dI}}{{dt}} = \left( \frac{{a}}{{N}}\right)  I S - b I
+$$
+
+- $\left( \frac{{a}}{{N}}\right) I S$ represents the number of people getting infected (i.e., moving from $S$ to $I$).
+- $b$ is a constant that reflects how quickly people recover.^[If $R$ is "removed" instead of "recovered" ... there is no recovery.]
+- $- b I$ represents the number of people recovering (moving from $I$ to $R$).
+:::
+::::
+
+
+## Classic SIR
+
+:::: {.columns}
+::: {.column width="45%"}
+How do diseases spread through a population?
+
+- Divide the population into three "compartments"<br>**[S]{.kn-pink}usceptible**, **[I]{.kn-pink}nfected**, **[R]{.kn-pink}ecovered/Removed**
+- Model the movement of people in and out of the compartments in continuous time
+- Traditionally done with differential equations
+
+<br>
+
+$$
+\begin{align}
+\frac{{dS}}{{dt}} &= - \left( \frac{{a}}{{N}}\right)  I S \\
+\frac{{dI}}{{dt}} &= \left( \frac{{a}}{{N}}\right)  I S - b I \\
+\frac{{dR}}{{dt}} &= bI
+\end{align}
+$$
+:::
+
+::: {.column width="10%"}
+:::
+
+::: {.column width="45%"}
+
+#### The Recovered Compartment
+
+$$
+\frac{{dR}}{{dt}} = bI
+$$
+
+- $bI$ shows that the number of recovered people increases as infected people recover.
+:::
+::::
+
+## Classic SIR
+
+<br>
+
+:::: {.columns}
+::: {.column width="45%"}
+$$
+\begin{align}
+\frac{{dS}}{{dt}} &= - \left( \frac{{a}}{{N}}\right)  I S \\
+\frac{{dI}}{{dt}} &= \left( \frac{{a}}{{N}}\right)  I S - b I \\
+\frac{{dR}}{{dt}} &= bI
+\end{align}
+$$
+:::
+
+::: {.column width="10%"}
+:::
+
+::: {.column width="45%"}
+We're just tracking the number of people in each compartment over time.
+
+- $S$ decreases as people get infected.
+- $I$ increases as more people get infected but decreases as they recover.
+- $R$ increases as people recover from the infection.
+:::
+::::
+
+## SIR in Discrete Time
+
+:::: {.columns}
+::: {.column width="45%"}
+We can represent the same basic model of changes in the number of people in each compartment *in discrete time intervals* [(which makes it easier to simulate with agent-based models)]{.nord-light}
+
+$$
+\begin{align}
+S(t + 1) &= S(t) - \beta S(t)I(t) \\
+I(t + 1) &= I(t) + \beta S(t)I(t) - \gamma I(t) \\
+R(t + 1) &= R(t) + \gamma I(t)
+\end{align}
+$$
+
+<br>
+
+**Some Model Assumptions** $\longrightarrow$
+
+![](media/smaldino.jpg){width="30%" .shadow-img}
+:::
+
+::: {.column width="10%"}
+:::
+
+::: {.column width="45%"}
+> These equations define how the relative numbers of susceptible, infected, and recovered individuals change over time, and represent two propositions about disease contagion. [First]{.kn-pink}, that susceptible individuals become infected via contact with infected individuals, at a rate that is proportional to the expected number of interactions between susceptible and infected individuals, tempered by the transmissibility of the infection, $β$. [Second]{.kn-pink}, that infected individuals recover at a constant rate, $γ$.
+>
+> <br>
+>
+An [implicit assumption]{.kn-pink} is that the rate of interactions between individuals in different states is exactly proportional to the frequencies of those states in the population—that is, that the population is [well-mixed]{.kn-pink}.
+>
+> <br>
+>
+> @smaldino2023modeling, page 18
+:::
+::::
+
+## Mixing and Flattening the Curve
+
+<br>
+
+:::: {.columns}
+::: {.column width="55%"}
+Reducing physical contact reduces the **effective transmission rate** of a disease, which has a big impact on the number of sick people in a population.
+
+![Proportion of infected people in a population over time from two SIR simulations with different transmissability rates. [We'll develop the model this figure comes from later in the lecture.]{.nord-light}](media/sir_compare_models_1-2){width=75% #fig-sir_compare_models_1-2}
+:::
+
+::: {.column width="5%"}
+:::
+
+::: {.column width="40%"}
+
+<br><br><br>
+
+#### ~{{< var ontario_population >}}M people in Ontario, Canada [(as of 2024)]{.nord-light}
+
+
+<!--
+```{python}
+#| echo: false
+import yaml
+with open('_variables.yml', 'r') as file:
+    variables = yaml.safe_load(file)
+```
+-->
+
+- A peak at `{python} variables['results_sir_model_1_max_infected']` in the high-transmissability model  $\approx$ `{python} round(variables['ontario_population'] * variables['results_sir_model_1_max_infected'], 2)`M infected people
+- A peak at `{python} variables['results_sir_model_2_max_infected']` in the low-transmissability model  $\approx$ `{python} round(variables['ontario_population'] * variables['results_sir_model_2_max_infected'], 2)`M infected people
+
+A `{python} round(variables['results_sir_model_1_max_infected']-variables['results_sir_model_2_max_infected'], 4)*100`% difference translates to $\approx$ `{python} round(variables['ontario_population']*variables['results_sir_model_1_max_infected'])-round(variables['ontario_population']*variables['results_sir_model_2_max_infected'])`M infected people **at that particular moment in time**.
+:::
+::::
+
+
+## Mixing and Flattening the Curve
+
+<br>
+
+:::: {.columns}
+::: {.column width="45%"}
+![Imagine agents moving around the simulated world the way we move around the real world. [Photo by <a href="https://unsplash.com/@anthonydelanoix?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Anthony DELANOIX</a> on <a href="https://unsplash.com/photos/person-performing-heart-hand-gesture-hzgs56Ze49s?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>]{.nord-light}](media/anthony-delanoix-hzgs56Ze49s-unsplash.jpg){width=85% .shadow-img}
+:::
+
+::: {.column width="5%"}
+:::
+
+::: {.column width="50%"}
+![The space covered by an agent who can take as many as 8 steps is much greater than the space covered by an agent who can only take 1. The grid is **toroidal**, which means all four edges wrap to each other.](media/compare_agent_step_sizes.png){width=100% #fig-compare_agent_step_sizes}
+:::
+::::
+
+
+<!--
+## Mixing and Flattening the Curve
+
+[More movement = more mixing = more exposures = more infections.]{.kn-pink}
+
+But there are some qualifications that will come up a bit later in the lecture.
+
+<br>
+
+:::: {.columns}
+::: {.column width="45%"}
+#### Shared Parameters
+
+| Parameter             | Value                        |
+|-----------------------|------------------------------|
+| N                   | {{< var model_4.N >}}        |
+| grid_height         | {{< var model_4.grid_height >}} |
+| grid_width          | {{< var model_4.grid_width >}} |
+| infection_rate      | {{< var model_4.infection_rate >}} |
+| n_initial_infections| {{< var model_4.n_initial_infections >}} |
+| n_iterations        | {{< var model_4.n_iterations >}} |
+| recovery_time_range | (7, 14)                      |
+
+:::
+
+::: {.column width="55%"}
+![](media/sir_compare_models_3-6.png){width=42% #sir_compare_models_3-6} &nbsp;&nbsp;&nbsp; ![](media/compare_agent_networks.png){width=36% #fig-compare_agent_networks}
+
+[@sir_compare_models_3-6 (left) Two SIR models with identical parameters other than max agent step size. @fig-compare_agent_networks (right) edge weight ECDF.]{.small-text}
+
+<br>
+
+|    |   No. Nodes |   No. Edges |   Avg. Degree |
+|:---|------------:|------------:|--------------:|
+| M1 |         100 |         984 |         19.68 |
+| M2 |         100 |         997 |         19.94 |
+:::
+::::
+ -->
+
+
+## Equation vs. Agent-based Models
+
+<br><br><br>
+
+Unlike equation-based models of systems, ABMs
+
+- do not rely on aggregated variables to represent system components
+- emphasize heterogeneity by directly representing individual agents and their iteractions
+- focuses on emergent outcomes and contextualized adaptive behaviours
+- are not contrained by mathematical tractability
+- etc.
+
+##
+
+[[@railsback2019agent]]{.nord-footer}
+
+<!-- Video 2 -->
+
+### What is the agent-based modelling cycle?
+
+<br>
+
+:::: {.columns}
+::: {.column width="45%"}
+![The ABM modelling cycle is a great fit with the Box and Wickham loops we've mentioned repeatedly throughout the course. [Figure reproduced from @railsback2019agent.]{.nord-light}](media/abm-cycle.png){width=100% #fig-abm-cycle}
+:::
+
+::: {.column width="5%"}
+:::
+
+::: {.column width="50%"}
+::: {.fragment}
+1. Formulate the question
+:::
+::: {.fragment}
+2. Assemble hypotheses for essential processes and structure
+:::
+::: {.fragment}
+3. Choose model structure<br>[(scales, entities, state variables, processes, and parameters)]{.nord-footer}
+:::
+::: {.fragment}
+4. Implement the model
+:::
+::: {.fragment}
+5. Analyze, test, and revise the model<br>[(recall the Box and Wickham loops!)]{.nord-footer}
+:::
+::: {.fragment}
+6. Communicate the model
+:::
+:::
+::::
+
+We'll talk about [patterns]{.kn-pink} and the role they play in modelling shortly.
+
+::: {.notes}
+The modeling cycle is a systematic and iterative process used to develop, implement, analyze, and refine **scientific** agent-based models. This cycle is essential for ensuring that models are well-designed, accurately reflect the system they are meant to represent, and are useful for answering specific research questions. The cycle typically involves the following key steps:
+
+1. **Formulate the Question**
+   - **Purpose:** The first step is to clearly define the research question that the model is intended to answer. This question acts as a guiding principle for the entire modeling process, helping to determine which aspects of the real system should be included or excluded in the model.
+   - **Importance:** A well-defined question ensures that the model remains focused and relevant. It also serves as a filter, helping to decide which factors in the real system are important for the model and which can be ignored.
+   - **Challenges:** Formulating a clear question can be difficult, especially in complex systems where multiple factors are interrelated. Often, the question may need to be refined as the modeling process progresses.
+2. **Assemble Hypotheses for Essential Processes and Structures**
+   - **Purpose:** Once the question is formulated, the next step is to hypothesize which processes and structures within the system are essential to address the research question. This involves identifying the key factors that drive the system's behavior and determining how these factors interact.
+   - **Top-Down and Bottom-Up Approaches:** This step can be approached in two ways:
+     - **Top-Down:** Consider the major influences on the phenomena of interest and how they might interact.
+     - **Bottom-Up:** Start with basic components and build up to more complex interactions.
+   - **Simplification:** It is crucial to start with the simplest possible model that still addresses the research question. Simplification helps in quickly implementing and testing the model, which is more productive than starting with a complex model that is difficult to manage.
+3. **Choose Scales, Entities, State Variables, Processes, and Parameters**
+   - **Purpose:** In this step, the specific details of the model are defined. This includes determining the scale at which the model operates (e.g., temporal and spatial scales), identifying the entities involved (e.g., agents in an ABM), and selecting the state variables that describe these entities (e.g., position, health status).
+   - **Model Structure:** The model's structure is outlined, including how different entities interact with each other and with their environment. This is often documented in a written formulation, which serves as a blueprint for the model.
+   - **Importance:** A clear and detailed model structure is essential for successful implementation and later analysis. It also aids in communicating the model to others, such as collaborators or reviewers.
+4. **Implement the Model**
+   - **Purpose:** The verbal or written description of the model is translated into a computer program or mathematical framework. This involves using appropriate tools and platforms, such as NetLogo for agent-based models, to bring the model to life.
+   - **Challenges:** Implementation can be technically demanding, especially for beginners. However, using established software platforms can greatly simplify this task and reduce the time required to develop a functioning model.
+   - **Rightness of Implementation:** The implementation itself is always “right” in the sense that it accurately represents the assumptions encoded in the model, allowing for the rigorous exploration of these assumptions.
+5. **Analyze, Test, and Revise the Model**
+   - **Purpose:** After implementation, the model is analyzed to see if it behaves as expected and whether it provides useful insights into the research question. This involves testing the model's predictions against real-world data, conducting sensitivity analyses, and iterating on the model's design to improve its accuracy and relevance.
+   - **Iteration:** This step is the most time-consuming and involves repeated cycles of testing and refining the model. As the model is analyzed, new insights may lead to revisions in the model's structure, assumptions, or parameters.
+   - **Importance:** This step is crucial for validating the model and ensuring that it provides reliable answers to the research question. It also helps to identify and correct any oversimplifications or inaccuracies in the initial model.
+6. **Communicate the Model**
+   - **Purpose:** The final step involves sharing the model and its findings with the scientific community, policymakers, or other stakeholders. This can include publishing the model in a scientific journal, presenting it at conferences, or providing reports to decision-makers.
+   - **Documentation:** Communication also involves thoroughly documenting the model and the results of its analysis. This documentation is vital for transparency, reproducibility, and for others to understand and build upon the work.
+   - **Feedback:** Sharing the model often leads to feedback, which can further refine the model or suggest new directions for research.
+
+The modeling cycle is inherently **iterative** and focuses on **continuous imporvement**. It is rare to go through the entire cycle only once; instead, modelers often loop back to earlier steps as new insights are gained. For example, the initial research question might be refined based on what is learned during model analysis, leading to adjustments in hypotheses or model structure. This iterative nature allows for continuous improvement of the model, making it more accurate and useful over time.
+
+Throughout the modeling cycle, there is an emphasis on **starting simple and adding complexity only when necessary**. This is based on the principle that simpler models are easier to implement, test, and understand. As the model progresses through the cycle, additional factors can be introduced gradually, allowing for a better understanding of their impact on the system.
+
+In short, the modeling cycle is a structured approach to developing scientific models that involves formulating a clear question, hypothesizing essential processes, designing and implementing the model, analyzing and refining it, and finally communicating the results. This iterative process ensures that models are both scientifically rigorous and practically useful for addressing complex research questions.
+:::
+
+##
+
+[[@railsback2019agent]]{.nord-footer}
+
+### How do we design, document, and develop ABMs?
+
+<br>
+
+:::: {.columns}
+::: {.column width="45%"}
+**Explicit** model formulations are **essential** for understanding and thinking clearly about the model, implementing it in code, learning from it, and communicating it to others. In ABM, especially in the social and ecological sciences, this follows the **ODD protocol** [(Overview, Design concepts, and Details)]{.nord-light}, which provides a structured and systematic way to formulate, describe, and communicate ABMs, ensuring that the models are clear, complete, and reproducible.
+
+<br>
+
+ODD is not only a tool for final documentation; it serves as a framework for the iterative development of the model and an initial version should be developed *before* you start implementing your ideas! For many reasons, this makes implementation **much** easier and more efficient.
+:::
+
+::: {.column width="10%"}
+:::
+
+::: {.column width="45%"}
+![High-level structure of the ODD protocol. [Figure reproduced from @railsback2019agent, which was revised from @grimm2010odd.]{.nord-light}](media/odd.png){width="75%" #fig-odd}
+:::
+::::
+
+::: {.notes}
+ODDs have the following high-level components:
+
+- Purpose and Patterns: The model’s purpose is defined clearly, specifying what the model is for and what patterns it should reproduce to be considered realistic.
+- Entities, State Variables, and Scales: These outline the types of entities (e.g., agents, environment) in the model, the variables that characterize them, and the temporal and spatial scales used in the model.
+- Process Overview and Scheduling: This describes the processes that govern the dynamics of the model (e.g., agent behaviors) and how these processes are scheduled over time.
+- Design Concepts: This section covers basic principles, emergence, adaptation, and other design concepts essential for understanding how the model works. We will come back to the idea of design concepts later in the lecture.
+- Initialization: How the model is set up at the beginning of a simulation, including the initial state of agents and environment.
+- Input Data: Describes external data inputs that change over time and are used in the model.
+- Submodels: Detailed descriptions of the submodels that represent specific processes within the ABM.
+:::
+
+
+## What are [model design concepts]{.kn-pink}?
+
+Model design concepts are an important part of the ODD protocol. What are they, exactly?
+
+<br>
+
+<!-- design-concepts-questions.png -->
+
+:::: {.columns}
+::: {.column width="25%"}
+<br>
+
+- Emergence
+- Observation
+- Sensing
+- Adaptive Behaviour and Objectives
+- Prediction
+- Interaction
+- Scheduling
+- Stochasticity
+- Collectives
+:::
+
+::: {.column width="5%"}
+:::
+
+::: {.column width="70%"}
+> Each time you build an ABM, you need to think about how each of these concepts is addressed, if it is, in the model. Why? The first reason is to make sure that you think about all the important model design issues and decide explicitly how to handle each. Otherwise, important parts of the model’s design could be determined accidentally or only by programming convenience, and your model will seem ad hoc and unscientific. The second reason is to make it easier to describe your model to others. When modelers use the ODD protocol and these design concepts to describe ABMs, it is much easier for others to understand the model’s most important characteristics. Not all of the concepts will be important to each ABM, but thinking about each of the concepts helps you convince yourself and others that all the important model design decisions were made explicitly and carefully. (For this reason, the design concepts are also very useful when you review someone else’s ABM.)
+>
+> @railsback2019agent, pp. 99-100
+:::
+::::
+
+::: {.notes}
+- **Emergence** refers to the patterns, behaviors, or outcomes that arise from the interactions of individual agents within the model. These emergent properties are not directly programmed into the model but instead result from the collective dynamics of the agents. Understanding and analyzing these emergent phenomena are often the primary goals of using ABMs.
+    - *In the SIR model, the emergent behavior is the epidemic curve that shows how the disease spreads through the population over time, leading to waves of infection, recovery, and potential stabilization.*
+- **Observation** involves how the model’s outcomes are recorded and analyzed. This concept includes specifying what data will be collected from the model during its execution, such as the number of agents in different states, spatial distributions, or interaction networks. The way observations are made can significantly influence the interpretation of the model’s results.
+    - *In the SIR model, observation is carried out by collecting data on the number of infected, susceptible, and recovered agents at each time step, as well as the duration of infections and the interactions between agents.*
+- **Sensing** describes the information that agents can perceive about their environment and other agents. It includes what variables the agents are aware of, such as the state of nearby agents or environmental conditions, and how accurately they sense this information. The sensing capability of agents influences their decision-making and behavior. In some cases, agents may not really be "aware," such as in a model of infectious disease diffusion.
+    - *In the SIR model, agents "sense" the state of neighboring agents (whether they are susceptible or infected), which influences their likelihood of becoming infected if they are susceptible.*
+- **Adaptive behavior** refers to the way agents modify their actions in response to changes in their environment or internal state. Objectives are the goals that agents seek to achieve, such as maximizing fitness, utility, or survival. In ABMs, agents often make decisions that adapt their behavior to better achieve these objectives.
+    - *In the SIR model, agents do not exhibit adaptive behavior in the traditional sense; they follow predefined rules for movement and infection based on their current state and interactions.*
+- **Prediction** involves how agents anticipate future conditions or outcomes based on their current state and environment. In some models, agents may have internal mechanisms that allow them to predict the future and adjust their behavior accordingly, while in others, predictions might be implicit in the rules governing agent actions.
+    - *In the SIR model, agents do not explicitly predict future conditions; their actions are based on immediate interactions with neighbors rather than anticipating future states.*
+- **Interaction** refers to the ways in which agents influence each other and their environment. This can include direct interactions, such as communication or physical contact, or indirect interactions, such as competition for resources. The nature and frequency of interactions among agents are key determinants of the emergent properties of the model.
+    - *In the SIR model, interactions occur when infected agents come into contact with susceptible agents, potentially spreading the infection based on a predefined infection rate.*
+- **Scheduling** is about the order and timing of agent actions and processes within the model. It defines how agents’ actions are sequenced, whether they are updated simultaneously or sequentially, and how time is represented in the model. The schedule can have a significant impact on the dynamics and outcomes of the simulation.
+    - *In the SIR model, scheduling determines the order in which agents move, interact, and possibly change their health state (susceptible, infected, or recovered) during each time step of the simulation.*
+- **Stochasticity** involves the inclusion of randomness in the model. This can be in the form of random events, variations in agent behavior, or random initialization of agent states. Stochastic processes are used to represent uncertainty, variability, or incomplete knowledge about the system being modeled.
+    - *In the SIR model, stochasticity is present in the random movement of agents, the random infection transmission based on probability, and the random timing of recovery within a specified range.*
+- **Collectives** refer to groups of agents that form higher-level entities within the model. These groups may have their own behaviors and characteristics, distinct from those of individual agents. Collectives can emerge from the interactions of agents or be explicitly defined, and they often play a crucial role in the dynamics of the system.
+    - *In the SIR model, there are no explicit collectives; however, the interactions among agents can lead to clusters of infection, which can be viewed as an emergent collective behavior.*
+:::
+
+## {background-color="#F0F0F0"}
+
+:::: {.columns}
+::: {.column width="75%"}
+<div style="background-color: white; padding: 80px; width: 75%; height: 600px; overflow-y: scroll; border-radius: 10px; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);">
+
+### 1. Purpose and Patterns
+
+<br>
+
+#### Purpose
+
+The purpose of this model is to simulate the spread of an infectious disease through a population using a Susceptible-Infected-Recovered (SIR) framework. The model aims to explore how different factors such as infection rate, recovery time, and agent mobility affect the dynamics of disease spread and the overall infection rate in a population.
+
+<br>
+
+#### Patterns
+
+The model is intended to replicate the typical patterns observed in infectious disease spread, such as:
+
+- The rapid increase in the number of infected individuals (an epidemic curve).
+- The eventual decline in the number of infections as individuals recover.
+- The effect of varying recovery times and movement speeds on the spread of the disease.
+- The impact of initial infection rates on the overall dynamics of the disease.
+
+### 2. Entities, State Variables, and Scales
+
+<br>
+
+#### Entities
+
+- **Agents:** The model consists of agents representing individuals in the population. Each agent can be in one of three states: Susceptible (S), Infected (I), or Recovered (R). Agents move around the grid and interact with each other, potentially spreading the infection.
+- **Environment:** The environment is a grid where agents move and interact. The grid is defined by a width and height, and the movement of agents is confined within this grid.
+
+<br>
+
+#### State Variables
+
+- **For Agents:**
+  - **state**: The current health state of the agent (S, I, or R).
+  - **infected_time**: The time the agent has been infected.
+  - **recovery_time_range**: The range within which the agent might recover from the infection.
+  - **max_agent_step_size**: The maximum distance an agent can move in one step.
+  - **pos_history**: The history of positions the agent has occupied.
+  - **interactions**: A record of interactions with other agents.
+  - **infection_duration**: The total duration the agent has been infected.
+- **For the Environment:**
+  - The environment does not have dynamic state variables but is characterized by its dimensions (**grid_width** and **grid_height**).
+
+<br>
+
+#### Scales
+
+- **Temporal Scale:** The model operates in discrete time steps. Each step represents one unit of time, during which agents move and potentially interact with others.
+- **Spatial Scale:** The environment is a discrete grid where each cell can hold multiple agents. The grid's size is defined by the parameters **grid_width** and **grid_height**, which are set in the file **\_variables.qmd**.
+
+### 3. Process Overview and Scheduling
+
+<br>
+
+#### Process Overview
+
+- **Agent Movement:** Each agent moves to a new location within its movement range (**max_agent_step_size**). The new position is randomly chosen from neighboring cells.
+- **Infection Spread:** Infected agents attempt to infect neighboring susceptible agents with a probability defined by the infection rate.
+- **Recovery:** Infected agents have a chance to recover based on the time they have been infected. The recovery time is determined by the **recovery_time_range**.
+
+<br>
+
+#### Scheduling
+
+- At each time step, the following processes occur:
+  1. **Data Collection:** The model records the current state of the system (e.g., the number of infected agents).
+  2. **Agent Actions:** Each agent, in random order, executes the **step()** method, which includes moving, attempting to infect others, and potentially recovering.
+  3. **Iteration Control:** The model checks if the stopping conditions (maximum iterations or change in infection ratio) are met to decide whether to continue running.
+
+### 4. Design Concepts
+
+- **Basic Principles:** The model follows the basic principles of the SIR framework, where agents transition between susceptible, infected, and recovered states based on interactions with others and time spent infected.
+- **Emergence:** The primary emergent behavior is the epidemic curve showing how the number of infections grows, peaks, and declines over time.
+- **Adaptation:** Agents do not adapt; their behavior is determined by the rules of movement, infection, and recovery.
+- **Objectives:** The model's objective is to simulate disease spread dynamics and analyze the effects of different parameters on the spread.
+- **Learning:** Agents do not learn or change behavior over time.
+- **Prediction:** Agents do not predict future states; they act based on their current state and the states of their neighbors.
+- **Sensing:** Agents "sense" the state of other agents in their immediate neighborhood (Moore neighborhood).
+- **Interaction:** Interaction occurs when infected agents are in proximity to susceptible agents, leading to potential infection.
+- **Stochasticity:** The model includes randomness in agent movement, infection transmission, and recovery timing.
+- **Collectives:** No explicit collectives are modeled.
+- **Observation:** The model tracks the number of infected agents over time and can output interaction graphs to analyze agent interactions.
+
+### 5. Initialization
+
+- **Agent Initialization:** The model begins with **N** agents randomly placed on the grid. A specified number of agents (**n_initial_infections**) are initially infected.
+- **Environment Initialization:** The environment is a grid of size **grid_width** x **grid_height**. The grid is toroidal, meaning agents moving off one edge appear on the opposite edge.
+- **Initial Conditions:** Agents are placed with a random state of "S" (susceptible), except for the initially infected agents. The agents' recovery times are set within the specified **recovery_time_range**.
+
+### 6. Input Data
+
+- The model does not use external input data during the simulation. All necessary parameters are set at initialization.
+
+### 7. Submodels
+
+- **Movement Submodel:** Each agent selects a random neighboring cell within its movement range (**max_agent_step_size**) and moves there. The movement is subject to the boundaries of the grid.
+- **Infection Submodel:** If an agent is infected, it attempts to infect neighboring susceptible agents with a probability equal to the **infection_rate**.
+- **Recovery Submodel:** Infected agents track their infection duration and attempt to recover based on their **recovery_time_range**. Agents have a 50% chance of recovery after the minimum recovery time is reached, and they automatically recover if the maximum time is exceeded.
+
+
+</div>
+:::
+
+::: {.column width="25%"}
+ODD Protocol for SIR Model<br>$\longleftarrow$
+
+<br>
+
+![[Figure reproduced from @railsback2019agent.]{.nord-light}](media/odd.png){width="100%" .shadow-img}
+:::
+::::
+
+
+## What is [pattern-oriented modelling]{.kn-pink}?
+
+[[@railsback2019agent]]{.nord-light}
+
+:::: {.columns}
+::: {.column width="45%"}
+Credible scientific models must be capable of reproducing multiple [(ideally diverse)]{.nord-light} observed patterns from the systems we want to model **without overfitting** to any given pattern.
+
+![](media/lego-bridge.png){width="100%" .shadow-img}
+:::
+
+::: {.column width="10%"}
+:::
+
+::: {.column width="45%"}
+![Like generative network analysis, the high-level objective is to deepen our understanding of the **latent processes governing the system**. Models of birds flocking and fish schooling are common examples in interdisciplinary introductions, and it's not really a lecture about agent-based modelling if there isn't at least one picture of birds flocking...](media/flocking.jpg){width=100% .shadow-img}
+:::
+::::
+
+::: {.notes}
+Pattern-oriented modeling (POM) is a strategy in the development and testing of agent-based models (ABMs) that uses multiple observed patterns from the real world to guide the design of the model’s structure and to validate its results. This approach aims to ensure that the model is not only structurally realistic but also capable of reproducing various patterns observed in the system it represents.
+
+In POM, the focus is on identifying and reproducing multiple, often diverse, patterns that characterize the system being modeled. These patterns can include spatial patterns, temporal dynamics, and other system behaviors observed in the real world. The rationale behind using multiple patterns is to avoid overfitting the model to a single pattern, which might lead to incorrect conclusions or predictions. By requiring the model to replicate multiple observed patterns, POM helps in selecting and refining the model’s structure and mechanisms, ensuring that the model’s behavior is not just an artifact of a particular parameter setting or assumption but is rooted in the actual processes governing the system.
+:::
+
+
+
+## What is [pattern-oriented modelling]{.kn-pink}?
+
+[Patterns for Model Structure [@railsback2019agent]]{.nord-light}
+
+:::: {.columns}
+::: {.column width="45%"}
+These **real-world patterns** can take many forms, such as spatial distributions, temporal sequences, or system-level properties. We want to observe and document patterns from empirical data, prior research, etc. and then use them to guide the design of the model structure. They is to select and organize our entities, processes, and interactions in a way that the model is capable of generating the observed patterns.
+
+<br>
+
+In the **SIR model example**, the key **patterns** are observed epidemic behaviors, such as the rise and fall of infected individuals over time, especially the occurrence of an infection peak. These are incorporated into the SIR model via the transmission rate $\beta$ [(simulating infection spread)]{.nord-light} and recovery rate $\gamma$ [(simulating recovery)]{.nord-light}. If the model can't reproduce the observed epidemic behaviours, we **refine** it.
+:::
+
+::: {.column width="10%"}
+:::
+
+::: {.column width="45%"}
+![Like generative network analysis, the high-level objective is to deepen our understanding of the latent processes governing the system.](media/sir_compare.png){width=100% .shadow-img}
+:::
+::::
+
+
+::: {.notes}
+We have to **identify**, observe, and document patterns from empirical data, prior research, etc. Then we have to **use these patterns to guide the design of model structure** such that the entities, processes, and interactions in the model are selected and organized in a way that allows the model to generate the observed patterns.
+
+In the context of the **SIR model**, patterns refer to the observed behaviors of an epidemic, such as the rise and fall in the number of infected individuals over time or the eventual stabilization of the population into susceptible and recovered groups. One important observed pattern in many infectious diseases is the occurrence of a peak in the number of infected individuals. This peak represents the point at which the disease is spreading most rapidly, after which the number of new infections begins to decline as more individuals either recover or remain uninfected due to the declining number of susceptible contacts.
+
+The SIR model incorporates this pattern by including a transmission rate ($\beta$) that determines how quickly susceptible individuals become infected when they come into contact with infected individuals. The model also includes a recovery rate ($\gamma$), which dictates how quickly infected individuals recover and move to the recovered class. By adjusting these parameters, the model can reproduce the observed pattern of an infection peak. If the model fails to produce this peak under realistic parameter settings, it might indicate a need for revising the model structure, such as adding more complexity like considering varying transmission rates over time (e.g., due to public health interventions).
+:::
+
+
+## What is [pattern-oriented modelling]{.kn-pink}?
+
+[Patterns for Theory Development [@railsback2019agent]]{.nord-light}
+
+:::: {.columns}
+::: {.column width="45%"}
+We use ABMs to **formulate**, **test**, and **refine** mechanistic theories of **how the observed patterns were generated**.
+
+<br>
+
+In the **SIR model example**, patterns like the peak of infections or the eventual stabilization of the population into susceptible and recovered groups are used to test and refine theories of disease spread.
+
+<br>
+
+Theories about how individuals become infected and recover are tested by checking whether the model can replicate these observed patterns. If the model consistently reproduces the patterns, it supports the validity of the theory. If not, it needs to be adjusted -- perhaps by considering factors like varying contact rates or the impact of interventions. The process repeats until the model behaves as expected.
+:::
+
+::: {.column width="10%"}
+:::
+
+::: {.column width="45%"}
+![Like generative network analysis, the high-level objective is to deepen our understanding of the latent processes governing the system.](media/sir_compare.png){width=100% .shadow-img}
+:::
+::::
+
+
+<!-- {{< include _day-5-mesa-sir.qmd >}} -->
+
+# Mesa {background-image=media/robot.jpg}
+
+Developing Your First ABM
+
+
+## An MED of OOP for ABM [(sorry...)]{.nord-light}
+
+[Object-oriented Programming (OOP), Essential Concepts]{.nord-footer}
+
+<br>
+
+:::: {.columns}
+
+::: {.column width="35%"}
+![[Photo by <a href="https://unsplash.com/@fairfilter?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Oliver Roos</a> on <a href="https://unsplash.com/photos/landscape-photography-of-splitted-road-surrounded-with-trees-PCNdauVPbjA?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>]{.nord-light}](media/oliver-roos-PCNdauVPbjA-unsplash.jpg){width="100%"}
+:::
+
+::: {.column width="65%"}
+- **Classes** are like blueprints for creating objects (e.g., a Person class defines what properties and behaviors a person has).
+- **Objects** are specific instances of a class (e.g., `maria = Person()` creates an object `maria` from the `Person` class).
+- **Attributes** are variables that store data specific to an object (e.g., alice.age).
+- **Methods** are functions that define behaviors of an object (e.g., `alice.move()`).
+- **Inheritance** allows one class to inherit attributes and methods from another class, promoting code reuse (e.g., Professor class inherits from Person, because professors are people too).
+- **Encapsulation** allows us to bundle data (attributes) and methods that operate on the data into a single unit or class, restricting direct access to some of an object's components.
+:::
+::::
+
+::: {.notes}
+Introduction to OOP:
+
+- Object-Oriented Programming (OOP) is a programming paradigm that structures software design around data, or objects, rather than functions and logic. It's especially useful for modeling complex systems, like those you'll encounter in agent-based modeling (ABM).
+
+Classes and Objects:
+
+- Think of a class as a blueprint. For example, if you're modeling a group of people, the class might be Person. This class defines the properties (e.g., age, location) and behaviors (e.g., move, speak) that every person should have.
+- An object is a specific instance of that class. If you were to create a person named Alice in your model, you would instantiate the Person class like this: alice = Person(). Now, alice is an object with her own specific age, location, and so on.
+
+Attributes and Methods:
+
+- Attributes are like variables that hold information about the object. For example, alice.age = 25 sets Alice's age to 25. Each object can have different values for these attributes.
+- Methods are functions that belong to the class and define what an object can do. For example, alice.move() could be a method that changes Alice's location within the simulation.
+
+Inheritance:
+
+- Inheritance allows you to create a new class that is based on an existing class. If you have a Worker class that should include everything a Person has, but with some additional features, you can create Worker as a subclass of Person. This means Worker inherits all attributes and methods from Person but can also have its own unique features. This is crucial in ABM, where you might have different types of agents with shared behaviors.
+
+Encapsulation:
+
+- Encapsulation is the idea of keeping the internal workings of an object hidden from the outside. You can think of it as protecting the data inside an object. For example, you might not want other parts of your program to change an agent's age directly; instead, they might call a method that safely updates the age. Encapsulation helps maintain the integrity of your model's data and logic.
+
+Applying OOP in Mesa:
+
+- When you move to Mesa, you'll use these OOP principles to define your agents as classes. Each agent will be an object of its class, with attributes that define its state (like position or health) and methods that define its behavior (like move() or interact()).
+- You'll also use inheritance to create different types of agents with shared and unique behaviors, which makes your model more scalable and easier to manage.
+
+In short, OOP is fundamental for structuring your agent-based models in Python. By organizing your code into classes and objects, you can create agents with complex behaviors and interactions that are both manageable and scalable, which is exactly what you'll be doing in Mesa.
+:::
+
+## Agent-based Modelling with Mesa
+
+[Object-oriented Programming (OOP), Essential Concepts]{.nord-footer}
+
+<br>
+
+:::: {.columns}
+::: {.column width="45%"}
+- We define an [Agent Class]{.kn-pink} [(which inherits from a more general Mesa class)]{.nord-light}. Each agent created from our class is an **object** with **attributes** [(states)]{.nord-light} and **methods** [(behaviors)]{.nord-light}.
+- The **environment** is typically represented as a grid or network where agents interact. The [Model class]{.kn-pink} manages the overall simulation, including initializing agents, updating them each step, and collecting data.
+- The Mesa [Scheduler]{.kn-pink} determines the order in which agents act. Common options include random or sequential activation. Agents execute their actions and update their states in each step of the schedule [(i.e., a tick of time)]{.nord-light}.
+- The Mesa [DataCollector]{.kn-pink} is used to gather and store data during the simulation for analysis.
+:::
+
+::: {.column width="10%"}
+:::
+
+::: {.column width="45%"}
+![](media/robot.jpg){width="100%" .shadow-img}
+
+[Agents are like little robots we manufacture according to some set of explicit instructions (the agent class).]{.nord-footer}
+:::
+::::
+
+::: {.notes}
+When we build agent-based models with Mesa, we apply these OOP concepts. Each agent in our models are instances of a class, meaning it has specific attributes and methods that define how it behaves in the simulation. In our SIR model, for example, each agent has a state attribute that indicates whether the agent is currently susceptible, infected, or in recovery.
+
+The environment where our agents interact is managed by the Model class. This environment could be a grid (like a city map) or a network (like social connections). The Model class handles the setup, including creating agents and placing them in the environment, and it oversees the simulation process.
+
+The Scheduler in Mesa is key to controlling how and when agents act. You can set agents to act in a random order, which might simulate more realistic scenarios, or in a specific sequence, depending on what makes sense for your model. This scheduling allows the simulation to evolve dynamically as agents interact with each other and the environment. Throughout the simulation, you can use the DataCollector to track various metrics—like the number of infected individuals in our SIR model. This data is crucial for analyzing the outcomes of your model.
+
+With that, let's get into things!
+:::
+
+
+##
+
+<br><br>
+
+:::: {.columns}
+::: {.column width="35%"}
+![ChatGPT / DALL-E3's artistic rendering of "dependency hell."](media/chatgpt_dependency_hell.png){.shadow-img width=100%}
+:::
+
+::: {.column width="5%"}
+:::
+
+::: {.column width="60%"}
+First, we set up our environment. We'll continue using the `gt` environment from yesterday. If you created it from the `setup/graphtool.yml` file, it has everything we need.
+
+<br>
+
+<!-- You can safely ignore the Python code here. We will create an R version below! -->
+
+```zsh
+cd computational-social-science
+conda env create -f setup/graphtool.yaml
+conda activate gt
+```
+
+:::
+::::
+
+
+##
+
+:::: {.columns}
+::: {.column width="40%"}
+Let's develop the
+
+### SIR model
+
+we've been using as an example so far.
+
+<br>
+
+![[Important!]{.kn-pink} Some of the code that follows is more complex than anything we've done in the course so far. By way of analogy, I'm popping the hood of an old car to show you what key components of the machine look like and how they work together. However, **the main goal is for you to learn how to drive these machines safely**, so focus on understanding the logic of the modelling cycle and feel free to temporarily set aside any details that get in the way of that goal.](media/lady-gaga-carpool-karoake.jpg){width="100%" .shadow-img}
+:::
+
+::: {.column width="5%"}
+:::
+
+::: {.column width="55%"}
+
+<!-- You can safely ignore the Python code here. We will create an R version below! -->
+
+```python
+import mesa
+from mesa import Agent, Model
+from mesa.time import RandomActivation
+from mesa.space import MultiGrid
+from mesa.datacollection import DataCollector
+from mesa.batchrunner import batch_run
+import matplotlib.pyplot as plt
+from pprint import pprint
+import numpy as np
+import pandas as pd
+import random
+import yaml
+import networkx as nx
+import seaborn as sns
+import matplotlib.pyplot as plt
+import icsspy
+from icsspy.networks import plot_line_comparison
+```
+
+<br>
+
+Set a seed, for reproducibility, and [(optionally)]{.nord-light} use `icsspy.set_style()` to style your plots like mine.
+
+```python
+random.seed(30)
+icsspy.set_style()
+```
+:::
+::::
+
+
+## First, define the [agent class]{.kn-pink}
+
+<br>
+
+Remember that the agent class is like a blueprint for creating agents. Here, each agent can be in one of three states: susceptible, infected, or recovered. The agent interacts with its environment by moving, tracking its position, and interacting with other agents. The agent can get infected, spread the infection to others, and eventually recover based on a random chance within a specified recovery time range.
+
+```python
+class SIRAgent(Agent):
+    def __init__(
+        self,
+        unique_id,
+        model,
+        recovery_time_range=(8, 12),
+        max_agent_step_size=1
+    ):
+
+        super().__init__(unique_id, model)
+        self.state = "S"
+        self.infected_time = 0
+        self.recovery_time_range = recovery_time_range
+        self.max_agent_step_size = max_agent_step_size
+        self.pos_history = []
+        self.interactions = {}
+
+    def step(self):
+        if self.state == "I":
+            self.infected_time += 1
+            # check if agent is within the recovery window
+            if self.infected_time >= self.recovery_time_range[0]:
+                # if so, recover probabilistically
+                if self.random.random() < 0.5 or self.infected_time >= self.recovery_time_range[1]:
+                    self.state = "R"
+
+            # if still infected, try to infect others
+            if self.state == "I":
+                neighbors = self.model.grid.get_neighbors(self.pos, moore=True, include_center=False)
+                for neighbor in neighbors:
+                    if neighbor.state == "S" and self.random.random() < self.model.infection_rate:
+                        neighbor.state = "I"
+
+        # move to a random neighboring cell with the given step size; record the new position
+        possible_moves = self.model.grid.get_neighborhood(
+            self.pos, moore=True, include_center=False, radius=self.max_agent_step_size
+        )
+
+        new_position = self.random.choice(possible_moves)
+        self.model.grid.move_agent(self, new_position)
+        self.pos_history.append(new_position)
+
+        # record interactions with other agents in this step
+        neighbors = self.model.grid.get_neighbors(
+            self.pos, moore=True, include_center=False
+        )
+
+        for neighbor in neighbors:
+            if neighbor.unique_id in self.interactions:
+                self.interactions[neighbor.unique_id] += 1
+            else:
+                self.interactions[neighbor.unique_id] = 1
+```
+
+::: {.notes}
+I'm not going to explain every line of this code, since that's not the point of popping the hood and showing it to you, but I do want to highlight a few key pieces.
+
+- Line 1 defines a new class called SIRAgent. The Agent in parentheses means that SIRAgent is a subclass of Agent, meaning it inherits properties and behaviors from the Agent class provided by Mesa.
+- Lines 2-8 is the constructor method that gets called when a new SIRAgent object is created. It initializes the agent with specific attributes. It has parameters for:
+    - unique_id: A unique identifier for the agent.
+	- model: The model (environment) in which the agent exists.
+	- recovery_time_range: A tuple representing the minimum and maximum time (in steps) it takes for the agent to recover after being infected.
+	- max_agent_step_size: The maximum distance the agent can move in one step.
+- Line 10 calls the constructor of the parent Agent class to give the agent a unique ID within the model.
+- Lines 11 to 16 set the initial attributes of the agent. Lines 15 and 16 collect information about each agent's local and neighboring agents at each step. This will come up a bit later.
+- Starting on Line 18, we define the agent's step function, which determines what how the agent's states are updated and the actions they take when it's their turn to act in the model. In this case, we first check our agent's state. If they are infected, we increment the days infected counter and check whether they are in the recovery window. If so, we flip a coin to see if they recover. If the agent is still infected, they try to infect their neighbors. We iterate over the neighbors and, if the infection conditions are met (random), then we switch the neighbors status to infected. Then the agent moves to a new location on the grid that is within a pre-defined number of steps. The interactions and movement is logged.
+:::
+
+## Second, define the [model class]{.kn-pink}
+
+<br>
+
+Remember that the SIRModel is a blueprint for creating a model in which agents interact and spread infections. Any ABMs we create are created by this class. It inherits from Mesa's more general Model class, which provides basic functionality for simulation modelling that we don't need to design or develop ourselves.
+
+```python
+class SIRModel(Model):
+    def __init__(
+        self,
+        grid_width,
+        grid_height,
+        N,
+        infection_rate,
+        recovery_time_range,
+        max_agent_step_size=1,
+        n_initial_infections=1,
+        max_iterations=1000,
+        change_threshold=0.001
+    ):
+
+        super().__init__()
+        self.num_agents = N
+        self.grid = MultiGrid(grid_width, grid_height, True)
+        self.schedule = RandomActivation(self)
+        self.infection_rate = infection_rate
+        self.recovery_time_range = recovery_time_range
+        self.max_agent_step_size = max_agent_step_size
+        self.max_iterations = max_iterations
+        self.current_iteration = 0
+        self.change_threshold = change_threshold
+        # track the ratio of infected agents in the previous step
+        self.previous_infected_ratio = None
+
+        # create agents
+        for i in range(self.num_agents):
+            # half the agents will have a large step size, half small
+            step_size = max_agent_step_size if i % 2 == 0 else 1
+            a = SIRAgent(i, self, recovery_time_range, max_agent_step_size=step_size)
+            self.grid.place_agent(a, (self.random.randrange(self.grid.width),
+                                      self.random.randrange(self.grid.height)))
+            # initialize the position history with the starting position
+            a.pos_history.append(a.pos)
+            self.schedule.add(a)
+
+        # randomly infect a specified number of agents
+        initial_infected_agents = self.random.sample(
+            self.schedule.agents, n_initial_infections
+        )
+        for agent in initial_infected_agents:
+            agent.state = "I"
+            agent.infected_time = 0 # initialize infection duration
+
+        self.datacollector = DataCollector(
+            model_reporters={
+                "Susceptible": lambda m: self.count_state("S"),
+                "Infected": lambda m: self.count_state("I"),
+                "Recovered": lambda m: self.count_state("R")
+            },
+            agent_reporters={
+                "State": "state",
+                "Infection_Duration": "infection_duration"
+            }
+        )
+        # this line is necessary for doing multiple model runs simultaneously
+        # we will do this later in the lecture
+        self.running = True
+
+    def step(self):
+        self.datacollector.collect(self)
+        self.schedule.step()
+        self.current_iteration += 1
+
+        # check for stopping condition based on maximum iterations
+        if self.current_iteration >= self.max_iterations:
+            self.running = False
+
+        # check for stopping condition based on change in infected ratio
+        current_infected_ratio = self.count_state('I')
+        if self.previous_infected_ratio is not None:
+            change = abs(current_infected_ratio - self.previous_infected_ratio)
+            if change < self.change_threshold:
+                self.running = False
+        self.previous_infected_ratio = current_infected_ratio
+
+    def count_state(self, state_name):
+        count = sum([1 for a in self.schedule.agents if a.state == state_name])
+        return count / self.num_agents
+```
+
+::: {.notes}
+- Lines 1-13 define a new class called SIRModel. It inherits from the Model class in Mesa, so it starts with some basic functionality for running simulations.
+- Line 15 is the constructor method that initializes the model with specific settings when you create a new instance of SIRModel. It calls the constructor of the parent Model class to make sure the SIRModel is set up correctly with inherited attributes.
+- Lines 16-26 are for the model parameters, which we set when we initialize a new model.
+- Lines 28-37 create the agents using the AgentClass, adds them to the model grid (space) and schedule (time)
+- Lines 39-45 randomly infect an initial set of agents
+- Lines 47-57 set up automated data collection throughout the simulation
+- Line 60 is necessary for running multiple simulations at once, which we will see a little later in the lecture.
+- Lines 62-77 defines what happens for each time of time we step through in the model, including running the agent steps, collecting data on what happened, and checking the stopping conditions to see whether the model should continue running.
+- The remaining code defines some methods that are used to compute the number or infected nodes
+:::
+
+## Third, load the [model parameters]{.kn-pink}
+
+<br>
+
+```python
+with open('_variables.yml', 'r') as file:
+    params = yaml.safe_load(file)
+
+model_1_params = params.get('model_1')
+pprint(model_1_params)
+```
+
+[{'N': 100,
+ 'grid_height': 40,
+ 'grid_width': 40,
+ 'infection_rate': 0.3,
+ 'max_agent_step_size': 1,
+ 'n_initial_infections': 2,
+ 'n_iterations': 150,
+ 'recovery_time_range': [14, 24]}]{.monospace}
+
+<br>
+
+```python
+model_2_params = params.get('model_2')
+pprint(model_2_params)
+```
+
+[{'N': 100,
+ 'grid_height': 40,
+ 'grid_width': 40,
+ 'infection_rate': 0.15,
+ 'max_agent_step_size': 1,
+ 'n_initial_infections': 2,
+ 'n_iterations': 150,
+ 'recovery_time_range': [14, 24]}]{.monospace}
+
+## Forth, [run the model(s)]{.kn-pink}
+
+:::: {.columns}
+::: {.column width="65%"}
+We'll run two models here to reproduce @fig-sir_compare_models_1-2. Here's **Model 1**!
+
+<br>
+
+```python
+model_1 = SIRModel(
+    n_initial_infections = model_1_params['n_initial_infections'],
+    grid_width = model_1_params['grid_width'],
+    grid_height = model_1_params['grid_height'],
+    N = model_1_params['N'],
+    infection_rate = model_1_params['infection_rate'],
+    recovery_time_range = model_1_params['recovery_time_range'],
+    max_agent_step_size = model_1_params['max_agent_step_size'],
+)
+
+for i in range(model_1_params['n_iterations']):
+    model_1.step()
+
+m1res = model_1.datacollector.get_model_vars_dataframe()
+m1res
+```
+:::
+
+::: {.column width="5%"}
+:::
+
+::: {.column width="30%"}
+
+<!--
+```python
+#| echo: false
+from icsspy.utils import markdown_table
+md = markdown_table(m1res.sample(10), 'tables/_sir_1_m1res.md')
+print(md)
+```
+ -->
+
+Random sample (N=10)
+
+<br>
+
+{{< include tables/_sir_1_m1res.md >}}
+
+:::
+::::
+
+
+
+
+## Forth, [run the model(s)]{.kn-pink}
+
+:::: {.columns}
+::: {.column width="65%"}
+And here's **Model 2**!
+
+<br>
+
+```python
+model_2 = SIRModel(
+    n_initial_infections = model_2_params['n_initial_infections'],
+    grid_width = model_2_params['grid_width'],
+    grid_height = model_2_params['grid_height'],
+    N = model_2_params['N'],
+    infection_rate = model_2_params['infection_rate'],
+    recovery_time_range = model_2_params['recovery_time_range'],
+    max_agent_step_size = model_2_params['max_agent_step_size'],
+)
+
+for i in range(model_2_params['n_iterations']):
+    model_2.step()
+
+m2res = model_2.datacollector.get_model_vars_dataframe()
+m2res
+```
+:::
+
+::: {.column width="5%"}
+:::
+
+::: {.column width="30%"}
+
+<!--
+```python
+#| echo: false
+md = markdown_table(m2res.sample(10), 'tables/_sir_1_m2res.md')
+print(md)
+```
+ -->
+
+Random sample (N=10)
+
+<br>
+
+{{< include tables/_sir_1_m2res.md >}}
+
+:::
+::::
+
+
+## Plot the results
+
+<br>
+
+```python
+fig, ax = plt.subplots()
+ax.plot(m1res['Infected'], label=r'High transmissibility, $\beta$=0.3')
+ax.plot(m2res['Infected'], label=r'Low transmissibility $\beta$=0.15')
+plt.xlabel("\nDiscrete Steps in Time")
+plt.ylabel("Proportion Infected\n")
+plt.legend(loc='upper right', fontsize=10)
+plt.savefig('media/sir_compare_models_1-2.png')
+```
+
+<br>
+
+:::: {.columns}
+::: {.column width="25%"}
+![](media/sir_compare_models_1-2.png){width=100% .shadow-img}
+
+<!-- ![](media/sir_compare){width=100% .shadow-img} -->
+
+Recall [design patterns]{.kn-pink}!
+:::
+
+::: {.column width="75%"}
+<br>
+
+$\longleftarrow$<br>@fig-sir_compare_models_1-2 from earlier in the lecture. Proportion of infected people in a population over time from two SIR simulations with different transmissibility rates.<br>
+
+Not (yet) shown: proportion of susceptible and recovered.
+:::
+::::
+
+<!-- (TEMPORARILY?) CUTTING THIS OUT; NO SPACE AND NOT PEDAGOGICALLY USEFUL ANYWAY -->
+<!-- _day-5-CUT-illustrative-models.qmd -->
+
+<!--
+```python
+#| echo: false
+from icsspy.utils import update_quarto_variables
+
+# compute the infection peak for both models so you can use them dynamically in the lecture
+update_quarto_variables("results_sir_model_1_max_infected", float(m1res['Infected'].max()))
+update_quarto_variables("results_sir_model_2_max_infected", float(m2res['Infected'].max()))
+```
+ -->
+
+## Agent Interaction
+
+![Who interacted with whom?](media/anthony-delanoix-hzgs56Ze49s-unsplash.jpg){width=65% .shadow-img}
+
+
+## Agent Interaction
+
+We can iterate over the agents in the model and retrieve their interaction history. [Note that we can only do this because I built that data collection into the model! We can collect just about anything we want, but only if we set things up properly.]{.nord-light} Let's construct some agent **interaction networks**!
+
+<br>
+
+```python
+interaction_graphs = {}
+interaction_graph_summaries = {}
+
+models = [model_1, model_2]
+for i, model in enumerate(models, start=1):
+    wel = []
+    for agent in model.schedule.agents:
+        for k, v in agent.interactions.items():
+            wel.append((int(agent.unique_id), k, v))
+
+    G = nx.Graph()
+    G.add_weighted_edges_from(wel)
+    interaction_graphs[f'M{i}'] = G
+
+    avg_degree = round(sum(dict(G.degree()).values()) / float(G.number_of_nodes()), 2)
+    interaction_graph_summaries[f'M{i}'] = (G.number_of_nodes(), G.number_of_edges(), avg_degree)
+```
+
+## Agent Interaction
+
+<br>
+
+```python
+interaction_graph_summaries = pd.DataFrame(interaction_graph_summaries).T
+interaction_graph_summaries.columns = ['No. Nodes', 'No. Edges', 'Avg. Degree']
+interaction_graph_summaries
+```
+
+
+<!--
+```python
+#| echo: false
+md = markdown_table(interaction_graph_summaries, 'tables/_sir_1_interaction_graph_summaries.md', indexed=True)
+# print(md)
+```
+ -->
+
+{{< include tables/_sir_1_interaction_graph_summaries.md >}}
+
+<br>
+
+:::: {.columns}
+::: {.column width="65%"}
+```python
+# Initialize an empty graph
+G = interaction_graphs['M2']
+weights = [d['weight'] for u, v, d in G.edges(data=True)]
+
+plt.figure(figsize=(8, 6))
+sns.ecdfplot(weights)
+plt.xlabel('Interaction Weight')
+plt.ylabel('ECDF')
+plt.title('ECDF of Interaction Weights')
+plt.grid(True)
+plt.savefig('media/compare_agent_networks.png', dpi=300)
+```
+
+<!--
+```python
+#| echo: false
+# testing something... ignore this... nothing to see here...
+for agent in model_2.schedule.agents:
+    G.add_node(agent.unique_id)  # Add agent as a node
+    for interacted_agent, count in agent.interactions.items():
+        if G.has_edge(agent.unique_id, interacted_agent):
+            G[agent.unique_id][interacted_agent]['weight'] += count
+        else:
+            G.add_edge(agent.unique_id, interacted_agent, weight=count)
+```
+-->
+
+
+:::
+
+::: {.column width="35%"}
+![Model 2 edge weight ECDF.](media/compare_agent_networks.png){width="75%" #fig-compare_agent_networks}
+:::
+::::
+
+## Model Analysis
+
+<br><br>
+
+- Understand and interpret model behavior to better understand the system being modeled
+- Validate the model against real-world data, check robustness and reliability
+- Explore the effects of different parameters and conditions and identify key drivers of model outcomes
+
+- Track agent states, interactions, and other metrics
+- Visualize model dynamics over time
+- Use statistical or other approaches
+
+::: {.notes}
+So far we have not been very systematic in how we've approaches analyzing the outputs of our SIR model. What's involved in more systematic analyses?
+
+The primary goal of analyzing an agent-based model is to gain insights into how the model behaves and how well it represents the real-world system it's designed to simulate. This involves understanding the dynamics of the model, validating it against empirical data, and exploring the implications of different parameter settings.
+
+We can break ABM model analysis down into several types. Descriptive analysis helps summarize what's happening in the model, while exploratory analysis digs deeper into patterns and relationships within the data. Comparative analysis is useful when we want to understand how different scenarios or versions of the model compare, and predictive analysis leverages the model to forecast future outcomes.
+
+Usually, we use several techniques at once to analyze ABMs effectively. Data collection is crucial for tracking the various states and interactions within the model, often using tools like Mesa's DataCollector. Visualization helps us see the trends and dynamics within the model, and statistical analysis allows us to quantify and interpret the data meaningfully.
+
+Ultimately, the goal of analyzing an ABM is to ensure that the model is providing accurate, reliable insights into the system being studied. This includes identifying the key factors that drive model outcomes and ensuring that the model can withstand scrutiny through robust analysis.
+
+This high-level overview sets the stage for more detailed discussions on specific analysis methods like sensitivity analysis, parameter sweeps, and computational experiments, which are essential for thoroughly understanding and validating our ABMs.
+:::
+
+
+## Model Analysis
+
+<br>
+
+:::: {.columns}
+::: {.column width="60%"}
+#### [Sensitivity Analysis]{.kn-pink .large-text}
+
+helps determine which model parameters are most important and/or uncertain, and which require careful estimation and interpretation.
+
+<br>
+
+#### [Parameter Sweeps]{.kn-pink .large-text}
+
+allow for a systematic exploration of how different settings influence model behavior, which helps in understanding the model's **response landscape**.
+
+<br>
+
+#### [Computational Experiments]{.kn-pink .large-text}
+
+involve systematically investigating the model's behavior to answer specific questions, understand mechanisms, or test hypotheses.
+:::
+
+::: {.column width="40%"}
+:::
+::::
+
+::: {.notes}
+When iteratively analyzing models, we can use Sensitivity Analysis, Parameter Sweeps, and Computational Experiments to understand, test, and analyze the behavior of the model under various conditions. These methods are essential for ensuring the model's reliability and for interpreting its results. Here's what they mean:
+
+1. Sensitivity Analysis
+
+Sensitivity analysis involves systematically varying model parameters to assess how changes in these parameters affect the model's output. It helps identify which parameters are most influential in determining model behavior and which ones have less impact.
+
+The main goal is to understand how robust the model's results are. If small changes in a parameter lead to significant changes in outcomes, for example, that parameter is considered sensitive and could indicate areas where the model might need refinement or better data.
+
+Local Sensitivity Analysis involves small variations in one parameter at a time to observe the local impact on the model, whereas Global Sensitivity Analysis considers a broader range of variations and the combined effects of multiple parameters.
+
+2. Parameter Sweeps
+
+This allows us to map out the response of the model across the entire space of possible parameter values, which helps identify trends, tipping points, or regions of parameter space where the model behaves in a particular way. Typically, this is done by running a series of simulations where one or more parameters are adjusted incrementally. The results are then analyzed to understand the relationship between parameters and outcomes.
+
+3. Computational Experiments:
+
+In the context of ABM, computational experiments refer to the process of systematically testing the model by varying initial conditions, parameter values, or model structures to observe the resulting behavior. Most importantly, this is done with the goal of answering scientific questions, understanding mechanisms, or testing hypotheses. Sometimes this is explicitly causal and may be similar to laboratory experiments, only in a simulated environment where variables can easily be manipulated and controlled. Other times it is more exploratory, with the goal of mapping out the model's behavior across a wide range of conditions.
+:::
+
+
+# [[deeper dives with]{.small-text .light-against-image}<br>batch_run]{.pink-monospace} {background-image=media/jeremy-bishop-5MvL55-rSvI-unsplash.jpg}
+
+<!-- Photo by <a href="https://unsplash.com/@sebaspenalambarri?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Sebastian Pena Lambarri</a> on <a href="https://unsplash.com/photos/two-people-scuba-diving-underwater-7i5HMCGupVw?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
+   -->
+
+
+##
+:::: {.columns}
+::: {.column width="45%"}
+Let's do a
+
+[sensitivity analysis]{.large-text .kn-pink}
+:::
+
+::: {.column width="55%"}
+1. Set up the **parameter sweep** dictionary
+2. Run the model according to the sweep dictionary<br>[+ plot results from batch run]{.nord-light}
+3. Aggregate the model results
+:::
+::::
+
+<br>
+
+<hr style="border: none; border-top: 1px solid black;">
+
+<br>
+
+:::: {.columns}
+::: {.column width="45%"}
+First, we'll focus on
+
+[peak proportion infected]{.large-text}
+
+as the outcome of interest
+:::
+
+::: {.column width="55%"}
+4. Plot the results
+5. Correlate parameters with peak proportion infected^[This is an additional step, not necessarily part of a sensitivity analysis but often done alongside.]
+6. Interpret, critique... *repeat?*
+:::
+::::
+
+<br>
+
+<hr style="border: none; border-top: 1px solid black;">
+
+<br>
+
+:::: {.columns}
+::: {.column width="45%"}
+and then
+
+[**time** to peak proportion infected]{.large-text}
+
+as the outcome of interest
+:::
+
+::: {.column width="55%"}
+7. Prepare the data
+8. Plot the results
+9. Interpret, critique... *repeat?*
+:::
+::::
+
+::: {.notes}
+Sensitivity plots will show how the peak number of infections varies with changes in each parameter. Parameters with more spread (higher variability in the boxplots) are more sensitive.
+
+The correlation analysis will help identify which parameters have the most substantial impact on the peak number of infections.
+:::
+
+
+
+## Sensitivity Analysis [(1) Set up and (2) run!]{.nord-light}
+
+<br>
+
+:::: {.columns}
+::: {.column width="75%"}
+
+```python
+params = {
+    "N": 100,
+    "grid_height": 40,
+    "grid_width": 40,
+    "infection_rate": [0.2, 0.4, 0.6, 0.8,],
+    "recovery_time_range": [(7,14), (14,24)],
+    "max_agent_step_size": [2, 4, 6, 8, 10, 12],
+    "n_initial_infections": [1, 5, 10, 15, 20, 25]
+}
+```
+<!-- _variables! update. -->
+:::
+
+::: {.column width="25%"}
+First, define a dict containing parameter values. Use lists `[]` to configure the response space.
+:::
+
+::::
+
+<br>
+
+:::: {.columns}
+::: {.column width="75%"}
+
+```python
+results = mesa.batch_run(
+    model_cls=SIRModel,
+    parameters=params,
+    iterations=10,
+    max_steps=100,
+    number_processes=1,
+    data_collection_period=1,  # collect data at every step
+    display_progress=True,
+)
+
+results_df = pd.DataFrame(results)
+results_df.info()
+```
+
+:::
+
+::: {.column width="25%"}
+Then run your model using the `batch_run()` function.
+:::
+::::
+
+
+<!--
+```python
+#| echo: false
+#
+# if error on laptop, it's multi-processing in a notebook
+# change number_processes to 1
+#
+results = mesa.batch_run(
+    model_cls=SIRModel,
+    parameters=params,
+    iterations=10,
+    max_steps=100,
+    number_processes=1,
+    data_collection_period=1,
+    display_progress=True,
+)
+
+results_df = pd.DataFrame(results)
+results_df.info()
+```
+ -->
+
+## Sensitivity Analysis [(3) Aggregate results]{.nord-light}
+
+<br>
+
+
+<!--
+```python
+#| echo: false
+from icsspy.utils import markdown_table
+md = markdown_table(results_df.head(), 'tables/_sir_batch_results_df.md')
+print(md)
+```
+ -->
+
+```python
+results_df.head()
+```
+
+|   RunId |   iteration |   Step |   N |   grid_height |   grid_width |   infection_rate | recovery_time_range   |   max_agent_step_size |   n_initial_infections |   Susceptible |   Infected |   Recovered |   AgentID | State   |   Infection_Duration |
+|--------:|------------:|-------:|----:|--------------:|-------------:|-----------------:|:----------------------|----------------------:|-----------------------:|--------------:|-----------:|------------:|----------:|:--------|---------------------:|
+|       0 |           0 |      0 | 100 |            40 |           40 |              0.2 | (7, 14)               |                     2 |                      1 |          0.99 |       0.01 |           0 |         0 | S       |                    0 |
+|       0 |           0 |      0 | 100 |            40 |           40 |              0.2 | (7, 14)               |                     2 |                      1 |          0.99 |       0.01 |           0 |         1 | S       |                    0 |
+|       0 |           0 |      0 | 100 |            40 |           40 |              0.2 | (7, 14)               |                     2 |                      1 |          0.99 |       0.01 |           0 |         2 | S       |                    0 |
+|       0 |           0 |      0 | 100 |            40 |           40 |              0.2 | (7, 14)               |                     2 |                      1 |          0.99 |       0.01 |           0 |         3 | S       |                    0 |
+|       0 |           0 |      0 | 100 |            40 |           40 |              0.2 | (7, 14)               |                     2 |                      1 |          0.99 |       0.01 |           0 |         4 | S       |                    0 |
+
+<!--
+```python
+#| echo: false
+md = markdown_table(results_df.tail(), 'tables/_sir_batch_results_df_tail.md')
+print(md)
+```
+ -->
+
+```python
+results_df.tail()
+```
+
+|   RunId |   iteration |   Step |   N |   grid_height |   grid_width |   infection_rate | recovery_time_range   |   max_agent_step_size |   n_initial_infections |   Susceptible |   Infected |   Recovered |   AgentID | State   |   Infection_Duration |
+|--------:|------------:|-------:|----:|--------------:|-------------:|-----------------:|:----------------------|----------------------:|-----------------------:|--------------:|-----------:|------------:|----------:|:--------|---------------------:|
+|    2879 |           9 |     29 | 100 |            40 |           40 |              0.8 | (14, 24)              |                    12 |                     25 |          0.04 |       0.02 |        0.94 |        50 | R       |                   14 |
+|    2879 |           9 |     29 | 100 |            40 |           40 |              0.8 | (14, 24)              |                    12 |                     25 |          0.04 |       0.02 |        0.94 |        91 | R       |                   20 |
+|    2879 |           9 |     29 | 100 |            40 |           40 |              0.8 | (14, 24)              |                    12 |                     25 |          0.04 |       0.02 |        0.94 |        74 | R       |                   21 |
+|    2879 |           9 |     29 | 100 |            40 |           40 |              0.8 | (14, 24)              |                    12 |                     25 |          0.04 |       0.02 |        0.94 |        58 | R       |                   14 |
+|    2879 |           9 |     29 | 100 |            40 |           40 |              0.8 | (14, 24)              |                    12 |                     25 |          0.04 |       0.02 |        0.94 |        68 | R       |                   16 |
+
+
+[Be selective about the data you collect during a batch run. I collected everything (including things that don't vary) here for pedagogical reasons only!]{.nord-footer}
+
+<!-- Another run I did with this model produced a 4GB text file with only 6 variables. So, yeah. -->
+
+##
+
+We can compare some high-level patterns by creating a **small multiples** plot. We'll use Seaborn's **FacePlot** for this. It's a more complex setup than other plotting code we've used so far, so if it's a bit overwhelming just focus on interpreting the output. Note that this code will take a little while to run.^[It takes a couple of minutes to run on my MacBook Air.]
+
+<br>
+
+```python
+melted_df = pd.melt(
+    results_df,
+    # include 'RunId' to differentiate runs
+    id_vars=['n_initial_infections', 'infection_rate', 'Step', 'RunId'],
+    value_vars=['Susceptible', 'Infected', 'Recovered'],
+    var_name='State',
+    value_name='Proportion'
+)
+
+# create the FacetGrid
+g = sns.FacetGrid(
+    melted_df, col="n_initial_infections", hue="State",
+    col_wrap=3, height=4, aspect=1.5
+)
+
+# map the scatterplot for individual observations
+g.map_dataframe(
+    sns.scatterplot, x='Step', y='Proportion', alpha=0.005, edgecolor=None
+)
+
+# map the lineplot for aggregated data
+g.map_dataframe(
+    sns.lineplot, x='Step', y='Proportion', linewidth=2,
+)
+
+g.add_legend()
+g.set_axis_labels("Time Step", "Proportion")
+g.set_titles("Initial Infections: {col_name}")
+
+plt.savefig("media/sir_subplots.png", dpi=300)
+```
+
+##
+
+![Batch results for Model 2 with mean trends emphasized.](media/sir_subplots.png){width="100%" #fig-sir_subplots}
+
+## Sensitivity Analysis [(3) Aggregate results]{.nord-light}
+
+<br>
+
+Next, we aggregate results to get the peak number of infections per run.
+
+```python
+aggregated_results = results_df.groupby(["RunId", "infection_rate", "recovery_time_range", "max_agent_step_size", "n_initial_infections"]).agg(
+    peak_infected=("Infected", "max")
+).reset_index()
+
+aggregated_results.head()
+```
+
+<!--
+
+```python
+#| echo: false
+md = markdown_table(aggregated_results.head(), 'tables/_sir_sensitivity_aggregated.md')
+print(md)
+``` -->
+
+
+{{< include tables/_sir_sensitivity_aggregated.md >}}
+
+## Sensitivity Analysis [(4) Plot and (6) Interpret]{.nord-light}
+
+<br>
+
+We'll need to convert the `recovery_time_range` tuples into strings for plotting.
+
+```python
+aggregated_results['recovery_time_range_str'] = aggregated_results['recovery_time_range'].apply(lambda x: f"{x[0]}-{x[1]}")
+```
+
+<br>
+
+And then we can set up the plot.
+
+```python
+fig, axes = plt.subplots(2, 2, figsize=(16, 12), sharey=True)
+
+# infection rate
+sns.boxplot(ax=axes[0, 0], x="infection_rate", y="peak_infected", data=aggregated_results)
+axes[0, 0].set_title("\n(a) Sensitivity to Infection Rate", loc="left")
+axes[0, 0].set_xlabel("\nInfection Rate")
+axes[0, 0].set_ylabel("Peak Infected\n")
+
+# recovery time range (use the string version we just created)
+sns.boxplot(ax=axes[0, 1], x="recovery_time_range_str", y="peak_infected", data=aggregated_results)
+axes[0, 1].set_title("\n(b) Sensitivity to Recovery Time Range", loc="left")
+axes[0, 1].set_xlabel("\nRecovery Time Range")
+axes[0, 1].set_ylabel("Peak Infected\n")
+
+# max agent step size
+sns.boxplot(ax=axes[1, 0], x="max_agent_step_size", y="peak_infected", data=aggregated_results)
+axes[1, 0].set_title("\n(c) Sensitivity to Max Agent Step Size", loc="left")
+axes[1, 0].set_xlabel("\nMax Agent Step Size")
+axes[1, 0].set_ylabel("Peak Infected\n")
+
+# initial infections
+sns.boxplot(ax=axes[1, 1], x="n_initial_infections", y="peak_infected", data=aggregated_results)
+axes[1, 1].set_title("\n(d) Sensitivity to Initial Infections", loc="left")
+axes[1, 1].set_xlabel("\nInitial Infections")
+axes[1, 1].set_ylabel("Peak Infected\n")
+
+plt.tight_layout()
+plt.savefig("media/sir_sensitivity_analysis.png", dpi=300)
+```
+
+## Sensitivity Analysis [(4) Plot the results]{.nord-light}
+
+![Sensitivity plot for our SIR model parameters and peak proportion infected across all model runs.](media/sir_sensitivity_analysis.png){width="50%" #fig-sir_sensitivity_analysis}
+
+## Sensitivity Analysis [(5) Correlate]{.nord-light}
+
+<br>
+
+As an additional step, we can correlate our parameters with the peak proportion infected to get a sense of relative influence. To do so, we have to transform the recovery time ranges into a single number. There are a few ways we could do this, but to keep things simple we'll take the mean of the two values.
+
+```python
+aggregated_results["recovery_time_range_numeric"] = aggregated_results["recovery_time_range"].apply(lambda x: sum(x) / len(x))
+```
+
+<br>
+
+Once we've done that, we'll drop the original tuple (`recovery_time_range`) and it's string representation (`recovery_time_range_str`). I'll create a new dataframe for these modifications, since we'll use the dropped variables in our second sensitivity analysis.
+
+```python
+aggregated_results_4corr = aggregated_results.copy()
+aggregated_results_4corr.drop(['recovery_time_range', 'recovery_time_range_str'], axis=1, inplace=True)
+```
+
+## Sensitivity Analysis [(5) Correlate]{.nord-light}
+
+<br>
+
+And now we can correlate!
+
+```python
+correlation_matrix = aggregated_results_4corr.corr()
+peak_infected_correlations = correlation_matrix["peak_infected"].drop(
+    ["peak_infected", "RunId"]
+)
+```
+
+<br>
+
+It's common to visualize the results with a bar chart, but I prefer to compare the correlations using the same line comparison plots we used for model comparison in the module on generative network modelling. To create it, we'll create a dict with the parameter names and correlations.
+
+```python
+for_plotting = {}
+for parameter, correlation in zip(peak_infected_correlations.index, peak_infected_correlations.values):
+    for_plotting[parameter] = round(correlation, 4)
+
+plot_line_comparison(
+    for_plotting,
+    xrange=(0,1), # all positive correlations
+    print_decimals=True,
+    title="",
+    xlabel='\nCorrelations between model parameters and peak infection.',
+    filename="media/sir_correlations_params_peak_infection.png"
+)
+```
+
+## Sensitivity Analysis [(6) Interpret]{.nord-light}
+
+<br><br>
+
+![Correlations between model parameters and peak infection proportion.](media/sir_correlations_params_peak_infection.png){width="100%" #fig-sir_correlations_params_peak_infection}
+
+
+
+## Sensitivity Analysis [(7) Prepare the data]{.nord-light}<br>[Time to Peak Proportion Infected]{.small-text}
+
+
+<br>
+
+We have to do a bit more data prep.
+
+- Group the data by `RunId` and find the step with the maximum number of infections for each run
+- Extract the relevant columns: `RunId`, `Step` (time to peak), and `Infected` (peak infections)
+- Merge with the original parameter data
+
+After this, `time_to_peak_merged` will contain the data on time to peak infection along with the parameters used in each run.
+
+<br>
+
+```python
+time_to_peak = results_df.loc[results_df.groupby("RunId")["Infected"].idxmax()]
+time_to_peak = time_to_peak[["RunId", "Step", "Infected"]].rename(
+    columns={"Step": "time_to_peak", "Infected": "peak_infected"}
+)
+
+time_to_peak_merged = pd.merge(time_to_peak, aggregated_results, on="RunId")
+```
+
+## Sensitivity Analysis [(8) Plot and (9) Interpret]{.nord-light}<br>[Time to Peak Proportion Infected]{.small-text}
+
+
+<br>
+
+```python
+fig, axes = plt.subplots(2, 2, figsize=(16, 12), sharey=True)
+
+# Infection rate
+sns.boxplot(ax=axes[0, 0], x="infection_rate", y="time_to_peak", data=time_to_peak_merged)
+axes[0, 0].set_title("\n(a) Time to Peak Infection vs. Infection Rate", loc="left")
+axes[0, 0].set_xlabel("\nInfection Rate")
+axes[0, 0].set_ylabel("Time to Peak Infection\n")
+
+# Recovery time range
+sns.boxplot(ax=axes[0, 1], x="recovery_time_range_str", y="time_to_peak", data=time_to_peak_merged)
+axes[0, 1].set_title("\n(b) Time to Peak Infection vs. Recovery Time Range", loc="left")
+axes[0, 1].set_xlabel("\nRecovery Time Range")
+axes[0, 1].set_ylabel("Time to Peak Infection\n")
+
+# Max agent step size
+sns.boxplot(ax=axes[1, 0], x="max_agent_step_size", y="time_to_peak", data=time_to_peak_merged)
+axes[1, 0].set_title("\n(c) Time to Peak Infection vs. Max Agent Step Size", loc="left")
+axes[1, 0].set_xlabel("\nMax Agent Step Size")
+axes[1, 0].set_ylabel("Time to Peak Infection\n")
+
+# Initial infections
+sns.boxplot(ax=axes[1, 1], x="n_initial_infections", y="time_to_peak", data=time_to_peak_merged)
+axes[1, 1].set_title("\n(d) Time to Peak Infection vs. Initial Infections", loc="left")
+axes[1, 1].set_xlabel("\nInitial Infections")
+axes[1, 1].set_ylabel("Time to Peak Infection\n")
+
+plt.tight_layout()
+plt.savefig("media/sir_time_to_peak_analysis.png", dpi=300)
+```
+
+## Sensitivity Analysis [(8) Plot and (9) Interpret]{.nord-light}<br>[Time to Peak Proportion Infected]{.small-text}
+
+
+![Sensitivity plot for our SIR model parameters and time to peak proportion infected across all model runs.](media/sir_time_to_peak_analysis.png){width="50%" #fig-sir_time_to_peak_analysis}
+
+##
+
+<br><br><br>
+
+:::: {.columns}
+::: {.column width="55%"}
+There is much more we could do here,<br>**but let's move on to a different example.**
+:::
+::: {.column width="45%"}
+:::
+::::
+
+
+<!-- {{< include _day-5-mesa-bcm.qmd >}} -->
+
+# [Social Learning, Influence, and]{.small-text}<br>Opinion Dynamics
+
+## Opinion Dynamics
+
+<br><br>
+
+:::: {.columns}
+::: {.column width="25%"}
+#### Central Questions
+
+$\longrightarrow$
+:::
+
+::: {.column width="5%"}
+:::
+
+::: {.column width="70%"}
+How do opinions form, cluster, and change in populations? How do populations reach opinion consensus, polarization, or fragmentation? What are the key drivers of formation, clustering, change, as well as population-level consensus, polarization, or fragmentation? What are the roles played by: the structure and dynamics of multi-layer social networks; disinformation and propaganda; echo chambers and filter bubbles; agent cognition, emotion, and identity, etc.? How do we best model diversity and heterogenous populations?
+
+<br>
+
+[**Bounded Confidence Models (BCE)**]{.large-text}
+
+BCMs simulate opinion evolution in a continuous opinion space. People interact and influence each other if their opinions are within a certain threshold ($\epsilon$).
+
+- Agents have continuous opinions (e.g., -1 to 1).
+- A Confidence Bound ($\epsilon$) determines the range within which agents are influenced by others.
+- In interactions, agents adjust opinions if the difference between their opinion and their alter's opinion is within their confidence bound.
+- The outcome is typically opinion clusters indicating polarization, fragmentation, or consensus.
+:::
+::::
+
+::: {.notes}
+Opinion dynamics research is a key area in computational social science, focusing on how individuals' opinions are shaped and how these opinions influence group decisions.
+
+This research is especially relevant to understanding phenomena like political polarization, consensus formation in teams, and the spread of misinformation.
+
+In this part of the lecture, we'll explore one of the foundational models in opinion dynamics: the Bounded Confidence Model (BCM), which offers a way to understand how opinions evolve when individuals are influenced only by those with similar views.
+
+The Bounded Confidence Model was introduced as a way to simulate how people influence each other's opinions when they only engage with those who hold similar views.
+
+This model is particularly powerful for studying polarization, where society splits into groups with opposing opinions, and for understanding the conditions under which consensus can be reached.
+
+Let's break down the components of a Bounded Confidence Model:
+
+Agents: Each agent represents an individual with an opinion, typically modeled as a number between -1 and 1.
+
+Confidence Bound ($\epsilon$): This is a critical parameter. It represents how open an agent is to interacting with others. If another agent's opinion is within this bound, they will influence each other.
+
+Interaction: When two agents interact, they adjust their opinions towards each other. This models the idea of social influence, where people often adjust their views based on those they interact with.
+
+Outcome: Depending on the value of $\epsilon$ and the initial distribution of opinions, the model can result in different outcomes: the formation of distinct opinion clusters, complete polarization, or consensus.
+:::
+
+
+## {background-color="#F0F0F0"}
+
+:::: {.columns}
+::: {.column width="75%"}
+<div style="background-color: white; padding: 80px; width: 75%; height: 600px; overflow-y: scroll; border-radius: 10px; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);">
+
+### ODD Protocol for the Bounded Confidence Model (BCM)
+
+#### 1. **Overview**
+
+**Purpose of the Model**:
+
+The Bounded Confidence Model (BCM) simulates opinion dynamics in a continuous opinion space. It models how agents' opinions evolve over time through interactions with other agents within a predefined confidence bound ($\epsilon$). The model is used to study phenomena such as opinion polarization, consensus formation, and the effect of varying confidence bounds on these processes.
+
+**Entities, State Variables, and Scales**:
+
+- **Agents**: Each agent has an **opinion** represented as a continuous value between -1 and 1, an **epsilon** representing their confidence bound, a **max_agent_step_size** representing their movement capability in a spatial grid, a **pos_history** to track their spatial positions over time, and an **interactions** dictionary to record the frequency of interactions with other agents.
+- **Environment**: The agents are placed on a **MultiGrid** of size defined by **grid_width** and **grid_height**. The grid is toroidal (agents moving off one edge of the grid reappear on the opposite edge).
+- **Scale**: The model runs for a user-defined number of steps (**n_iterations**). The scale of opinions is continuous between -1 and 1.
+
+**Process Overview**:
+
+- Agents move to new positions on the grid based on their step size.
+- Agents interact with neighboring agents within their confidence bound ($\epsilon$), potentially updating their opinions.
+- The model tracks the evolution of opinions over time, and data is collected for further analysis.
+
+#### 2. **Design Concepts**
+
+**Basic Principles**:
+
+- **Bounded Confidence**: Agents only interact with others whose opinions differ by less than a threshold value, **$\epsilon$**. This models the idea that individuals are only influenced by those whose views are not too dissimilar from their own.
+- **Opinion Averaging**: When two agents interact within this bound, they adjust their opinions to the average of their own and the interacting agent's opinion.
+
+**Emergence**:
+
+- The emergence of opinion clusters, polarization, or consensus depending on the value of **$\epsilon$**.
+- The effect of varying confidence bounds on the structure and distribution of opinions across the agent population.
+
+**Adaptation**:
+
+- Agents adapt their opinions based on interactions with their neighbors if those neighbors fall within their confidence bound.
+
+**Objectives**:
+
+- The primary objective for the agents is to update their opinions through interactions. The model tracks how the average pairwise opinion similarity evolves over time.
+
+**Learning**:
+
+- Agents do not learn in a traditional sense, but they do update their opinions based on interactions.
+
+**Prediction**:
+
+- Agents do not explicitly predict future states but react to the current opinions of their neighbors within the confidence bound.
+
+**Sensing**:
+
+- Agents can sense the opinions of their immediate neighbors on the grid.
+
+**Interaction**:
+
+- Interaction occurs between agents occupying neighboring grid cells, where they compare opinions and possibly adjust their own.
+
+**Stochasticity**:
+
+- Agents' initial opinions are randomly assigned within the range [-1, 1].
+- Movement is stochastic, with agents choosing a random neighboring cell to move to in each step.
+
+**Collectives**:
+
+- No formal collective structures are defined, though clusters of agents with similar opinions may emerge naturally.
+
+**Observation**:
+
+- The model observes and records **Opinion** for each agent at each time step.
+- It also records a global measure, **Avg_Similarity**, which represents the average pairwise similarity of opinions across the population.
+
+#### 3. **Details**
+
+**Initialization**:
+
+- The model initializes with **N** agents, each placed randomly on a grid of size **grid_width x grid_height**.
+- Each agent's opinion is initialized as a random value between -1 and 1.
+- Agents are given a confidence bound, **$\epsilon$**, which defines their bounded confidence interval.
+
+**Input Data**:
+
+- The model can be initialized with parameters loaded from an external YAML file. The parameters typically include the number of agents, the grid size, the confidence bound (**$\epsilon$**), the maximum step size for agent movement, and the number of iterations.
+
+**Submodels**:
+
+- **BCMAgent**:
+
+- The agent's **step** method handles movement, interaction with neighbors, and opinion updating.
+
+- Each agent decides on a random new position within a certain range (defined by **max_agent_step_size**), then interacts with its neighbors within the confidence bound to potentially update its opinion.
+- **BoundedConfidenceModel**:
+
+- The **step** method handles the collection of data and agent activation for each time step.
+
+- The model includes a method to calculate the average similarity of opinions (**calculate_similarity**), which is used to observe the convergence of opinions across the population.
+
+### Execution of the Model
+
+- The model runs for a predefined number of iterations, during which agents move, interact, and update their opinions. Data is collected at each step for post-simulation analysis, allowing for the observation of opinion dynamics under varying conditions of bounded confidence (**$\epsilon$**).
+
+
+</div>
+:::
+
+::: {.column width="25%"}
+ODD Protocol for Bounded Confidence Model<br>$\longleftarrow$
+
+<br>
+
+![[Figure reproduced from @railsback2019agent.]{.nord-light}](media/odd.png){width="100%" .shadow-img}
+:::
+::::
+
+
+## Imports
+
+```python
+from mesa import Agent
+from mesa import Model
+from mesa.space import MultiGrid
+from mesa.time import RandomActivation
+from mesa.datacollection import DataCollector
+import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
+import numpy as np
+from pprint import pprint
+import yaml
+
+import icsspy
+icsspy.set_style()
+```
+
+## [(BCM)]{.lightgray} The Agent Class
+
+<br>
+
+```python
+class BCMAgent(Agent):
+    def __init__(self, unique_id, model, epsilon, max_agent_step_size=1):
+        super().__init__(unique_id, model)
+        self.opinion = self.random.uniform(-1, 1)  # Agent's opinion initialized between -1 and 1
+        self.epsilon = epsilon  # Confidence bound ($\epsilon$)
+        self.max_agent_step_size = max_agent_step_size  # Step size for movement
+        self.pos_history = []  # Track agent's position over time
+        self.interactions = {}  # Track interactions with a count
+
+    def step(self):
+        # Move to a random neighboring cell with the given step size
+        possible_moves = self.model.grid.get_neighborhood(self.pos, moore=True, include_center=False, radius=self.max_agent_step_size)
+        new_position = self.random.choice(possible_moves)
+        self.model.grid.move_agent(self, new_position)
+        self.pos_history.append(new_position)  # Record the new position
+
+        # Interact with neighbors within confidence bound
+        neighbors = self.model.grid.get_neighbors(self.pos, moore=True, include_center=False)
+        for neighbor in neighbors:
+            if abs(self.opinion - neighbor.opinion) <= self.epsilon:
+                # Update opinion if within confidence bound
+                self.opinion = (self.opinion + neighbor.opinion) / 2
+
+            # Record interactions
+            if neighbor.unique_id in self.interactions:
+                self.interactions[neighbor.unique_id] += 1
+            else:
+                self.interactions[neighbor.unique_id] = 1
+```
+
+
+## [(BCM)]{.lightgray} The Model Class
+
+<br>
+
+```python
+class BoundedConfidenceModel(Model):
+    def __init__(self, grid_width, grid_height, N, epsilon, max_agent_step_size=1, max_steps=1000, convergence_threshold=0.001):
+        super().__init__()
+        self.num_agents = N
+        self.grid = MultiGrid(grid_width, grid_height, True)
+        self.schedule = RandomActivation(self)
+        self.epsilon = epsilon
+        self.max_agent_step_size = max_agent_step_size
+        self.max_steps = max_steps
+        self.convergence_threshold = convergence_threshold
+
+        # Initialize step_count
+        self.step_count = 0  # This will track the number of steps taken
+
+        # Create agents
+        for i in range(self.num_agents):
+            step_size = max_agent_step_size if i % 2 == 0 else 1  # Half agents have large step size, half small
+            agent = BCMAgent(i, self, epsilon, max_agent_step_size=step_size)
+            self.grid.place_agent(agent, (self.random.randrange(self.grid.width),
+                                          self.random.randrange(self.grid.height)))
+            agent.pos_history.append(agent.pos)  # Initialize the position history with the starting position
+            self.schedule.add(agent)
+
+        self.datacollector = DataCollector(
+            agent_reporters={"Opinion": "opinion"},
+            model_reporters={"Avg_Similarity": self.calculate_similarity}
+        )
+
+    def calculate_similarity(self):
+        """Calculate average pairwise similarity in agent opinions."""
+        opinions = np.array([agent.opinion for agent in self.schedule.agents])
+        pairwise_diffs = np.abs(opinions[:, None] - opinions[None, :])
+        similarity = 1 - pairwise_diffs  # Similarity is inverse of difference
+        avg_similarity = np.mean(similarity)
+        return avg_similarity
+
+    def step(self):
+        self.datacollector.collect(self)
+        self.schedule.step()
+        self.step_count += 1
+
+        # Check stopping conditions
+        if self.check_convergence() or self.step_count >= self.max_steps:
+            self.running = False
+
+    def check_convergence(self):
+        """Check if the opinions have converged."""
+        opinions = np.array([agent.opinion for agent in self.schedule.agents])
+        max_diff = np.max(np.abs(opinions[:, None] - opinions[None, :]))
+        return max_diff < self.convergence_threshold
+```
+
+## [(BCM)]{.lightgray} Model Parameters
+
+<br>
+
+```python
+with open('_variables.yml', 'r') as file:
+    params = yaml.safe_load(file)
+
+model_params = params.get('bounded_confidence_model_1')
+pprint(model_params)
+```
+
+[{'N': 100,
+ 'epsilon': 0.5,
+ 'grid_height': 40,
+ 'grid_width': 40,
+ 'max_agent_step_size': 1,
+ 'n_iterations': 1500}]{.monospace}
+
+
+## Run the Model & Collect Data
+
+<br>
+
+:::: {.columns}
+::: {.column width="75%"}
+```python
+model = BoundedConfidenceModel(
+    grid_width=model_params['grid_width'],
+    grid_height=model_params['grid_height'],
+    N=model_params['N'],
+    epsilon=model_params['epsilon'],
+    max_agent_step_size=model_params['max_agent_step_size'],
+)
+
+for i in range(model_params['n_iterations']):
+    model.step()
+
+results = model.datacollector.get_agent_vars_dataframe().reset_index()
+results.head(10)
+```
+
+<!--
+```python
+#| echo: false
+from icsspy.utils import markdown_table
+md = markdown_table(results.sample(10), 'tables/_bcm_1.md')
+print(md)
+```
+ -->
+
+:::
+
+::: {.column width="25%"}
+{{< include tables/_bcm_1.md >}}
+:::
+::::
+
+
+
+## Plot Opinion Distributions
+
+<br>
+
+```python
+grouped = results.groupby('Step')
+
+plt.figure(figsize=(10, 6))
+
+for name, group in grouped:
+    sns.kdeplot(group['Opinion'], color='C0', alpha=0.2)
+
+plt.xlabel('\nOpinion')
+plt.ylabel('Density\n')
+title = "Bounded Confidence Model\n" + r"$\epsilon$" + f" = {model_params['epsilon']}\n"
+plt.title(title, loc='left')
+plt.grid(True)
+plt.savefig('media/bounded-confidence-opinion-distribution-evolution.png', dpi=300)
+```
+
+##
+
+![A collection of KDE plots showing the evolution of the opinion distribution at each time step in the model.](media/bounded-confidence-opinion-distribution-evolution.png){width="75%" #fig-bcmevo}
+
+## Plot Opinions Over Time
+
+<br>
+
+```python
+time_steps = results['Step']
+opinions = results['Opinion']
+title = "Bounded Confidence Model\n" + r"$\epsilon$" + f" = {model_params['epsilon']}\n"
+
+plt.figure(figsize=(12, 6))
+sc = plt.scatter(time_steps, opinions, c=opinions, cmap='coolwarm', alpha=0.5, s=10)
+cbar = plt.colorbar(sc)
+cbar.set_label('Opinion')
+plt.xlabel('Time (Steps)')
+plt.ylabel('Opinion')
+plt.title(title, loc='left')
+plt.xlim(time_steps.min(), time_steps.max())
+plt.ylim(-1.01, 1)
+plt.savefig('media/bounded_confidence_epsilon_one_run.png', dpi=300)
+```
+
+##
+
+![Three opinion clusters forming over time in a single run of a BCM with $\epsilon$ = 5. Note the center and two extremes.](media/bounded_confidence_epsilon_one_run.png){width="75%" #fig-bounded_confidence_epsilon_one_run}
+
+## Experimenting with $\epsilon$
+
+<br>
+
+Lets run the simulation with different $\epsilon$ values (e.g., -1 to 1 in steps) and collect the results in a DataFrame. The DataFrame will include an additional column to track the $\epsilon$ used in each run.
+
+```python
+def run_simulation_with_different_epsilons(model_params, epsilon_values):
+    all_results = []
+
+    for epsilon in epsilon_values:
+        model = BoundedConfidenceModel(
+            grid_width=model_params['grid_width'],
+            grid_height=model_params['grid_height'],
+            N=model_params['N'],
+            epsilon=epsilon,
+            max_agent_step_size=model_params['max_agent_step_size'],
+        )
+
+        for i in range(model_params['n_iterations']):
+            model.step()
+
+        epsilon_results = model.datacollector.get_agent_vars_dataframe().reset_index()
+        epsilon_results['Epsilon'] = epsilon  # Add epsilon to track different values
+        all_results.append(epsilon_results)
+
+    # Combine all results into a single DataFrame
+    combined_results = pd.concat(all_results, ignore_index=True)
+    return combined_results
+```
+
+Let's run models for the following values and plot the results.
+
+```python
+epsilon_values = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]
+epsilon_results = run_simulation_with_different_epsilons(
+    model_params, epsilon_values
+)
+
+epsilon_results.sample(10)
+```
+
+## Experimenting with $\epsilon$
+
+
+<!--
+```python
+#| echo: false
+from icsspy.utils import markdown_table
+md = markdown_table(epsilon_results.sample(10), 'tables/_bcm_2.md')
+print(md)
+```
+ -->
+
+{{< include tables/_bcm_2.md >}}
+
+
+<!--
+```python
+#| echo: false
+epsilon_results.info()
+epsilon_results.to_csv('output/bcm_epsilon_results.csv', index=False)
+```
+ -->
+
+## Experimenting with $\epsilon$
+
+<br>
+
+Let's create some subplots to compare runs for each of our $\epsilon$ values.
+
+```python
+grouped = epsilon_results.groupby('Epsilon')
+
+fig, axs = plt.subplots(
+    11, 1,
+    figsize=(12, 30),
+    sharex=True, sharey=True,
+    constrained_layout=True
+)
+
+for (epsilon, group), ax in zip(grouped, axs):
+    time_steps = group['Step']
+    opinions = group['Opinion']
+
+    sc = ax.scatter(
+        time_steps,
+        opinions,
+        c=opinions,
+        cmap='coolwarm',
+        alpha=0.5,
+        s=10
+    )
+
+    cbar = fig.colorbar(sc, ax=ax)
+    # cbar.set_label('Opinion')
+
+    ax.set_title(r"$\epsilon$" + f" = {epsilon}", loc='left')
+
+    ax.set_xlim(time_steps.min(), time_steps.max())
+    ax.set_ylim(-1.01, 1)
+
+# custom positions for shared x and y labels
+fig.text(
+    0.5, -0.01,
+    'Time (Steps)',
+    ha='center',
+    va='center',
+    fontsize=18
+)
+
+fig.text(
+    -0.01, 0.5,
+    'Opinion',
+    ha='center',
+    va='center',
+    rotation='vertical',
+    fontsize=18
+)
+
+plt.savefig('media/epsilon_comparison_one_run.png', dpi=300)
+```
+
+##
+
+![Results of a parameter sweep on $\epsilon$. Note tendencies towards fragmentation, polarization, and consensus at different $\epsilon$ values.](media/epsilon_comparison_one_run.png){width="100%" #fig-epsilon_comparison_one_run}
+
+
+<!-- {{< include _day-5-reduction-realism-tradeoffs.qmd >}} -->
+
+# Reduction & Realism
+
+#### Model Tradeoffs
+
+- all models **reduce**, but by how much?
+- tension between simple theoretical models on the one hand, and complex rich models on the other.
+    - Fine-grained vs. coarse-grained Models [[@bruch2015agent; @smaldino2023modeling]]{.nord-light}
+    - empirical data and calibration; Bayesian inference
+
+
+#### What's hot now?
+
+- more realistic and empirically-calibrated models of:
+    - agent cognition, emotion, identity, and decision-making
+    - network structure, population dynamics
+- more sophisticated modelling of stochastic dynamics
+- multiple opinions at once
+- external / exogenous factors
+
+
+<!-- CUTTING -- OUT OF TIME TO FINISH THIS AND IT'S A LOT ANYWAY -->
+<!-- _day-5-copenhagen-networks-study-sbm.qmd -->
+
+##
+
+That's all for now!
+
+
+# References
+
+##
