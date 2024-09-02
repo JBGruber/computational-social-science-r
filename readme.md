@@ -22,7 +22,6 @@ The Digital Revolution has produced unprecedented amounts of data that are relev
 | Day 3 | Computational Text Analysis                  |
 | Day 4 | Computational Network Analysis               |
 | Day 5 | Social Simulation & Agent-based Models       |
-| Day 6 | Project Work Day and Outlook                 |
 
 # Download the course material
 
