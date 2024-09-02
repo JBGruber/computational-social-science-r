@@ -914,40 +914,14 @@ conda activate gt
 #| echo: false
 # here I define a small function that checks for each package if it is already
 # install in the environment
-py_is_installed <- function(pkg, envname) {
-  pkgs_i <- reticulate::py_list_packages(envname = envname)
-  not_i <- setdiff(pkg, pkgs_i$package)
-  if (length(not_i) > 0) {
-    consent <- askYesNo(msg = paste(
-      "These packages are missing from your environment:",
-      toString(not_i),
-      ". Do you want to install them?"
-    ), default = TRUE)
-    if (isTRUE(consent)) {
-      if ("icsspy" %in% not_i) {
-        reticulate::py_install("git+https://github.com/mclevey/computational-social-science", 
-                               envname = envname, pip = TRUE)
-      }
-      not_i <- setdiff(not_i, "icsspy")
-      reticulate::conda_install(envname = envname, packages = not_i)
-    }
-  }
-}
-
-# these are the packages we need for this session
-pkgs <- c(
-  "mesa",
-  "matplotlib",
-  "numpy",
-  "pandas",
-  "yaml",
-  "networkx",
-  "seaborn",
-  "icsspy"
-)
-# and this is the environment we want to install them to
 envname <- "r-graph_tool"
-py_is_installed(pkgs, envname)
+if (!reticulate::condaenv_exists(envname)) {
+  stop("You haven't set up the environment yet. Check 'Reticulate setup' from day 4")
+}
+if (!"icsspy" %in% reticulate::py_list_packages(envname = envname)$package) {
+  reticulate::py_install("git+https://github.com/mclevey/computational-social-science", 
+                               envname = envname, pip = TRUE)
+}
 
 # now we can attach the environment to the session
 reticulate::use_condaenv(envname)
