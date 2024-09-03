@@ -1,0 +1,172 @@
+---
+title: "Exercises Day 3 - Obtaining data"
+format: html
+---
+
+1. The function below reproduces the plot from Duneier (2017). Replace the ghetto words and potentially time span with something else you are interested in and produce a new plot
+
+```{r}
+library(tidyverse)
+library(ngramr)
+ng  <- ngram(
+  phrases = c(overall = "ghetto", 
+              term1 = "(Warsaw ghetto) + (Jewish ghetto)", 
+              term2 = "(black ghetto) + (negro ghetto)"), 
+  year_start = 1920,
+  year_end = 1975,
+  smoothing = 0,
+  count = TRUE
+) |> 
+  group_by(Year) |> 
+  mutate(pct = Count / Count[Phrase == "ghetto"]) |> 
+  filter(Phrase != "ghetto")
+
+ggplot(ng, aes(x = Year, y = pct, colour = Phrase)) +
+  geom_line() +
+  theme(legend.position = "bottom")
+```
+
+2. The code below loads (and installs if necessary) a package containing the complete script transcription for The Office (US) television show. In a first step, I want you to break up the texts into its individual words to construct a "tidy" data frame for further analysis
+
+```{r}
+rlang::check_installed("schrute")
+theoffice <- schrute::theoffice
+library(tidytext)
+theoffice_tidy <- theoffice |> 
+  # Split texts into its individual words
+  
+```
+
+3. Now, I want to to come up with a dictionary to measure certain aspects of the show. I started already to guide you with the data structure we need.
+
+```{r}
+theoffice_dict <- tribble(
+  ~word, ~category,
+  "idiot", "insults",
+  "genius", "praise"
+)
+```
+
+4. Now we can apply this dictionary and count (hint: that's the function you need) how often the categories appear in a) words by a character; b) seasons.
+
+```{r}
+theoffice_tidy_eval <- theoffice_tidy |> 
+
+```
+
+5. Let's plot the results from the cetegory per season task
+
+```{r}
+theoffice_tidy_eval |> 
+  ??? |> 
+  ggplot(aes(x = ???, y = ???, fill = ???)) +
+  geom_col(position = "dodge")
+```
+
+6. Moving on to supervised learning. Let's say you want to build a model that can differentiate between the dialogue of the characters on a per episode level. What are the steps you need to perform?
+
+
+7. Make a recipe to perform step 1
+
+```{r}
+# first, let's collapse all dialogue per episode and character into one row
+theoffice_grouped_per_episode <- theoffice |> 
+  group_by(season, episode, character) |> 
+  summarise(text = paste(text, collapse = "\n")) |> 
+  # we only select the main case
+  filter(character %in% c(
+    "Dwight",
+    "Jim",
+    "Pam",
+    "Kevin",
+    "Angela",
+    "Phyllis",
+    "Stanley",
+    "Oscar",
+    "Andy",
+    "Kelly",
+    "Ryan",
+    "Michael",
+    "Creed",
+    "Meredith",
+    "Toby",
+    "Darryl",
+    "Erin",
+    "Gabe ",
+    "Jan",
+    "Nellie"
+  )) |> 
+  # some of the functions expect a factor
+  mutate(character = as.factor(character)) |> 
+  ungroup()
+
+
+library(textrecipes)
+theoffice_rec <- 
+```
+
+8. Now we can perform step 2
+
+```{r}
+library(tidymodels)
+set.seed(1)
+
+```
+
+9. Let's create a workflow that sets up Naive Bayes classification for the next step
+
+```{r}
+
+```
+
+10. Now we can perform step 3
+
+```{r}
+
+```
+
+11. Now we can perform step 4
+
+```{r}
+theoffice_prediction <- 
+```
+
+You can use the code below to evaluate the most important metrics.
+
+```{r}
+library(gt)
+my_metrics <- metric_set(accuracy, kap, precision, recall, f_meas)
+
+my_metrics(theoffice_prediction, truth = truth, estimate = estimate) |> 
+  # I use gt to make the table look a bit nicer, but it's optional
+  gt() |> 
+  data_color(
+    columns = .estimate,
+    fn = scales::col_numeric(
+      palette = c("red", "orange", "green"),
+      domain = c(0, 1)
+    )
+  )
+```
+
+12. Finally, let's have a look at this data using topic modelling. As a first step, let's create the document-feature matrix
+
+```{r}
+theoffice_dfm <-
+```
+
+13. Now we can calculate a topic model
+
+```{r seededlda}
+library(seededlda)
+k <- 5
+set.seed(2024) # Note, that we use `set.seed` to create reproducible results
+
+```
+
+14. Now, let's evaluate the topics by plotting the top words
+
+```{r}
+
+```
+

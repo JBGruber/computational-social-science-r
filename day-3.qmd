@@ -234,7 +234,7 @@ sentiment_dict <- bind_rows(
 sentiment_dict[c(1:5, 5660:5664), ]
 ```
 
-## Apllying dictionary
+## Applying dictionary
 
 We then go through all reviews and construct a sentiment score by looking up each word and adding up its score:
 
