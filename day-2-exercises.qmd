@@ -66,9 +66,13 @@ bullet_point_three_ordered
 library(tidyverse)
 library(rvest)
 # 1. Request & collect raw html
+html <- read_html("https://en.wikipedia.org/w/index.php?title=Opinion_polling_for_the_2024_United_Kingdom_general_election&oldid=1232286478")
 
 # 2. Parse
-                  
+opinion_table <- html |>
+  html_elements(".wikitable") |> 
+  html_table() |>                
+  pluck(1)                    
 ```
 
 
@@ -76,9 +80,25 @@ library(rvest)
 
 ```{r}
 # 3. Wrangle
+opinion_tidy <- opinion_table |> 
+  # remove first row
+  slice(-1) |> 
+  # transform to a long format
+  pivot_longer(cols = Con:Others, names_to = "party", values_to = "result") |> 
+  # remove other parties, as the table is not clear here
+  filter(party != "Others") |> 
+  # Extract percentages and dates from character columns
+  mutate(result_pct = as.numeric(str_extract(result, "\\d+(?=%)")),
+         date_clean = str_extract(Datesconducted, "\\d{1,2} [A-z]{3}"), # this grabs the first date only, which is enough
+         date = lubridate::dmy(paste(date_clean, 2024))) |> 
+  filter(!is.na(result_pct),
+         # some dates are parsed wrong and are in the future
+         date < "2024-07-03")
 
 # Plot!
-
+opinion_tidy |> 
+  ggplot(aes(x = date, y = result_pct, colour = party)) +
+  geom_line()
 ```
 
 4. For extracting text, `rvest` has two functions: `html_text` and `html_text2`. Explain the difference. You can test your explanation with the example html below.
@@ -94,6 +114,18 @@ html <- "<p>This is some text
   read_html()
 ```
 
+- You should almost always use `html_text2`, as the help page says (`?html_text2`)
+- `html_text2`, put briefly, extracts text as the browser would display it
+- `html_text`, retains the original line breaks and extra space in the raw html content, which is not what the users sees in the browser and so we are usually not interested in them
+- You can easily test that with:
+
+```{r}
+html_text(html)
+html_text2(html)
+```
+
+The superfluous line breaks and extra space from the html code is not displayed
+
 5. How could you convert the `links` object below so that it contains actual URLs?
 
 ```{r}
@@ -105,3 +137,22 @@ links <- c(
 )
 ```
 
+What you see here are relative links, which are often used by websites.
+They only work after adding the domain to the hyperlinks as well.
+In R there are a few different ways to do that:
+
+```{r}
+# base R
+paste("https://en.wikipedia.org", links, sep = "")
+
+# shorthand function for sep = "" setting
+paste0("https://en.wikipedia.org", links)
+
+# tidyverse/stringr alternative
+str_c("https://en.wikipedia.org", links)
+
+# glue alternative, which allows in-string substitution with an R object
+glue::glue("https://en.wikipedia.org{links}")
+```
+
+Note that you do not have to repeat the base URL, since all functions recycle "https://en.wikipedia.org" as often as there are instances in `links`. 
