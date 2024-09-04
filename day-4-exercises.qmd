@@ -8,11 +8,6 @@ Below, I load a dataset with starwars network data. It comes from <https://githu
 ![](http://evelinag.com/blog/2015/12-15-star-wars-social-network/starwars.png)
 
 ```{r}
-if (!rlang::is_installed("networkdata")) {
-  rlang::check_installed("remotes")
-  remotes::install_github("schochastics/networkdata")
-}
-library(networkdata)
 library(tidyverse)
 library(tidygraph)
 starwars_data <- jsonlite::fromJSON("https://raw.githubusercontent.com/evelinag/StarWars-social-network/master/networks/starwars-full-interactions-allCharacters-merged.json")
