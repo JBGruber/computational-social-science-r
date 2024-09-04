@@ -26,6 +26,29 @@ ggplot(ng, aes(x = Year, y = pct, colour = Phrase)) +
   theme(legend.position = "bottom")
 ```
 
+We can look for the different uses of hero, for example:
+
+```{r}
+ng  <- ngram(
+  phrases = c(overall = "hero", 
+              term1 = "super hero", 
+              term2 = "war hero",
+              term3 = "our hero",
+              term4 = "band hero"), 
+  year_start = 1920,
+  year_end = 2019,
+  smoothing = 0,
+  count = TRUE
+) |> 
+  group_by(Year) |> 
+  mutate(pct = Count / Count[Phrase == "hero"]) |> 
+  filter(Phrase != "hero")
+
+ggplot(ng, aes(x = Year, y = pct, colour = Phrase)) +
+  geom_line() +
+  theme(legend.position = "bottom")
+```
+
 2. The code below loads (and installs if necessary) a package containing the complete script transcription for The Office (US) television show. In a first step, I want you to break up the texts into its individual words to construct a "tidy" data frame for further analysis
 
 ```{r}
@@ -34,7 +57,7 @@ theoffice <- schrute::theoffice
 library(tidytext)
 theoffice_tidy <- theoffice |> 
   # Split texts into its individual words
-  
+  unnest_tokens(output = "word", input = "text", drop = FALSE)
 ```
 
 3. Now, I want to to come up with a dictionary to measure certain aspects of the show. I started already to guide you with the data structure we need.
@@ -43,7 +66,10 @@ theoffice_tidy <- theoffice |>
 theoffice_dict <- tribble(
   ~word, ~category,
   "idiot", "insults",
-  "genius", "praise"
+  "crazy", "insults",
+  "genius", "praise",
+  "brilliant", "praise",
+  "paper", "paper"
 )
 ```
 
@@ -51,20 +77,34 @@ theoffice_dict <- tribble(
 
 ```{r}
 theoffice_tidy_eval <- theoffice_tidy |> 
+  inner_join(theoffice_dict, by = "word")
 
+theoffice_tidy_eval |> 
+  count(character, category, sort = TRUE)
+
+theoffice_tidy_eval |> 
+  count(season, category, sort = TRUE)
 ```
 
 5. Let's plot the results from the cetegory per season task
 
 ```{r}
 theoffice_tidy_eval |> 
-  ??? |> 
-  ggplot(aes(x = ???, y = ???, fill = ???)) +
-  geom_col(position = "dodge")
+  count(season, category, sort = TRUE) |> 
+  ggplot(aes(x = as.factor(season), y = n, fill = category)) +
+  geom_col(position = "dodge") +
+  labs(x = NULL, y = NULL, title = "category hits per season")
 ```
 
 6. Moving on to supervised learning. Let's say you want to build a model that can differentiate between the dialogue of the characters on a per episode level. What are the steps you need to perform?
 
+```
+1. preprocessing the incoming text
+2. splitting the dataset into training and a test set (which is not included in the model and just used for validation)
+3. fitting (or training) the model 
+4. using the test set to compare predictions against the real values for validation
+5. (using the model on new documents)
+```
 
 7. Make a recipe to perform step 1
 
@@ -73,7 +113,7 @@ theoffice_tidy_eval |>
 theoffice_grouped_per_episode <- theoffice |> 
   group_by(season, episode, character) |> 
   summarise(text = paste(text, collapse = "\n")) |> 
-  # we only select the main case
+  # we only select the main cast
   filter(character %in% c(
     "Dwight",
     "Jim",
@@ -102,7 +142,13 @@ theoffice_grouped_per_episode <- theoffice |>
 
 
 library(textrecipes)
-theoffice_rec <- 
+theoffice_rec <- recipe(character ~ text, data = theoffice_grouped_per_episode) |>
+  # turn text into features/tokens/words
+  step_tokenize(all_predictors()) |>
+  # remove stopwords
+  step_stopwords(all_predictors(), language = "en") |> 
+  step_tokenfilter(all_predictors(), min_times = 3) |>
+  step_tf(all_predictors())
 ```
 
 8. Now we can perform step 2
@@ -110,25 +156,44 @@ theoffice_rec <-
 ```{r}
 library(tidymodels)
 set.seed(1)
-
+split <- initial_split(
+  data = theoffice_grouped_per_episode, 
+  prop = 3 / 4,   # the prop is the default, I just wanted to make that visible
+  strata = character  # this makes sure the prevalence of labels is still the same afterwards
+) 
+theoffice_train <- training(split)
+theoffice_test <- testing(split)
 ```
 
 9. Let's create a workflow that sets up Naive Bayes classification for the next step
 
 ```{r}
+library(discrim)
+nb_spec <- naive_Bayes() |>
+  set_mode("classification") |>
+  set_engine("naivebayes")
 
+theoffice__wf_nb <- workflow() |> 
+  add_recipe(theoffice_rec) |> 
+  add_model(nb_spec)
 ```
 
 10. Now we can perform step 3
 
 ```{r}
-
+model <- fit(theoffice__wf_nb, data = theoffice_train)
 ```
 
 11. Now we can perform step 4
 
 ```{r}
-theoffice_prediction <- 
+predict(model, new_data = theoffice_test)
+
+theoffice_prediction <- theoffice_test |> 
+  bind_cols(predict(model, new_data = theoffice_test)) |>
+  rename(truth = character, estimate = .pred_class)
+
+conf_mat(theoffice_prediction, truth, estimate)
 ```
 
 You can use the code below to evaluate the most important metrics.
@@ -149,10 +214,16 @@ my_metrics(theoffice_prediction, truth = truth, estimate = estimate) |>
   )
 ```
 
+- this model is really bad. But on the other hand: would you be able to tell who spoke the dialogue without any other knowledge? What I did here was ultimately silly, but the focus was on the code. SML works well in many cases predicting actually unknown entities.
+
 12. Finally, let's have a look at this data using topic modelling. As a first step, let's create the document-feature matrix
 
 ```{r}
-theoffice_dfm <-
+theoffice_dfm <- theoffice_tidy |> 
+  mutate(doc_id = paste0(season, "_", episode)) |> 
+  # we are counting the words in dialogue from each character per episode
+  count(doc_id, character, word) |> 
+  cast_dfm(document = doc_id, term = word, value = n)
 ```
 
 13. Now we can calculate a topic model
@@ -161,12 +232,38 @@ theoffice_dfm <-
 library(seededlda)
 k <- 5
 set.seed(2024) # Note, that we use `set.seed` to create reproducible results
-
+lda_model <- textmodel_lda(
+  theoffice_dfm,
+  k = k,              # the number of topics is chosen at random for demonstration purposes
+  max_iter = 200L,    # I would not usually recommend that few iterations, it's just so it runs quicker here
+  alpha = 50L / k,    # these are the default values in the package
+  beta = 0.1,
+  verbose = TRUE
+)
 ```
 
 14. Now, let's evaluate the topics by plotting the top words
 
 ```{r}
+word_probs_df <- lda_model$phi |>
+  as.data.frame() |># converting the matrix into a data.frame makes sure it plays nicely with the tidyverse
+  rownames_to_column("topic_label") |># the topic names/numbers are stored in the row.names, I move them to a column
+  mutate(topic_label = fct_inorder(topic_label)) |># turn to factor to maintain the correct order
+  pivot_longer(-topic_label, names_to = "word", values_to = "phi")
 
+topic_topwords_plot <- word_probs_df |># turn to long for plotting
+  group_by(topic_label) |># using group_by and slice_max, we keep only the top 10 values from each topic_label
+  slice_max(order_by = phi, n = 15) |>
+  # using reorder_within does some magic for a nicer plot
+  mutate(word = tidytext::reorder_within(word, by = phi, within = topic_label)) |>
+  # from here on, we just make a bar plot with facets
+  ggplot(aes(x = phi, y = word, fill = topic_label)) +                               
+  geom_col() +
+  tidytext::scale_y_reordered() +
+  facet_wrap(~topic_label, ncol = 2, scales = "free_y")
+topic_topwords_plot
 ```
 
+- none of these topics make particular sense.
+- What I would do next is to clean out more words since most of the words that pop up in the topics are frequently occuring stopwords with little meaning
+- We might also look at a different unit of analysis and group text together. We could for example look at each line of dialogueinstead of all from a specific character per episode.
