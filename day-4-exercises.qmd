@@ -1,0 +1,59 @@
+---
+title: "Exercises Day 3 - Obtaining data"
+format: html
+---
+
+Below, I load a dataset with starwars network data. It comes from <https://github.com/evelinag/StarWars-social-network> and some results on network analysis are written up in <http://evelinag.com/blog/2015/12-15-star-wars-social-network>. We can use the data to repeat some of the steps we learned in the lecture.
+
+![](http://evelinag.com/blog/2015/12-15-star-wars-social-network/starwars.png)
+
+```{r}
+if (!rlang::is_installed("networkdata")) {
+  rlang::check_installed("remotes")
+  remotes::install_github("schochastics/networkdata")
+}
+library(networkdata)
+library(tidyverse)
+library(tidygraph)
+starwars_data <- jsonlite::fromJSON("https://raw.githubusercontent.com/evelinag/StarWars-social-network/master/networks/starwars-full-interactions-allCharacters-merged.json")
+
+starwars_edges <- starwars_data$links |> 
+  rename(from = source, to = target, weight = value) |> 
+  # make it 1-based numbering
+  mutate(from = from + 1,
+         to = to + 1)
+
+starwars_nodes <- starwars_data$nodes |> 
+  select(-colour) |> 
+  rename(n_scenes = value)
+
+starwars_graph <- tbl_graph(nodes = starwars_nodes, edges = starwars_edges)
+```
+
+1. Print the object and describe how the data is stored
+
+2. Inspect the nodes and edges of this network using `View()`
+
+3. Look at the data describing CHEWBACCA
+
+4. Check who has the most edges with anyone else in the data
+
+5. In dplyr, we have a dataset called starwars. Add the information about each character to the nodes data
+
+6. We want to sort people in the graph by height and add a new variable on who is the tallest, second tallest and so on
+
+7. Let's see what the most common species are in the data
+
+8. Visualise the graph using the species to colour the nodes
+
+```{r}
+library(ggraph)
+```
+
+9. Change the plot layout to a) circle, b) mds and c) star
+
+10. Change the edge weight to reflect the number of interactions between characters and the nodes size to show how often a character appeared
+
+11. Use the Louvain and Leiden algorithms to recognise communities and add the group membership of each node to the node data
+
+12. Now plot the network again using a) the Louvain grouping and b) the Leiden grouping as node colours
