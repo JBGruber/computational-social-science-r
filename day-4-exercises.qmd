@@ -22,33 +22,143 @@ starwars_nodes <- starwars_data$nodes |>
   select(-colour) |> 
   rename(n_scenes = value)
 
-starwars_graph <- tbl_graph(nodes = starwars_nodes, edges = starwars_edges)
+starwars_graph <- tbl_graph(nodes = starwars_nodes, edges = starwars_edges, directed = FALSE)
 ```
 
 1. Print the object and describe how the data is stored
 
+```{r}
+starwars_graph 
+# Or explicitly call print
+print(starwars_graph)
+```
+
 2. Inspect the nodes and edges of this network using `View()`
+
+```{r}
+starwars_graph |> 
+  activate("edges") |> 
+  as_tibble() |> 
+  View()
+
+starwars_graph |> 
+  activate("nodes") |> 
+  as_tibble() |> 
+  View()
+```
 
 3. Look at the data describing CHEWBACCA
 
+```{r}
+starwars_graph2 <- starwars_graph |> 
+  activate("edges") 
+
+starwars_graph2 |> 
+  activate("nodes") |> 
+  filter(name == "CHEWBACCA")
+```
+
 4. Check who has the most edges with anyone else in the data
+
+```{r}
+starwars_graph_new <- starwars_graph |> 
+  activate("nodes") |> 
+  mutate(id = row_number())
+
+starwars_graph_new_nodes <- starwars_graph_new |> 
+  as_tibble()
+
+tbl1 <- starwars_graph_new |> 
+  activate(edges) |> 
+  as_tibble() |> 
+  count(from, sort = TRUE) |> 
+  left_join(starwars_graph_new_nodes, by = c("from" = "id")) |> 
+  rename(edge_id = from)
+
+tbl2 <- starwars_graph_new |> 
+  activate(edges) |> 
+  as_tibble() |> 
+  count(to, sort = TRUE)  |> 
+  left_join(starwars_graph_new_nodes, by = c("to" = "id")) |>
+  rename(edge_id = to)
+
+edge_count <- bind_rows(tbl1, tbl2) |> 
+  group_by(edge_id) |> 
+  summarise(n = sum(n))
+```
 
 5. In dplyr, we have a dataset called starwars. Add the information about each character to the nodes data
 
-6. We want to sort people in the graph by height and add a new variable on who is the tallest, second tallest and so on
+```{r}
+starwars_graph_chr <- starwars_graph |> 
+  activate("nodes") |> 
+  mutate(name = tools::toTitleCase(tolower(name))) |> 
+  left_join(dplyr::starwars, by = c("name" = "name"))
+```
+
+6. We want to sort people in the graph by height and add a new variable on who is the tallest, second tallest and so on (hint: you can rank values with `rank()`)
+
+```{r}
+starwars_height <- starwars %>%
+  arrange(desc(height)) %>%               # Sort by height in descending order
+  mutate(rank = row_number(),             # Add a rank based on height
+         rank_label = case_when(          # Create a descriptive rank label
+           rank == 1 ~ "Tallest",
+           rank == 2 ~ "Second Tallest",
+           rank == 3 ~ "Third Tallest",
+           TRUE ~ paste0(rank, "th Tallest")
+         ))
+View(starwars_height)
+
+starwars_graph_chr |> 
+  activate("nodes") |> 
+  arrange(desc(height)) |> 
+  mutate(rank = rank(-height))
+```
+
 
 7. Let's see what the most common species are in the data
+
+```{r}
+starwars_graph_chr |> 
+  as_tibble() |> 
+  count(species, sort = TRUE)
+```
+
 
 8. Visualise the graph using the species to colour the nodes
 
 ```{r}
 library(ggraph)
+starwars_graph_chr |> 
+  ggraph() +
+  geom_node_point() +
+  geom_edge_link(alpha = 0.15)
 ```
 
 9. Change the plot layout to a) circle, b) mds and c) star
 
+```{r}
+starwars_graph_chr |> 
+  ggraph(layout = "star") +
+  geom_node_point() +
+  geom_edge_link(alpha = 0.15)
+```
+
+
 10. Change the edge weight to reflect the number of interactions between characters and the nodes size to show how often a character appeared
+
+```{r}
+starwars_graph_chr |> 
+  ggraph(layout = "mds") +
+  geom_node_point(aes(size = n_scenes)) +
+  geom_edge_link(aes(edge_alpha = weight)) +
+  geom_node_label(aes(label = ifelse(n_scenes > 60, name, NA)))
+```
+
 
 11. Use the Louvain and Leiden algorithms to recognise communities and add the group membership of each node to the node data
 
 12. Now plot the network again using a) the Louvain grouping and b) the Leiden grouping as node colours
+
+
