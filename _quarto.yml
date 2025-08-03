@@ -1,0 +1,54 @@
+project:
+  type: website
+  output-dir: docs
+  render:
+    - "*.qmd"
+    - "!*exercises.qmd"
+    - "!*readme.qmd"
+
+website:
+  title: "Introduction to Computational Social Science with R"
+  description: "GESIS Fall Seminar 2025 - Dr Johannes B. Gruber"
+
+  navbar:
+    title: "CSS with R"
+    left:
+      - text: "Home"
+        file: index.qmd
+      - text: "Course Materials"
+        menu:
+          - text: "Day 1: Introduction to CSS"
+            file: day-1.qmd
+          - text: "Day 2: Obtaining Data"
+            file: day-2.qmd
+          - text: "Day 3: Computational Text Analysis"
+            file: day-3.qmd
+          - text: "Day 4: Computational Network Analysis"
+            file: day-4.qmd
+    right:
+      - icon: github
+        href: https://github.com/JBGruber/computational-social-science-r
+        aria-label: GitHub
+
+  sidebar:
+    - title: "Course Schedule"
+      contents:
+        - index.qmd
+        - section: "Daily Sessions"
+          contents:
+            - day-1.qmd
+            - day-2.qmd
+            - day-3.qmd
+            - day-4.qmd
+
+execute:
+  freeze: auto
+
+format:
+  html:
+    theme: cosmo
+    css: custom.scss
+    toc: true
+    toc-depth: 3
+    code-copy: true
+    code-overflow: wrap

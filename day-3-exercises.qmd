@@ -1,5 +1,5 @@
 ---
-title: "Exercises Day 3 - Obtaining data"
+title: "Exercises Day 3 - Computational Text Analysis"
 format: html
 ---
 
@@ -18,7 +18,7 @@ ng  <- ngram(
   count = TRUE
 ) |> 
   group_by(Year) |> 
-  mutate(pct = Count / Count[Phrase == "ghetto"]) |> 
+  mutate(pct = Frequency / Frequency[Phrase == "ghetto"]) |> 
   filter(Phrase != "ghetto")
 
 ggplot(ng, aes(x = Year, y = pct, colour = Phrase)) +
@@ -41,7 +41,7 @@ ng  <- ngram(
   count = TRUE
 ) |> 
   group_by(Year) |> 
-  mutate(pct = Count / Count[Phrase == "hero"]) |> 
+  mutate(pct = Frequency / Frequency[Phrase == "hero"]) |> 
   filter(Phrase != "hero")
 
 ggplot(ng, aes(x = Year, y = pct, colour = Phrase)) +

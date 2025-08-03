@@ -1,0 +1,71 @@
+---
+title: "Introduction to Computational Social Science with R"
+subtitle: "GESIS Fall Seminar 2025"
+author:
+  - name: Johannes B. Gruber
+    affiliations:
+      - name: GESIS
+  - name: John McLevey
+    affiliations:
+      - name: University of Waterloo
+format: 
+  html:
+    toc: false
+---
+
+## Welcome to the Course
+
+This is the course material for the GESIS Fall Seminar in Computational Social Science 2024 course [Introduction to Computational Social Science with R](https://training.gesis.org/?site=pDetails&child=full&pID=0x5BF8A4FD062A4262BB2477F11CC54752&subID=0xEF372D66C5804143A89FCEC3A074558C), 01.09 - 05.09.2025.
+
+## Course Description
+
+The Digital Revolution has produced unprecedented amounts of data that are relevant for researchers in the social sciences, from online surveys to social media user data, travel and access data, and digital or digitized text data. How can these masses of raw data be turned into understanding, insight, and knowledge?
+
+The goal of this course is to introduce you to Computational Social Science with R, a powerful programming language that offers a wide variety of tools, used by journalists, data scientists and researchers alike. Unlike many introductions to programming, e.g., in computer science, the focus of this course is on how to explore, obtain, wrangle, visualize, model, and communicate data to address challenges in social science.
+
+## Course Schedule
+
+| Day | Session | Materials |
+|-----|---------|-----------|
+| Day 1 | Introduction to Computational Social Science | [Slides](day-1.html) |
+| Day 2 | Obtaining Data | [Slides](day-2.html) |
+| Day 3 | Computational Text Analysis | [Slides](day-3.html) |
+| Day 4 | Computational Network Analysis | [Slides](day-4.html) |
+| Day 5 | Social Simulation & Agent-based Models | Coming Soon |
+
+## Quick Start
+
+### Required Software
+
+Before starting the course, please install:
+
+- [R](https://cran.r-project.org/) (version 4.1.0+)
+- An IDE, preferably [RStudio Desktop](https://posit.co/download/rstudio-desktop/)
+- [Quarto](https://quarto.org/docs/get-started/)
+
+### Download Course Materials
+
+Clone this repository using RStudio:
+
+1. Create a new project (top left corner)
+2. Select "Version Control" → "Git"
+3. Use URL: `https://github.com/JBGruber/computational-social-science-r.git`
+
+### Install Required Packages
+
+After cloning, install all required R packages:
+
+```r
+if (!requireNamespace("rlang", quietly = TRUE)) install.packages("rlang", dependencies = TRUE)
+rlang::check_installed("attachment")
+rlang::check_installed("remotes")
+rlang::check_installed(attachment::att_from_qmds(path = ".", recursive = TRUE))
+```
+
+## Navigation
+
+Use the navigation bar above or the sidebar to access different course materials. Each day's content includes both theoretical background and practical exercises.
+
+---
+
+*Course by [Dr Johannes B. Gruber](https://www.johannesbgruber.eu/) & [Dr John McLevey](https://www.johnmclevey.com/) • [GitHub Repository](https://github.com/JBGruber/computational-social-science-r)*

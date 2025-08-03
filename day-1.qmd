@@ -4,7 +4,7 @@ subtitle: "[**Module 01**]{.kn-pink} [GESIS Fall Seminar \"Introduction to Compu
 author:
   - name: Johannes B. Gruber
     affiliations:
-      - name: VU Amsterdam
+      - name: GESIS
   - name: John McLevey
     affiliations:
       - name: University of Waterloo
@@ -48,7 +48,7 @@ bibliography: references.bib
 | Day 2  | Obtaining Data                               |
 | Day 3  | Computational Text Analysis                  |
 | Day 4  | Computational Network Analysis               |
-| Day 5  | Social Simulation & Agent-based Models       |
+| Day 5  | Large Language Models in the Social Sciences |
 
 : Course Schedule {.striped .hover}
 
@@ -262,7 +262,7 @@ Part of tutorial: @robinson_david_text_2016
 
 ## Sentiment analysis
 
-```{r}
+```{r lexicon_nrc}
 #| echo: false
 #| out.width: "90%"
 #| out.height: "90%"

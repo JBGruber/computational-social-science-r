@@ -7,7 +7,7 @@ author:
       - name: University of Waterloo
   - name: Johannes B. Gruber
     affiliations:
-      - name: VU Amsterdam
+      - name: GESIS
 format:
   revealjs:
     theme: [default, custom.scss]
@@ -50,7 +50,7 @@ bibliography: references.bib
 | Day 2  | Obtaining Data                               |
 | Day 3  | Computational Text Analysis                  |
 | **Day 4**  | **Computational Network Analysis**               |
-| Day 5  | Social Simulation & Agent-based Models       |
+| Day 5  | Large Language Models in the Social Sciences |
 
 : Course Schedule {.striped .hover}
 

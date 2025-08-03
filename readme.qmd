@@ -1,6 +1,6 @@
 ---
 title: "Introduction to Computational Social Science with R"
-subtitle: "GESIS Fall Seminar in Computational Social Science 2024"
+subtitle: "GESIS Fall Seminar in Computational Social Science"
 author: "[Dr Johannes B. Gruber](https://www.johannesbgruber.eu/)"
 format:
   gfm:
@@ -11,7 +11,7 @@ execute:
   eval: false
 ---
 
-This is the course material for the GESIS Fall Seminar in Computational Social Science 2024 course [Introduction to Computational Social Science with R ](https://training.gesis.org/?site=pDetails&child=full&pID=0x6C2F9D88EDAD43D197A2F284BAA9B007&subID=0x5236DF24115A4DABBA25118B4A81384D), Friday 30 August-–Friday 5 September 2024.
+This is the course material for the GESIS Fall Seminar in Computational Social Science 2025 course [Introduction to Computational Social Science with R ](https://training.gesis.org/?site=pDetails&child=full&pID=0x6C2F9D88EDAD43D197A2F284BAA9B007&subID=0x5236DF24115A4DABBA25118B4A81384D), Monday 1 September-–Friday 5 September 2025.
 
 # Course description
 
@@ -26,7 +26,7 @@ The Digital Revolution has produced unprecedented amounts of data that are relev
 | Day 2  | Obtaining Data                               |
 | Day 3  | Computational Text Analysis                  |
 | Day 4  | Computational Network Analysis               |
-| Day 5  | Social Simulation & Agent-based Models       |
+| Day 5  | Large Language Models in the Social Sciences |
 
 
 # Download the course material
@@ -78,7 +78,8 @@ You will be asked if you want to install missing packages, so pay attention to t
 if (!requireNamespace("rlang", quietly = TRUE)) install.packages("rlang", dependencies = TRUE)
 rlang::check_installed("attachment")
 rlang::check_installed("remotes")
-rlang::check_installed(attachment::att_from_qmds(path = ".", recursive = TRUE))
+rlang::check_installed(attachment::att_from_qmds(path = ".", recursive = TRUE), 
+                       action = \(pkgs, ...) install.packages("rlang", dependencies = c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")))
 ```
 
 # render the slides

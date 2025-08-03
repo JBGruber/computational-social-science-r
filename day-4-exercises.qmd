@@ -1,5 +1,5 @@
 ---
-title: "Exercises Day 3 - Obtaining data"
+title: "Exercises Day 4 - Generative Network Analysis"
 format: html
 ---
 

@@ -29,3 +29,6 @@ data/polblogs_tbl_new_grouped.graphml
 data/polblogs.zip
 *.pdf
 topicsmodel_topwords.xlsx
+misc/
+media/token_comparison_viz.html
+media/token_comparison_viz(1).html

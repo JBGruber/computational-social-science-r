@@ -4,7 +4,7 @@ subtitle: "[**Module 03**]{.kn-pink} [GESIS Fall Seminar \"Introduction to Compu
 author:
   - name: Johannes B. Gruber
     affiliations:
-      - name: VU Amsterdam
+      - name: GESIS
   - name: John McLevey
     affiliations:
       - name: University of Waterloo
@@ -47,7 +47,7 @@ bibliography: references.bib
 | Day 2  | Obtaining Data                               |
 | **Day 3**  | **Computational Text Analysis**                  |
 | Day 4  | Computational Network Analysis               |
-| Day 5  | Social Simulation & Agent-based Models       |
+| Day 5  | Large Language Models in the Social Sciences |
 
 : Course Schedule {.striped .hover}
 
@@ -170,7 +170,7 @@ ng  <- ngram(
   count = TRUE
 ) |> 
   group_by(Year) |> 
-  mutate(pct = Count / Count[Phrase == "ghetto"]) |> 
+  mutate(pct = Frequency / Frequency[Phrase == "ghetto"]) |> 
   filter(Phrase != "ghetto")
 
 ggplot(ng, aes(x = Year, y = pct, colour = Phrase)) +
@@ -942,7 +942,7 @@ bundestag18_dtm_tidy |>
 
 A popular way of exploring topics and how they overlap is the `LDAvis` package.
 
-```{r eval=FALSE}
+```{r}
 #| eval: false
 library(LDAvis)
 json <- createJSON(phi = lda_model$phi,
@@ -1109,165 +1109,5 @@ models_df_metrics |>
 :::
 ::::
 
-# generative Large Language Models
-## What are generative Large Language Models?
-
-- taken embeddings to the next level with enormous amounts of training data
-- trained to predict/generate next word in a conversation
-- surprisingly good at emulating humans to complete tasks
-- can be controlled with natural language
-- have become very popular through ChatGPT (a browser interface to communicate with OpenAI's GPT models)
-
-## Why use gLLMs? 
-
-::: {.smaller}
-- cheaper to use 💸 (experts > research assistants > crowd workers > gLLMs)
-- more accurate 🧠 (experts > research assistants > gLLMs > crowd workers)
-- better at annotating complex categories 🤔 (human* > gLLM > LLM > SML)
-- can use contextual information (human* > gLLM > LLM > ❌ SML)
-- multilingual^[but still need of validation!]
-- easier* to use: plain English prompting
-
-[e.g., @GilardiChatGPT2023;@Heseltine_Hohenberg_2023;@Zhong_ChatGPT_2023;@Törnberg_2023]
-:::
-
-## How do you work with them - simple example
-
-:::: {.columns}
-
-::: {.column width="50%"}
-### OpenAI GPT via API
-
-```{r askgpt}
-library(askgpt)
-options(askgpt_chat_model = "gpt-4")
-askgpt("What are generative Large Language Models?")
-```
-:::
-
-::: {.column .fragment width="50%"}
-### Running model locally through Ollama
-
-```{r rollama}
-library(rollama)
-query("What are generative Large Language Models?", model = "llama3:8b")
-```
-:::
-
-::::
-
-
-## Classification--Strategies
-
-::: {style="font-size: 50%;"}
-| Prompting Strategy | Example Structure |
-|--------------------|--------------------|
-| Zero-shot          | `{"role": "system", "content": "Text of System Prompt"},`<br>`{"role": "user", "content": "(Text to classify) + classification question"}` |
-| One-shot           | `{"role": "system", "content": "Text of System Prompt"},`<br>`{"role": "user", "content": "(Example text) + classification question"},`<br>`{"role": "assistant", "content": "Example classification"},`<br>`{"role": "user", "content": "(Text to classify) + classification question"}` |
-| Few-shot           | `{"role": "system", "content": "Text of System Prompt"},`<br>`{"role": "user", "content": "(Example text) + classification question"},`<br>`{"role": "assistant", "content": "Example classification"},`<br>`{"role": "user", "content": "(Example text) + classification question"},`<br>`{"role": "assistant", "content": "Example classification"},`<br>`. . . more examples`<br>`{"role": "user", "content": "(Text to classify) + classification question"}` |
-| Chain-of-Thought   | `{"role": "system", "content": "Text of System Prompt"},`<br>`{"role": "user", "content": "(Text to classify) + reasoning question"},`<br>`{"role": "assistant", "content": "Reasoning"},`<br>`{"role": "user", "content": "Classification question"}` |
-: Prompting strategies {.striped .hover tbl-colwidths="[15,85]"}
-:::
-
-See: @weber2023evaluation
-
-
-## Classification--Zero-shot {.scrollable}
-
-```{r}
-q <- tribble(
-  ~role,    ~content,
-  "system", "You assign texts into categories. Answer with just the correct category.",
-  "user",   "text: the pizza tastes terrible\ncategories: positive, neutral, negative"
-)
-query(q)
-```
-
-## Classification--One-shot {.scrollable}
-
-```{r}
-q <- tribble(
-  ~role,    ~content,
-  "system", "You assign texts into categories. Answer with just the correct category.",
-  "user", "text: the pizza tastes terrible\ncategories: positive, neutral, negative",
-  "assistant", "Category: Negative",
-  "user", "text: the service is great\ncategories: positive, neutral, negative"
-)
-query(q)
-#> 
-#> ── Answer ────────────────────────────────────────────────────────
-#> Category: Positive
-```
-
-:::{.fragment}
-
-Neat effect: change the output structure
-
-```{r}
-#| classes: .fragement .fade-in
-#| code-line-numbers: "5,11"
-q <- tribble(
-  ~role,    ~content,
-  "system", "You assign texts into categories. Answer with just the correct category.",
-  "user", "text: the pizza tastes terrible\ncategories: positive, neutral, negative",
-  "assistant", "{'Category':'Negative','Confidence':'100%','Important':'terrible'}",
-  "user", "text: the service is great\ncategories: positive, neutral, negative"
-)
-answer <- query(q)
-#> 
-#> ── Answer ────────────────────────────────────────────────────────
-#> {'Category':'Positive','Confidence':'100%','Important':'great'}
-```
-
-:::
-
-## Classification--Few-shot
-
-```{r}
-q <- tribble(
-  ~role,    ~content,
-  "system", "You assign texts into categories. Answer with just the correct category.",
-  "user", "text: the pizza tastes terrible\ncategories: positive, neutral, negative",
-  "assistant", "Category: Negative",
-  "user", "text: the service is great\ncategories: positive, neutral, negative",
-  "assistant", "Category: Positive",
-  "user", "text: I once came here with my wife\ncategories: positive, neutral, negative",
-  "assistant", "Category: Neutral",
-  "user", "text: I once ate pizza\ncategories: positive, neutral, negative"
-)
-query(q)
-```
-
-## Classification--Chain-of-Thought {.scrollable}
-
-```{r}
-#| code-line-numbers: "4,11-12"
-q_thought <- tribble(
-  ~role,    ~content,
-  "system", "You assign texts into categories. ",
-  "user",   "text: the pizza tastes terrible\nWhat sentiment (positive, neutral, or negative) would you assign? Provide some thoughts."
-)
-output_thought <- query(q_thought)
-```
-
-:::{.fragment}
-Now we can use these thoughts in classification
-
-```{r}
-#| echo: true
-#| eval: false
-#| code-line-numbers: "6"
-q <- tribble(
-  ~role,    ~content,
-  "system", "You assign texts into categories. ",
-  "user",   "text: the pizza tastes terrible\nWhat sentiment (positive, neutral, or negative) would you assign? Provide some thoughts.",
-  "assistant", pluck(output_thought, "message", "content"),
-  "user",   "Now answer with just the correct category (positive, neutral, or negative)"
-)
-query(q)
-```
-
-Full tutorial (including how to batch annotate): <https://jbgruber.github.io/rollama/articles/annotation.html>
-:::
 
 # References
