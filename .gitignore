@@ -18,7 +18,6 @@ media/machine-learning.pptx
 media/machine-learning.pdf
 media/layouts/
 cookies.txt
-day*.html
 data/bundestag18_speeches.rds
 data/Corp_Bundestag_V2.rds
 data/imdb.rds
@@ -32,3 +31,5 @@ topicsmodel_topwords.xlsx
 misc/
 media/token_comparison_viz.html
 media/token_comparison_viz(1).html
+data/glove.6B.50d.txt
+media/trust.png
