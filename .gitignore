@@ -33,3 +33,7 @@ media/token_comparison_viz.html
 media/token_comparison_viz(1).html
 data/glove.6B.50d.txt
 media/trust.png
+data/glove.6B.zip
+data/final_pred.rds
+data/reviews_embeddings.rds
+data/sentiment_bench.rds

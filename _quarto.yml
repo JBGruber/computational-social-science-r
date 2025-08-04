@@ -40,6 +40,7 @@ website:
             - day-2.qmd
             - day-3.qmd
             - day-4.qmd
+            - day-5.qmd
 
 execute:
   freeze: auto

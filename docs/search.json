@@ -37,7 +37,7 @@
     "href": "index.html#course-schedule",
     "title": "Introduction to Computational Social Science with R",
     "section": "Course Schedule",
-    "text": "Course Schedule\n\n\n\nDay\nSession\nMaterials\n\n\n\n\nDay 1\nIntroduction to Computational Social Science\nSlides\n\n\nDay 2\nObtaining Data\nSlides\n\n\nDay 3\nComputational Text Analysis\nSlides\n\n\nDay 4\nComputational Network Analysis\nSlides\n\n\nDay 5\nSocial Simulation & Agent-based Models\nComing Soon",
+    "text": "Course Schedule\n\n\n\nDay\nSession\nMaterials\n\n\n\n\nDay 1\nIntroduction to Computational Social Science\nSlides\n\n\nDay 2\nObtaining Data\nSlides\n\n\nDay 3\nComputational Text Analysis\nSlides\n\n\nDay 4\nComputational Network Analysis\nSlides\n\n\nDay 5\nSocial Simulation & Agent-based Models\nSlides",
     "crumbs": [
       "Home",
       "Introduction to Computational Social Science with R"
@@ -2038,377 +2038,587 @@
     "href": "day-5.html#schedule-gesis-fall-seminar-in-computational-social-science",
     "title": "Large Language Models in the Social Sciences",
     "section": "Schedule: GESIS Fall Seminar in Computational Social Science",
-    "text": "Schedule: GESIS Fall Seminar in Computational Social Science\n\nCourse Schedule\n\n\ntime\nSession\n\n\n\n\nDay 1\nIntroduction to Computational Social Science\n\n\nDay 2\nObtaining Data\n\n\nDay 3\nComputational Text Analysis\n\n\nDay 4\nComputational Network Analysis\n\n\nDay 5\nLarge Language Models in the Social Sciences"
+    "text": "Schedule: GESIS Fall Seminar in Computational Social Science\n\nCourse Schedule\n\n\ntime\nSession\n\n\n\n\nDay 1\nIntroduction to Computational Social Science\n\n\nDay 2\nObtaining Data\n\n\nDay 3\nComputational Text Analysis\n\n\nDay 4\nComputational Network Analysis\n\n\nDay 5\nLarge Language Models in the Social Sciences",
+    "crumbs": [
+      "Home",
+      "Daily Sessions",
+      "Large Language Models in the Social Sciences"
+    ]
   },
   {
     "objectID": "day-5.html#the-plan-for-today",
     "href": "day-5.html#the-plan-for-today",
     "title": "Large Language Models in the Social Sciences",
     "section": "The Plan for Today",
-    "text": "The Plan for Today\n\n\n\nOverview: what are LLMs (are they artificial intelligence?)\nHow we can use them for Computational Social Science Research\nHow can we use them for Computational Text Analysis\n\n\n Maximalfocus via unsplash.com"
+    "text": "The Plan for Today\n\n\n\nOverview: what are LLMs (are they artificial intelligence?)\nHow we can use them for Computational Social Science Research\nHow can we use them for Computational Text Analysis\n\n\n Maximalfocus via unsplash.com",
+    "crumbs": [
+      "Home",
+      "Daily Sessions",
+      "Large Language Models in the Social Sciences"
+    ]
   },
   {
     "objectID": "day-5.html#what-are-language-models",
     "href": "day-5.html#what-are-language-models",
     "title": "Large Language Models in the Social Sciences",
     "section": "What are language models?",
-    "text": "What are language models?\n\n\nLanguage models are statistical representations of natural language that use machine learning to model relationships between words\nExamples:\n\nSupervised Machine Learning Models: text input → category output\nUnsupervised Machine Learning Models: relationship between words and words; words and texts; texts and texts\nMachine Translation Models: input text → output text\nGenerative Language Models: fill in blanks in a sentence"
+    "text": "What are language models?\n\n\nLanguage models are statistical representations of natural language that use machine learning to model relationships between words\nExamples:\n\nSupervised Machine Learning Models: text input → category output\nUnsupervised Machine Learning Models: relationship between words and words; words and texts; texts and texts\nMachine Translation Models: input text → output text\nGenerative Language Models: fill in blanks in a sentence",
+    "crumbs": [
+      "Home",
+      "Daily Sessions",
+      "Large Language Models in the Social Sciences"
+    ]
   },
   {
     "objectID": "day-5.html#timeline-language-models",
     "href": "day-5.html#timeline-language-models",
     "title": "Large Language Models in the Social Sciences",
     "section": "Timeline language models",
-    "text": "Timeline language models\n\nSource: Computational Analysis of Digital Communication"
+    "text": "Timeline language models\n\nSource: Computational Analysis of Digital Communication",
+    "crumbs": [
+      "Home",
+      "Daily Sessions",
+      "Large Language Models in the Social Sciences"
+    ]
   },
   {
     "objectID": "day-5.html#timeline-language-models-1",
     "href": "day-5.html#timeline-language-models-1",
     "title": "Large Language Models in the Social Sciences",
     "section": "Timeline language models",
-    "text": "Timeline language models\n\nSource: Computational Analysis of Digital Communication"
+    "text": "Timeline language models\n\nSource: Computational Analysis of Digital Communication",
+    "crumbs": [
+      "Home",
+      "Daily Sessions",
+      "Large Language Models in the Social Sciences"
+    ]
   },
   {
     "objectID": "day-5.html#the-initial-problem-of-text-analysis",
     "href": "day-5.html#the-initial-problem-of-text-analysis",
     "title": "Large Language Models in the Social Sciences",
     "section": "The initial problem of text analysis",
-    "text": "The initial problem of text analysis\n\nComputers don’t read text, they only can deal with numbers\nFor this reason, so far, we tokenized our texts (e.g., in words) and summarized their frequency across texts to create a document-feature matrix within the bag-of-words model\n\n\n\nSuch a text representation has some issues:\n\nTreats words as equally important (→ requires removal of noise, stopwords…)\nIgnores word order and context\nResults in a sparse matrix (→ computationally expensive)"
+    "text": "The initial problem of text analysis\n\nComputers don’t read text, they only can deal with numbers\nFor this reason, so far, we tokenized our texts (e.g., in words) and summarized their frequency across texts to create a document-feature matrix within the bag-of-words model\n\n\n\nSuch a text representation has some issues:\n\nTreats words as equally important (→ requires removal of noise, stopwords…)\nIgnores word order and context\nResults in a sparse matrix (→ computationally expensive)",
+    "crumbs": [
+      "Home",
+      "Daily Sessions",
+      "Large Language Models in the Social Sciences"
+    ]
   },
   {
     "objectID": "day-5.html#alternative-map-words-into-a-vector-space",
     "href": "day-5.html#alternative-map-words-into-a-vector-space",
     "title": "Large Language Models in the Social Sciences",
     "section": "Alternative: Map words into a vector space",
-    "text": "Alternative: Map words into a vector space"
+    "text": "Alternative: Map words into a vector space",
+    "crumbs": [
+      "Home",
+      "Daily Sessions",
+      "Large Language Models in the Social Sciences"
+    ]
   },
   {
     "objectID": "day-5.html#what-are-embeddings",
     "href": "day-5.html#what-are-embeddings",
     "title": "Large Language Models in the Social Sciences",
     "section": "What are embeddings?",
-    "text": "What are embeddings?\n\nfeatuere-topic-matrix\n\n\nThis case makes it pretty clear:\n\nmice belong into the first topic\ncats belong into the second\ndogs belong into the third topic"
+    "text": "What are embeddings?\n\nfeatuere-topic-matrix\n\n\nThis case makes it pretty clear:\n\nmice belong into the first topic\ncats belong into the second\ndogs belong into the third topic",
+    "crumbs": [
+      "Home",
+      "Daily Sessions",
+      "Large Language Models in the Social Sciences"
+    ]
   },
   {
     "objectID": "day-5.html#pre-trained-word-embeddings-glove",
     "href": "day-5.html#pre-trained-word-embeddings-glove",
     "title": "Large Language Models in the Social Sciences",
     "section": "Pre-trained Word embeddings: GloVe",
-    "text": "Pre-trained Word embeddings: GloVe\n\nlibrary(tidyverse)\nget_glove &lt;- function(dir, dimensions = c(50, 100, 200, 300)) {\n  # don't re-download files if present\n  file &lt;- file.path(dir, paste0(\"glove.6B.\", dimensions, \"d.txt\"))\n  cache_loc &lt;- file.path(dir, \"glove.6B.zip\")\n  if (!file.exists(file)) {    \n    if (!file.exists(cache_loc)) {\n      curl::curl_download(\"http://nlp.stanford.edu/data/glove.6B.zip\", cache_loc, quiet = FALSE)\n    }\n    unzip(cache_loc, files = basename(file), exdir = \"data\")\n  }\n  # read and process glove vectors\n  df &lt;- data.table::fread(file, quote = \"\")\n  colnames(df) &lt;- c(\"term\", paste0(\"dim\", seq_len(ncol(df) - 1)))\n  return(df)\n}\nglove_df &lt;- get_glove(\"data\", dimensions = 50)\n\n# 10 highest scoring words on dimension 1\nglove_df |&gt; \n  arrange(-dim1) |&gt; \n  select(1:10)\n\n                   term    dim1     dim2      dim3      dim4      dim5\n                 &lt;char&gt;   &lt;num&gt;    &lt;num&gt;     &lt;num&gt;     &lt;num&gt;     &lt;num&gt;\n     1:  tenebrionoidea  3.8740 -1.55920  0.473120 -0.013167  1.125800\n     2:           ncrna  3.3151  0.60170  0.055274 -0.465000  0.359460\n     3:      polychaete  3.2700 -1.88100  0.038965 -0.166440  0.851370\n     4:          power8  3.2423 -1.27580 -0.212460 -0.836850 -1.374200\n     5:     mordellidae  3.2301  0.29574 -2.045200  0.444990 -0.036238\n    ---                                                               \n399996:      boys/girls -3.9372  0.81523  0.552410  0.881190 -0.644110\n399997:             fbh -4.0441  1.72390 -0.474970 -1.766100 -1.229500\n399998: a-international -4.1408  1.28900 -1.648300 -1.939000 -0.212160\n399999:      music/club -4.4444  0.12984 -1.458600  0.930280 -1.027600\n400000:           20003 -5.4593  0.89405 -0.297340  2.285400  0.022355\n             dim6     dim7     dim8      dim9\n            &lt;num&gt;    &lt;num&gt;    &lt;num&gt;     &lt;num&gt;\n     1: -0.109480  0.21668  1.95260  1.480300\n     2:  0.585580  1.29810 -0.79698  0.724100\n     3: -0.545460  0.75165 -1.37070 -0.239080\n     4:  0.146710  0.47105 -0.78261 -0.387710\n     5: -0.666850 -1.22810  0.19445  1.300100\n    ---                                      \n399996: -2.449200  0.45895 -0.68265  1.352400\n399997: -0.874810 -0.82598 -0.89391  0.080878\n399998:  0.026836  0.50593  1.58940 -0.223550\n399999: -0.525320  0.99353  0.67030  0.429440\n400000: -1.597400 -1.16780 -1.90480  0.027555"
+    "text": "Pre-trained Word embeddings: GloVe\n\nlibrary(tidyverse)\nget_glove &lt;- function(dir, dimensions = c(50, 100, 200, 300)) {\n  # don't re-download files if present\n  file &lt;- file.path(dir, paste0(\"glove.6B.\", dimensions, \"d.txt\"))\n  cache_loc &lt;- file.path(dir, \"glove.6B.zip\")\n  if (!file.exists(file)) {    \n    if (!file.exists(cache_loc)) {\n      curl::curl_download(\"http://nlp.stanford.edu/data/glove.6B.zip\", cache_loc, quiet = FALSE)\n    }\n    unzip(cache_loc, files = basename(file), exdir = \"data\")\n  }\n  # read and process glove vectors\n  df &lt;- data.table::fread(file, quote = \"\")\n  colnames(df) &lt;- c(\"term\", paste0(\"dim\", seq_len(ncol(df) - 1)))\n  return(df)\n}\nglove_df &lt;- get_glove(\"data\", dimensions = 50)\n\n# 10 highest scoring words on dimension 1\nglove_df |&gt; \n  arrange(-dim1) |&gt; \n  select(1:10)\n\n                   term    dim1     dim2      dim3      dim4      dim5\n                 &lt;char&gt;   &lt;num&gt;    &lt;num&gt;     &lt;num&gt;     &lt;num&gt;     &lt;num&gt;\n     1:  tenebrionoidea  3.8740 -1.55920  0.473120 -0.013167  1.125800\n     2:           ncrna  3.3151  0.60170  0.055274 -0.465000  0.359460\n     3:      polychaete  3.2700 -1.88100  0.038965 -0.166440  0.851370\n     4:          power8  3.2423 -1.27580 -0.212460 -0.836850 -1.374200\n     5:     mordellidae  3.2301  0.29574 -2.045200  0.444990 -0.036238\n    ---                                                               \n399996:      boys/girls -3.9372  0.81523  0.552410  0.881190 -0.644110\n399997:             fbh -4.0441  1.72390 -0.474970 -1.766100 -1.229500\n399998: a-international -4.1408  1.28900 -1.648300 -1.939000 -0.212160\n399999:      music/club -4.4444  0.12984 -1.458600  0.930280 -1.027600\n400000:           20003 -5.4593  0.89405 -0.297340  2.285400  0.022355\n             dim6     dim7     dim8      dim9\n            &lt;num&gt;    &lt;num&gt;    &lt;num&gt;     &lt;num&gt;\n     1: -0.109480  0.21668  1.95260  1.480300\n     2:  0.585580  1.29810 -0.79698  0.724100\n     3: -0.545460  0.75165 -1.37070 -0.239080\n     4:  0.146710  0.47105 -0.78261 -0.387710\n     5: -0.666850 -1.22810  0.19445  1.300100\n    ---                                      \n399996: -2.449200  0.45895 -0.68265  1.352400\n399997: -0.874810 -0.82598 -0.89391  0.080878\n399998:  0.026836  0.50593  1.58940 -0.223550\n399999: -0.525320  0.99353  0.67030  0.429440\n400000: -1.597400 -1.16780 -1.90480  0.027555",
+    "crumbs": [
+      "Home",
+      "Daily Sessions",
+      "Large Language Models in the Social Sciences"
+    ]
   },
   {
     "objectID": "day-5.html#similarities-between-words",
     "href": "day-5.html#similarities-between-words",
     "title": "Large Language Models in the Social Sciences",
     "section": "Similarities between words",
-    "text": "Similarities between words\nAs mentioned before, we can compute similarity scores for word pairs:\n\nnearest_neighbors &lt;- function(tbl, word, n = 15) {\n  \n  comp &lt;- filter(tbl, term == word)\n  if (nrow(comp) &lt; 1L) stop(\"word \", word, \" not found in the embedding\")\n  sim &lt;- proxyC::simil(as.matrix(select(comp, -term)), \n                       as.matrix(select(tbl, -term)), \n                       method = \"cosine\") # calculate cosine similarity\n  # get the n highest values plus original word\n  rank &lt;- order(as.numeric(sim), decreasing = TRUE)[seq_len(n + 1)] \n  tibble(\n    word = word,\n    neighbor = tbl$term[rank],\n    similarity = sim[1, rank]\n  )\n}\n\n\n\n\nnearest_neighbors(glove_df, \"basketball\")\n\n\n\n# A tibble: 16 × 3\n   word       neighbor     similarity\n   &lt;chr&gt;      &lt;chr&gt;             &lt;dbl&gt;\n 1 basketball basketball        1    \n 2 basketball football          0.879\n 3 basketball hockey            0.862\n 4 basketball baseball          0.861\n 5 basketball nba               0.838\n 6 basketball soccer            0.820\n 7 basketball athletics         0.805\n 8 basketball softball          0.800\n 9 basketball junior            0.799\n10 basketball coaching          0.797\n11 basketball coached           0.792\n12 basketball team              0.789\n13 basketball varsity           0.779\n14 basketball ncaa              0.771\n15 basketball championship      0.770\n16 basketball volleyball        0.768\n\n\n\n\nnearest_neighbors(glove_df, \"netherlands\")\n\n\n\n# A tibble: 16 × 3\n   word        neighbor    similarity\n   &lt;chr&gt;       &lt;chr&gt;            &lt;dbl&gt;\n 1 netherlands netherlands      1    \n 2 netherlands belgium          0.893\n 3 netherlands switzerland      0.821\n 4 netherlands denmark          0.809\n 5 netherlands france           0.789\n 6 netherlands sweden           0.787\n 7 netherlands dutch            0.782\n 8 netherlands germany          0.772\n 9 netherlands austria          0.764\n10 netherlands luxembourg       0.716\n11 netherlands holland          0.716\n12 netherlands spain            0.708\n13 netherlands britain          0.701\n14 netherlands canada           0.700\n15 netherlands amsterdam        0.698\n16 netherlands italy            0.693"
+    "text": "Similarities between words\nAs mentioned before, we can compute similarity scores for word pairs:\n\nnearest_neighbors &lt;- function(tbl, word, n = 15) {\n  \n  comp &lt;- filter(tbl, term == word)\n  if (nrow(comp) &lt; 1L) stop(\"word \", word, \" not found in the embedding\")\n  sim &lt;- proxyC::simil(as.matrix(select(comp, -term)), \n                       as.matrix(select(tbl, -term)), \n                       method = \"cosine\") # calculate cosine similarity\n  # get the n highest values plus original word\n  rank &lt;- order(as.numeric(sim), decreasing = TRUE)[seq_len(n + 1)] \n  tibble(\n    word = word,\n    neighbor = tbl$term[rank],\n    similarity = sim[1, rank]\n  )\n}\n\n\n\n\nnearest_neighbors(glove_df, \"basketball\")\n\n\n\n# A tibble: 16 × 3\n   word       neighbor     similarity\n   &lt;chr&gt;      &lt;chr&gt;             &lt;dbl&gt;\n 1 basketball basketball        1    \n 2 basketball football          0.879\n 3 basketball hockey            0.862\n 4 basketball baseball          0.861\n 5 basketball nba               0.838\n 6 basketball soccer            0.820\n 7 basketball athletics         0.805\n 8 basketball softball          0.800\n 9 basketball junior            0.799\n10 basketball coaching          0.797\n11 basketball coached           0.792\n12 basketball team              0.789\n13 basketball varsity           0.779\n14 basketball ncaa              0.771\n15 basketball championship      0.770\n16 basketball volleyball        0.768\n\n\n\n\nnearest_neighbors(glove_df, \"netherlands\")\n\n\n\n# A tibble: 16 × 3\n   word        neighbor    similarity\n   &lt;chr&gt;       &lt;chr&gt;            &lt;dbl&gt;\n 1 netherlands netherlands      1    \n 2 netherlands belgium          0.893\n 3 netherlands switzerland      0.821\n 4 netherlands denmark          0.809\n 5 netherlands france           0.789\n 6 netherlands sweden           0.787\n 7 netherlands dutch            0.782\n 8 netherlands germany          0.772\n 9 netherlands austria          0.764\n10 netherlands luxembourg       0.716\n11 netherlands holland          0.716\n12 netherlands spain            0.708\n13 netherlands britain          0.701\n14 netherlands canada           0.700\n15 netherlands amsterdam        0.698\n16 netherlands italy            0.693",
+    "crumbs": [
+      "Home",
+      "Daily Sessions",
+      "Large Language Models in the Social Sciences"
+    ]
   },
   {
     "objectID": "day-5.html#similarity-of-entire-sentences-or-texts",
     "href": "day-5.html#similarity-of-entire-sentences-or-texts",
     "title": "Large Language Models in the Social Sciences",
     "section": "Similarity of entire sentences or texts",
-    "text": "Similarity of entire sentences or texts\n\nBut we can also generalize word embeddings to entire sentences (or even texts):\n\nlibrary(rollama)\n\n# Example sentences\nmovies &lt;- tibble(sentences = c(\"This movie is great, I loved it.\", \n                               \"The film was fantastic, a real treat!\",\n                               \"I did not like this movie, it was not great.\",\n                               \"Today, I went to the cinema and watched a movie\",\n                               \"I had pizza for lunch.\"))\n                     \n# Get embeddings from a sentence transformer\nmovie_embeddings &lt;- embed_text(movies$sentences, model = \"nomic-embed-text\")\n\n# Each text has now 768 values\nmovie_embeddings \n\n# A tibble: 5 × 768\n     dim_1   dim_2 dim_3    dim_4  dim_5  dim_6  dim_7 dim_8  dim_9  dim_10 dim_11 dim_12 dim_13 dim_14 dim_15 dim_16\n     &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;\n1 -0.00342  0.312  -3.61  0.219    0.117 0.704  -0.512 0.722 -0.167  0.278   0.220   1.89  0.865  0.263  0.292  -1.41\n2  0.495    0.996  -4.24  0.0296  -0.783 0.488  -0.663 1.72   0.115 -0.0185  0.341   1.96  1.63   0.838  0.674  -1.36\n3 -0.138    0.365  -2.54 -0.00206 -0.896 2.38   -0.143 0.596 -0.252  0.0803 -0.379   2.31  1.04   0.481 -0.259  -1.54\n4 -0.877   -0.0805 -3.03 -0.671    0.739 0.647   0.242 0.797 -0.432 -0.459  -0.401   1.81  1.30   0.768  0.338  -1.87\n5  1.73     1.21   -3.22  0.155    0.168 0.0459 -1.05  0.911 -0.788 -0.904  -0.583   1.37  0.556  0.571 -0.550  -1.50\n# ℹ 752 more variables: dim_17 &lt;dbl&gt;, dim_18 &lt;dbl&gt;, dim_19 &lt;dbl&gt;, dim_20 &lt;dbl&gt;, dim_21 &lt;dbl&gt;, dim_22 &lt;dbl&gt;,\n#   dim_23 &lt;dbl&gt;, dim_24 &lt;dbl&gt;, dim_25 &lt;dbl&gt;, dim_26 &lt;dbl&gt;, dim_27 &lt;dbl&gt;, dim_28 &lt;dbl&gt;, dim_29 &lt;dbl&gt;, dim_30 &lt;dbl&gt;,\n#   dim_31 &lt;dbl&gt;, dim_32 &lt;dbl&gt;, dim_33 &lt;dbl&gt;, dim_34 &lt;dbl&gt;, dim_35 &lt;dbl&gt;, dim_36 &lt;dbl&gt;, dim_37 &lt;dbl&gt;, dim_38 &lt;dbl&gt;,\n#   dim_39 &lt;dbl&gt;, dim_40 &lt;dbl&gt;, dim_41 &lt;dbl&gt;, dim_42 &lt;dbl&gt;, dim_43 &lt;dbl&gt;, dim_44 &lt;dbl&gt;, dim_45 &lt;dbl&gt;, dim_46 &lt;dbl&gt;,\n#   dim_47 &lt;dbl&gt;, dim_48 &lt;dbl&gt;, dim_49 &lt;dbl&gt;, dim_50 &lt;dbl&gt;, dim_51 &lt;dbl&gt;, dim_52 &lt;dbl&gt;, dim_53 &lt;dbl&gt;, dim_54 &lt;dbl&gt;,\n#   dim_55 &lt;dbl&gt;, dim_56 &lt;dbl&gt;, dim_57 &lt;dbl&gt;, dim_58 &lt;dbl&gt;, dim_59 &lt;dbl&gt;, dim_60 &lt;dbl&gt;, dim_61 &lt;dbl&gt;, dim_62 &lt;dbl&gt;,\n#   dim_63 &lt;dbl&gt;, dim_64 &lt;dbl&gt;, dim_65 &lt;dbl&gt;, dim_66 &lt;dbl&gt;, dim_67 &lt;dbl&gt;, dim_68 &lt;dbl&gt;, dim_69 &lt;dbl&gt;, dim_70 &lt;dbl&gt;, …"
+    "text": "Similarity of entire sentences or texts\n\nBut we can also generalize word embeddings to entire sentences (or even texts):\n\nlibrary(rollama)\n\n# Example sentences\nmovies &lt;- tibble(sentences = c(\"This movie is great, I loved it.\", \n                               \"The film was fantastic, a real treat!\",\n                               \"I did not like this movie, it was not great.\",\n                               \"Today, I went to the cinema and watched a movie\",\n                               \"I had pizza for lunch.\"))\n                     \n# Get embeddings from a sentence transformer\nmovie_embeddings &lt;- embed_text(movies$sentences, model = \"nomic-embed-text\")\n\n# Each text has now 768 values\nmovie_embeddings \n\n# A tibble: 5 × 768\n     dim_1   dim_2 dim_3    dim_4  dim_5  dim_6  dim_7 dim_8  dim_9  dim_10 dim_11 dim_12 dim_13 dim_14 dim_15 dim_16\n     &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;\n1 -0.00342  0.312  -3.61  0.219    0.117 0.704  -0.512 0.722 -0.167  0.278   0.220   1.89  0.865  0.263  0.292  -1.41\n2  0.495    0.996  -4.24  0.0296  -0.783 0.488  -0.663 1.72   0.115 -0.0185  0.341   1.96  1.63   0.838  0.674  -1.36\n3 -0.138    0.365  -2.54 -0.00206 -0.896 2.38   -0.143 0.596 -0.252  0.0803 -0.379   2.31  1.04   0.481 -0.259  -1.54\n4 -0.877   -0.0805 -3.03 -0.671    0.739 0.647   0.242 0.797 -0.432 -0.459  -0.401   1.81  1.30   0.768  0.338  -1.87\n5  1.73     1.21   -3.22  0.155    0.168 0.0459 -1.05  0.911 -0.788 -0.904  -0.583   1.37  0.556  0.571 -0.550  -1.50\n# ℹ 752 more variables: dim_17 &lt;dbl&gt;, dim_18 &lt;dbl&gt;, dim_19 &lt;dbl&gt;, dim_20 &lt;dbl&gt;, dim_21 &lt;dbl&gt;, dim_22 &lt;dbl&gt;,\n#   dim_23 &lt;dbl&gt;, dim_24 &lt;dbl&gt;, dim_25 &lt;dbl&gt;, dim_26 &lt;dbl&gt;, dim_27 &lt;dbl&gt;, dim_28 &lt;dbl&gt;, dim_29 &lt;dbl&gt;, dim_30 &lt;dbl&gt;,\n#   dim_31 &lt;dbl&gt;, dim_32 &lt;dbl&gt;, dim_33 &lt;dbl&gt;, dim_34 &lt;dbl&gt;, dim_35 &lt;dbl&gt;, dim_36 &lt;dbl&gt;, dim_37 &lt;dbl&gt;, dim_38 &lt;dbl&gt;,\n#   dim_39 &lt;dbl&gt;, dim_40 &lt;dbl&gt;, dim_41 &lt;dbl&gt;, dim_42 &lt;dbl&gt;, dim_43 &lt;dbl&gt;, dim_44 &lt;dbl&gt;, dim_45 &lt;dbl&gt;, dim_46 &lt;dbl&gt;,\n#   dim_47 &lt;dbl&gt;, dim_48 &lt;dbl&gt;, dim_49 &lt;dbl&gt;, dim_50 &lt;dbl&gt;, dim_51 &lt;dbl&gt;, dim_52 &lt;dbl&gt;, dim_53 &lt;dbl&gt;, dim_54 &lt;dbl&gt;,\n#   dim_55 &lt;dbl&gt;, dim_56 &lt;dbl&gt;, dim_57 &lt;dbl&gt;, dim_58 &lt;dbl&gt;, dim_59 &lt;dbl&gt;, dim_60 &lt;dbl&gt;, dim_61 &lt;dbl&gt;, dim_62 &lt;dbl&gt;,\n#   dim_63 &lt;dbl&gt;, dim_64 &lt;dbl&gt;, dim_65 &lt;dbl&gt;, dim_66 &lt;dbl&gt;, dim_67 &lt;dbl&gt;, dim_68 &lt;dbl&gt;, dim_69 &lt;dbl&gt;, dim_70 &lt;dbl&gt;, …",
+    "crumbs": [
+      "Home",
+      "Daily Sessions",
+      "Large Language Models in the Social Sciences"
+    ]
   },
   {
     "objectID": "day-5.html#the-subtle-similarity-of-some-texts-in-the-example",
     "href": "day-5.html#the-subtle-similarity-of-some-texts-in-the-example",
     "title": "Large Language Models in the Social Sciences",
     "section": "The subtle similarity of some texts in the example",
-    "text": "The subtle similarity of some texts in the example\n\nWe can see that text 2 is most similar to text 1: Both express a very similar sentiment, just with different words (“great” ≈ “fantastic”; “I loved it” ≈ “A real treat”)\nText 2 is still similar to text 3 (after all it is about movies), but less so compared to text 1 (“fantastic” is the opposite of “not great”)\nText 4 still shares similarities (the context is the cinema/watching movies), but text 5 is very different as it doesn’t contain similar words and is not about similar things (except “I”).\n\n\nsim &lt;- proxyC::simil(as.matrix(movie_embeddings), as.matrix(movie_embeddings), method = \"cosine\")\ncolnames(sim) &lt;- paste0(\"movie\", 1:5)\ncbind(movies, as_tibble(as.matrix(sim)))\n\n                                        sentences    movie1    movie2    movie3    movie4    movie5\n1                This movie is great, I loved it. 1.0000000 0.7677149 0.7045830 0.6742787 0.4751774\n2           The film was fantastic, a real treat! 0.7677149 1.0000000 0.6025353 0.6898377 0.4936355\n3    I did not like this movie, it was not great. 0.7045830 0.6025353 1.0000000 0.6222216 0.4796419\n4 Today, I went to the cinema and watched a movie 0.6742787 0.6898377 0.6222216 1.0000000 0.5782976\n5                          I had pizza for lunch. 0.4751774 0.4936355 0.4796419 0.5782976 1.0000000"
+    "text": "The subtle similarity of some texts in the example\n\nWe can see that text 2 is most similar to text 1: Both express a very similar sentiment, just with different words (“great” ≈ “fantastic”; “I loved it” ≈ “A real treat”)\nText 2 is still similar to text 3 (after all it is about movies), but less so compared to text 1 (“fantastic” is the opposite of “not great”)\nText 4 still shares similarities (the context is the cinema/watching movies), but text 5 is very different as it doesn’t contain similar words and is not about similar things (except “I”).\n\n\nsim &lt;- proxyC::simil(as.matrix(movie_embeddings), as.matrix(movie_embeddings), method = \"cosine\")\ncolnames(sim) &lt;- paste0(\"movie\", 1:5)\ncbind(movies, as_tibble(as.matrix(sim)))\n\n                                        sentences    movie1    movie2    movie3    movie4    movie5\n1                This movie is great, I loved it. 1.0000000 0.7677149 0.7045830 0.6742787 0.4751774\n2           The film was fantastic, a real treat! 0.7677149 1.0000000 0.6025353 0.6898377 0.4936355\n3    I did not like this movie, it was not great. 0.7045830 0.6025353 1.0000000 0.6222216 0.4796419\n4 Today, I went to the cinema and watched a movie 0.6742787 0.6898377 0.6222216 1.0000000 0.5782976\n5                          I had pizza for lunch. 0.4751774 0.4936355 0.4796419 0.5782976 1.0000000",
+    "crumbs": [
+      "Home",
+      "Daily Sessions",
+      "Large Language Models in the Social Sciences"
+    ]
   },
   {
     "objectID": "day-5.html#from-sparse-to-dense-matrix-representation",
     "href": "day-5.html#from-sparse-to-dense-matrix-representation",
     "title": "Large Language Models in the Social Sciences",
     "section": "From Sparse to Dense Matrix Representation",
-    "text": "From Sparse to Dense Matrix Representation\n\nUsing embedding vectors instead of word frequencies further has the advantages of strongly reducing the dimensionality of the DTM: instead of (tens of) thousands of columns for each unique word we only need hundreds of columns for the embedding vectors (→ dense instead of sparse)\nThis means that further processing can be more efficient as fewer parameters need to be fit, or conversely that more complicated models can be used without blowing up the parameter space."
-  },
-  {
-    "objectID": "day-5.html#example-from-the-literature-gender-stereotypes",
-    "href": "day-5.html#example-from-the-literature-gender-stereotypes",
-    "title": "Large Language Models in the Social Sciences",
-    "section": "Example from the literature: Gender-Stereotypes",
-    "text": "Example from the literature: Gender-Stereotypes\n\nAndrich et al. (2023) examine stereotypical traits in portrayals of 1,095 U.S. politicians.\nAnalyzed 5 million U.S. news stories published from 2010 to 2020 to study gender-linked (feminine, masculine) and political (leadership, competence, integrity, empathy) traits\nMethodologically, they estimated word embeddings using the Continuous Bag of Words (CBOW) model, meaning that a target word (e.g., honest) is predicted from its context (e.g., Who thinks President Trump is [target word]?)\nBias can thus be identified if e.g., gender-neutral words (e.g., competent) are closer to words that represent one gender (e.g., donald_trump) than to words that represent the opposite gender (e.g., hillary_clinton)."
-  },
-  {
-    "objectID": "day-5.html#results",
-    "href": "day-5.html#results",
-    "title": "Large Language Models in the Social Sciences",
-    "section": "Results",
-    "text": "Results\n\n\n\n\n\n\n\n\n\n\n\nmodel\naccuracy\nprecision\nrecall\nf_meas\n\n\n\n\ndeepseek-r1:7b\n0.36\n0.59\n0.37\n0.23\n\n\nsmollm2:latest\n0.4\n0.27\n0.45\n0.34\n\n\ndeepseek-r1:8b\n0.51\n0.58\n0.55\n0.44\n\n\ndeepseek-r1:14b\n0.52\n0.61\n0.56\n0.45\n\n\ndeepseek-r1:1.5b\n0.4\n0.44\n0.42\n0.46\n\n\nllama3.2:3b-instruct-q8_0\n0.51\n0.5\n0.51\n0.49\n\n\nllama2:7b\n0.52\n0.51\n0.55\n0.49\n\n\ngemma:2b\n0.51\n0.5\n0.51\n0.5\n\n\nllama3.2:3b\n0.53\n0.54\n0.54\n0.51\n\n\ngemma:7b\n0.57\n0.64\n0.6\n0.54\n\n\nllama3:8b\n0.59\n0.58\n0.61\n0.57\n\n\nllama3.1:8b\n0.63\n0.64\n0.62\n0.63\n\n\nqwen2.5:7b\n0.64\n0.67\n0.63\n0.64\n\n\ngemma2:9b\n0.68\n0.71\n0.71\n0.67\n\n\nqwq:32b\n0.7\n0.72\n0.7\n0.71\n\n\nllama3.3:70b\n0.72\n0.72\n0.73\n0.73\n\n\n\n\n\n\n\n\nTable 1: Performance of the tested models for sentiment analysis on data from Atteveldt, Velden, and and (2021)"
+    "text": "From Sparse to Dense Matrix Representation\n\nUsing embedding vectors instead of word frequencies further has the advantages of strongly reducing the dimensionality of the DTM: instead of (tens of) thousands of columns for each unique word we only need hundreds of columns for the embedding vectors (→ dense instead of sparse)\nThis means that further processing can be more efficient as fewer parameters need to be fit, or conversely that more complicated models can be used without blowing up the parameter space.",
+    "crumbs": [
+      "Home",
+      "Daily Sessions",
+      "Large Language Models in the Social Sciences"
+    ]
   },
   {
     "objectID": "day-5.html#what-are-transformers",
     "href": "day-5.html#what-are-transformers",
     "title": "Large Language Models in the Social Sciences",
     "section": "What are transformers?",
-    "text": "What are transformers?\n\nUntil 2017, the state-of-the-art for natural language processing was using a deep neural network (e.g., recurrent neural networks, long short-term memory and gated recurrent neural networks)\nIn a preprint called “Attention is all you need” (Vaswani et al. 2017), published in 2017 and cited more than 95,000 times, the team of Google Brain introduced the so-called Transformer, a a neural network-type architecture that learns context and thus meaning by tracking relationships in sequential data like the words in this sentence.\nTransformer models apply an evolving set of mathematical techniques, called attention or self-attention, to detect subtle ways even distant data elements in a series influence and depend on each other."
+    "text": "What are transformers?\n\nUntil 2017, the state-of-the-art for natural language processing was using a deep neural network (e.g., recurrent neural networks, long short-term memory and gated recurrent neural networks)\nIn a preprint called “Attention is all you need” (Vaswani et al. 2017), published in 2017 and cited more than 95,000 times, the team of Google Brain introduced the so-called Transformer, a a neural network-type architecture that learns context and thus meaning by tracking relationships in sequential data like the words in this sentence.\nTransformer models apply an evolving set of mathematical techniques, called attention or self-attention, to detect subtle ways even distant data elements in a series influence and depend on each other.",
+    "crumbs": [
+      "Home",
+      "Daily Sessions",
+      "Large Language Models in the Social Sciences"
+    ]
   },
   {
     "objectID": "day-5.html#self-attention",
     "href": "day-5.html#self-attention",
     "title": "Large Language Models in the Social Sciences",
     "section": "Self-Attention",
-    "text": "Self-Attention\n\nIn general terms, self-attention works encodes how similar each word is to all the words in the sentence, including itself.\nOnce the similarities are calculated, they are used to determine how the transformers encodes each word."
+    "text": "Self-Attention\n\nIn general terms, self-attention works encodes how similar each word is to all the words in the sentence, including itself.\nOnce the similarities are calculated, they are used to determine how the transformers encodes each word.",
+    "crumbs": [
+      "Home",
+      "Daily Sessions",
+      "Large Language Models in the Social Sciences"
+    ]
   },
   {
     "objectID": "day-5.html#self-attention-1",
     "href": "day-5.html#self-attention-1",
     "title": "Large Language Models in the Social Sciences",
     "section": "Self-Attention",
-    "text": "Self-Attention\n\nIn general terms, self-attention works encodes how similar each word is to all the words in the sentence, including itself.\nOnce the similarities are calculated, they are used to determine how the transformers encodes each word."
+    "text": "Self-Attention\n\nIn general terms, self-attention works encodes how similar each word is to all the words in the sentence, including itself.\nOnce the similarities are calculated, they are used to determine how the transformers encodes each word.",
+    "crumbs": [
+      "Home",
+      "Daily Sessions",
+      "Large Language Models in the Social Sciences"
+    ]
   },
   {
     "objectID": "day-5.html#self-attention-2",
     "href": "day-5.html#self-attention-2",
     "title": "Large Language Models in the Social Sciences",
     "section": "Self-Attention",
-    "text": "Self-Attention\n\nIn general terms, self-attention works encodes how similar each word is to all the words in the sentence, including itself.\nOnce the similarities are calculated, they are used to determine how the transformers encodes each word."
+    "text": "Self-Attention\n\nIn general terms, self-attention works encodes how similar each word is to all the words in the sentence, including itself.\nOnce the similarities are calculated, they are used to determine how the transformers encodes each word.",
+    "crumbs": [
+      "Home",
+      "Daily Sessions",
+      "Large Language Models in the Social Sciences"
+    ]
   },
   {
     "objectID": "day-5.html#self-attention-3",
     "href": "day-5.html#self-attention-3",
     "title": "Large Language Models in the Social Sciences",
     "section": "Self-Attention",
-    "text": "Self-Attention\n\nIn general terms, self-attention works encodes how similar each word is to all the words in the sentence, including itself.\nOnce the similarities are calculated, they are used to determine how the transformers encodes each word."
-  },
-  {
-    "objectID": "day-5.html#self-attention-at-a-high-level",
-    "href": "day-5.html#self-attention-at-a-high-level",
-    "title": "Large Language Models in the Social Sciences",
-    "section": "Self-Attention at a High Level",
-    "text": "Self-Attention at a High Level\n\n\n\nAs the encoder processes each word (each position in the input sequence), self attention allows it to look at other positions in the input sequence for clues that can help lead to a better encoding for this word.\nOn the decoder side, the self-attention layer is only allowed to attend to earlier positions in the output sequence. This is done by masking future positions (setting them to -inf) before the softmax step in the self-attention calculation.\nThe actual architecture of this step is incredibly complex, so we keep it at that for now.\n\n\n\n\n\nSource: Vaswani et al. (2017)"
-  },
-  {
-    "objectID": "day-5.html#what-are-large-language-models-1",
-    "href": "day-5.html#what-are-large-language-models-1",
-    "title": "Large Language Models in the Social Sciences",
-    "section": "What are Large language models",
-    "text": "What are Large language models\n\n\n\nLarge language models are language models that are large\nLike the “big” in “big” data, the term is relative to what is considered at the time\nIt refers to the training data, the parameter size, and the computational resources needed for training\nAs models get larger, they approach what appears like general-purpose language understanding\nCurrent generations of LLMs are still just a type of artificial neural networks (mainly transformers!) and are (pre-)trained using self-supervised learning and semi-supervised learning"
-  },
-  {
-    "objectID": "day-5.html#what-are-generative-large-language-models",
-    "href": "day-5.html#what-are-generative-large-language-models",
-    "title": "Large Language Models in the Social Sciences",
-    "section": "What are generative large language models",
-    "text": "What are generative large language models\n\ntrained to predict/generate next word in a conversation\nsurprisingly good at emulating humans to complete tasks\ncan be controlled with natural language\nhave become very popular through ChatGPT (a browser interface to communicate with OpenAI’s GPT models)\n\n\n\n\nHow GPT3 Works - Visualizations and Animations"
-  },
-  {
-    "objectID": "day-5.html#section",
-    "href": "day-5.html#section",
-    "title": "Large Language Models in the Social Sciences",
-    "section": "",
-    "text": "-survey research, and experimental studies"
-  },
-  {
-    "objectID": "day-5.html#using-ai-web-scrapers",
-    "href": "day-5.html#using-ai-web-scrapers",
-    "title": "Large Language Models in the Social Sciences",
-    "section": "Using ‘AI’ web scrapers",
-    "text": "Using ‘AI’ web scrapers\nEssentially two kinds of ‘AI’ web scrapers:\n\n\n\n\n‘AI’ written parsers\n\ndownload html of a website\nprompt ‘AI’ to extract appropriate CSS selectors / write R code\n\nadvantages ➕:\n\nonly some scraping skills needed\ncan deal with complicated structures\nscales well\n\ndisadvantages ➖:\n\npotential for hallucination (and inaccuracies)\nlimit on the length of html content (depends on model context)\n\n\nverdict:\n👉 try to use them (but with tests and caution!)"
-  },
-  {
-    "objectID": "day-5.html#using-ai-web-scrapers-1",
-    "href": "day-5.html#using-ai-web-scrapers-1",
-    "title": "Large Language Models in the Social Sciences",
-    "section": "Using ‘AI’ web scrapers",
-    "text": "Using ‘AI’ web scrapers\nEssentially two kinds of ‘AI’ web scrapers:\n\n\n‘AI’ parsers\n\ndownload html of a website\nprompt ‘AI’ to extract certain information and return in a good structure\n\nadvantages ➕:\n\nno scraping skills needed whatsoever\ncan deal with complicated structures\n\ndisadvantages ➖:\n\nexpensive (computational, time, but also 💸)\ndoes not scale well\nlimit on the length of html content (depends on model context)\npotential for hallucination\n\nverdict:\n👉 don’t believe the hype, skip this one\n\n‘AI’ written parsers\n\ndownload html of a website\nprompt ‘AI’ to extract appropriate CSS selectors / write R code\n\nadvantages ➕:\n\nonly some scraping skills needed\ncan deal with complicated structures\nscales well\n\ndisadvantages ➖:\n\npotential for hallucination (and inaccuracies)\nlimit on the length of html content (depends on model context)\n\nverdict:\n👉 try to use them (but with tests and caution!)"
-  },
-  {
-    "objectID": "day-5.html#using-ai-web-scrapers-2",
-    "href": "day-5.html#using-ai-web-scrapers-2",
-    "title": "Large Language Models in the Social Sciences",
-    "section": "Using ‘AI’ web scrapers",
-    "text": "Using ‘AI’ web scrapers\nEssentially two kinds of ‘AI’ web scrapers:\n\n\n‘AI’ parsers\n\ndownload html of a website\nprompt ‘AI’ to extract certain information and return in a good structure\n\nadvantages :heavy_plus_sign::\n\nno scraping skills needed whatsoever\ncan deal with complicated structures\n\ndisadvantages :heavy_minus_sign::\n\nexpensive (computational, time, but also :money_with_wings:)\ndoes not scale well\nlimit on the length of html content (depends on model context)\npotential for hallucination\n\nverdict:\n:point_right: don’t believe the hype, skip this one\n\n‘AI’ written parsers\n\ndownload html of a website\nprompt ‘AI’ to extract appropriate CSS selectors / write R code\n\nadvantages :heavy_plus_sign::\n\nonly some scraping skills needed\ncan deal with complicated structures\nscales well\n\ndisadvantages :heavy_minus_sign::\n\npotential for hallucination (and inaccuracies)\nlimit on the length of html content (depends on model context)\n\nverdict:\n:point_right: try to use them (but with tests and caution!)"
-  },
-  {
-    "objectID": "day-5.html#why-use-gllms",
-    "href": "day-5.html#why-use-gllms",
-    "title": "Large Language Models in the Social Sciences",
-    "section": "Why use gLLMs?",
-    "text": "Why use gLLMs?\n\n\ncheaper to use 💸 (experts &gt; research assistants &gt; crowd workers &gt; gLLMs)\nmore accurate 🧠 (experts &gt; research assistants &gt; gLLMs &gt; crowd workers)\nbetter at annotating complex categories 🤔 (human* &gt; gLLM &gt; LLM &gt; SML)\ncan use contextual information (human* &gt; gLLM &gt; LLM &gt; ❌ SML)\nmultilingual1\neasier* to use: plain English prompting\n\n(e.g., Gilardi, Alizadeh, and Kubli 2023; Heseltine and Hohenberg 2023; Zhong et al. 2023; Törnberg 2023)"
-  },
-  {
-    "objectID": "day-5.html#how-do-you-work-with-them---simple-example",
-    "href": "day-5.html#how-do-you-work-with-them---simple-example",
-    "title": "Large Language Models in the Social Sciences",
-    "section": "How do you work with them - simple example",
-    "text": "How do you work with them - simple example\n\n\nOpenAI GPT via API\n\nlibrary(askgpt)\noptions(askgpt_chat_model = \"gpt-4\")\naskgpt(\"What are generative Large Language Models?\")\n#&gt; ── Answer ────────────────────────────────────────────────────────\n#&gt; Generative Large Language Models are artificial\n#&gt; intelligence models that generate human-like text.\n#&gt; They are designed to understand and predict human \n#&gt; language patterns. GPT-3 by OpenAI is a good \n#&gt; example of a Generative Large Language Model. \n#&gt; They can generate stories, poems, or even technical\n#&gt; content.\n#&gt;\n#&gt; These models are 'generative' because they create \n#&gt; (or generate) new content. They are 'large' because\n#&gt; they are trained on large amounts of data, and the \n#&gt; term 'language model' is due to their ability to \n#&gt; use and understand human language. They learn to \n#&gt; produce text by being fed huge amounts of existing \n#&gt; text data, learning patterns and context from that \n#&gt; data, and using this understanding to create new, \n#&gt; relevant text that follows the rules of the \n#&gt; language it was trained on. \n\n\nRunning model locally through Ollama\n\nlibrary(rollama)\nquery(\"What are generative Large Language Models?\", model = \"llama3:8b\")\n#&gt; ── Answer from llama3:8b───────────────────────────────────────────\n#&gt; \n#&gt; Generative large language models (LLMs) are a type\n#&gt; of artificial intelligence (AI) model that is\n#&gt; capable of generating new, &gt; original text or\n#&gt; language based on patterns and structures learned\n#&gt; from large datasets. These models have become\n#&gt; increasingly popular in recent years due to their\n#&gt; ability to generate human-like text, respond to\n#&gt; questions, and even create entire stories.\n#&gt; \n#&gt; Here's how they work: \n#&gt; \n#&gt; 1. **Training**: Generative LLMs are trained on \n#&gt; massive amounts of text data, which can be sourced\n#&gt; from various places like books, articles, social\n#&gt; media, or online forums. \n#&gt; 2. **Language patterns**: The models analyze the training data to identify patterns,\n#&gt; relationships, and structures in language. This\n#&gt; helps them learn how to generate new text that is\n#&gt; coherent, natural-sounding, and meaningful.\n#&gt; 3. **Generator**: The trained model has a generator\n#&gt; component that produces new text based on the\n#&gt; learned patterns. This can be done by sampling\n#&gt; from probability distributions or using techniques\n#&gt; like autoregressive models.\n#&gt; 4. **Conditioning**: To control the output of the \n#&gt; model, conditioning mechanisms are used to specify\n#&gt; what kind of text should be generated. For example,\n#&gt; you might provide a prompt or topic for the model\n#&gt; to generate text about. \n#&gt; \n#&gt; Some key characteristics of generative LLMs include:\n#&gt; \n#&gt; 1. **Autoregressive**: Generative models predict \n#&gt; the next token in a sequence (e.g., word) based on \n#&gt; the previous tokens.\n#&gt; 2. **Probabilistic**: The models assign \n#&gt; probabilities to each possible output, allowing \n#&gt; them to generate diverse and creative text.\n#&gt; 3. **Adversarial training**: Some models are trained\n#&gt; using adversarial examples, which helps them learn\n#&gt; to generate text that is more realistic and\n#&gt; challenging for humans to distinguish from\n#&gt; human-written text. \n#&gt; \n#&gt; Applications of generative LLMs:\n#&gt; \n#&gt; 1. **Text generation**: These models can\n#&gt; be used to generate text for various purposes, such\n#&gt; as chatbots, customer service &gt; responses, or\n#&gt; content marketing.  \n#&gt; 2. **Language translation**:\n#&gt; Generative LLMs can be fine-tuned for language\n#&gt; translation tasks, allowing them to translate text\n#&gt; from one language to another.\n#&gt; 3. **Content\n#&gt; creation**: They can help generate new ideas,\n#&gt; stories, or scripts by providing a starting point\n#&gt; and then &gt; continuing the narrative.\n#&gt; 4. **Summarization**: Generative models can summarize\n#&gt; long pieces of text into shorter summaries while\n#&gt; preserving the original meaning.\n#&gt; \n#&gt; Some popular examples of generative LLMs include: \n#&gt; \n#&gt; 1. **OpenAI's GPT-3**: A highly advanced language \n#&gt; model capable of generating human-like text and \n#&gt; responding to questions. \n#&gt; 2. **Google's BERT**: A transformer-based model \n#&gt; that has achieved state-of-the-art results in \n#&gt; various natural language processing (NLP) tasks, \n#&gt; including sentiment analysis and question answering.\n#&gt; \n#&gt; These models have the potential to revolutionize \n#&gt; many areas, from customer service and content \n#&gt; creation to creative writing and &gt; education.\n#&gt; However, they also require careful consideration \n#&gt; of their ethical implications and limitations."
-  },
-  {
-    "objectID": "day-5.html#classificationstrategies",
-    "href": "day-5.html#classificationstrategies",
-    "title": "Large Language Models in the Social Sciences",
-    "section": "Classification–Strategies",
-    "text": "Classification–Strategies\n\n\nPrompting strategies\n\n\n\n\n\n\nPrompting Strategy\nExample Structure\n\n\n\n\nZero-shot\n{\"role\": \"system\", \"content\": \"Text of System Prompt\"},{\"role\": \"user\", \"content\": \"(Text to classify) + classification question\"}\n\n\nOne-shot\n{\"role\": \"system\", \"content\": \"Text of System Prompt\"},{\"role\": \"user\", \"content\": \"(Example text) + classification question\"},{\"role\": \"assistant\", \"content\": \"Example classification\"},{\"role\": \"user\", \"content\": \"(Text to classify) + classification question\"}\n\n\nFew-shot\n{\"role\": \"system\", \"content\": \"Text of System Prompt\"},{\"role\": \"user\", \"content\": \"(Example text) + classification question\"},{\"role\": \"assistant\", \"content\": \"Example classification\"},{\"role\": \"user\", \"content\": \"(Example text) + classification question\"},{\"role\": \"assistant\", \"content\": \"Example classification\"},. . . more examples{\"role\": \"user\", \"content\": \"(Text to classify) + classification question\"}\n\n\nChain-of-Thought\n{\"role\": \"system\", \"content\": \"Text of System Prompt\"},{\"role\": \"user\", \"content\": \"(Text to classify) + reasoning question\"},{\"role\": \"assistant\", \"content\": \"Reasoning\"},{\"role\": \"user\", \"content\": \"Classification question\"}\n\n\n\n\nSee: Weber and Reichardt (2023)"
-  },
-  {
-    "objectID": "day-5.html#classificationzero-shot",
-    "href": "day-5.html#classificationzero-shot",
-    "title": "Large Language Models in the Social Sciences",
-    "section": "Classification–Zero-shot",
-    "text": "Classification–Zero-shot\n\nq &lt;- tribble(\n  ~role,    ~content,\n  \"system\", \"You assign texts into categories. Answer with just the correct category.\",\n  \"user\",   \"text: the pizza tastes terrible\\ncategories: positive, neutral, negative\"\n)\nquery(q)"
-  },
-  {
-    "objectID": "day-5.html#classificationone-shot",
-    "href": "day-5.html#classificationone-shot",
-    "title": "Large Language Models in the Social Sciences",
-    "section": "Classification–One-shot",
-    "text": "Classification–One-shot\n\nq &lt;- tribble(\n  ~role,    ~content,\n  \"system\", \"You assign texts into categories. Answer with just the correct category.\",\n  \"user\", \"text: the pizza tastes terrible\\ncategories: positive, neutral, negative\",\n  \"assistant\", \"Category: Negative\",\n  \"user\", \"text: the service is great\\ncategories: positive, neutral, negative\"\n)\nquery(q)\n#&gt; \n#&gt; ── Answer ────────────────────────────────────────────────────────\n#&gt; Category: Positive\n\n\nNeat effect: change the output structure\n\nq &lt;- tribble(\n  ~role,    ~content,\n  \"system\", \"You assign texts into categories. Answer with just the correct category.\",\n  \"user\", \"text: the pizza tastes terrible\\ncategories: positive, neutral, negative\",\n  \"assistant\", \"{'Category':'Negative','Confidence':'100%','Important':'terrible'}\",\n  \"user\", \"text: the service is great\\ncategories: positive, neutral, negative\"\n)\nanswer &lt;- query(q)\n#&gt; \n#&gt; ── Answer ────────────────────────────────────────────────────────\n#&gt; {'Category':'Positive','Confidence':'100%','Important':'great'}"
-  },
-  {
-    "objectID": "day-5.html#classificationfew-shot",
-    "href": "day-5.html#classificationfew-shot",
-    "title": "Large Language Models in the Social Sciences",
-    "section": "Classification–Few-shot",
-    "text": "Classification–Few-shot\n\nq &lt;- tribble(\n  ~role,    ~content,\n  \"system\", \"You assign texts into categories. Answer with just the correct category.\",\n  \"user\", \"text: the pizza tastes terrible\\ncategories: positive, neutral, negative\",\n  \"assistant\", \"Category: Negative\",\n  \"user\", \"text: the service is great\\ncategories: positive, neutral, negative\",\n  \"assistant\", \"Category: Positive\",\n  \"user\", \"text: I once came here with my wife\\ncategories: positive, neutral, negative\",\n  \"assistant\", \"Category: Neutral\",\n  \"user\", \"text: I once ate pizza\\ncategories: positive, neutral, negative\"\n)\nquery(q)"
-  },
-  {
-    "objectID": "day-5.html#classificationchain-of-thought",
-    "href": "day-5.html#classificationchain-of-thought",
-    "title": "Large Language Models in the Social Sciences",
-    "section": "Classification–Chain-of-Thought",
-    "text": "Classification–Chain-of-Thought\n\nq_thought &lt;- tribble(\n  ~role,    ~content,\n  \"system\", \"You assign texts into categories. \",\n  \"user\",   \"text: the pizza tastes terrible\\nWhat sentiment (positive, neutral, or negative) would you assign? Provide some thoughts.\"\n)\noutput_thought &lt;- query(q_thought)\n\n\nNow we can use these thoughts in classification\n\nq &lt;- tribble(\n  ~role,    ~content,\n  \"system\", \"You assign texts into categories. \",\n  \"user\",   \"text: the pizza tastes terrible\\nWhat sentiment (positive, neutral, or negative) would you assign? Provide some thoughts.\",\n  \"assistant\", pluck(output_thought, \"message\", \"content\"),\n  \"user\",   \"Now answer with just the correct category (positive, neutral, or negative)\"\n)\nquery(q)"
-  },
-  {
-    "objectID": "day-5.html#footnotes",
-    "href": "day-5.html#footnotes",
-    "title": "Large Language Models in the Social Sciences",
-    "section": "Footnotes",
-    "text": "Footnotes\n\n\nbut still need of validation!"
-  },
-  {
-    "objectID": "day-5.html#next-token-prediction",
-    "href": "day-5.html#next-token-prediction",
-    "title": "Large Language Models in the Social Sciences",
-    "section": "Next token prediction",
-    "text": "Next token prediction"
-  },
-  {
-    "objectID": "day-5.html#test",
-    "href": "day-5.html#test",
-    "title": "Large Language Models in the Social Sciences",
-    "section": "test",
-    "text": "test"
-  },
-  {
-    "objectID": "day-5.html#model-categories",
-    "href": "day-5.html#model-categories",
-    "title": "Large Language Models in the Social Sciences",
-    "section": "Model categories",
-    "text": "Model categories"
-  },
-  {
-    "objectID": "day-5.html#example-using-ai-web-scrapers",
-    "href": "day-5.html#example-using-ai-web-scrapers",
-    "title": "Large Language Models in the Social Sciences",
-    "section": "Example: Using ‘AI’ web scrapers",
-    "text": "Example: Using ‘AI’ web scrapers\nEssentially two kinds of ‘AI’ web scrapers:\n\n\n‘AI’ parsers\n\ndownload html of a website\nprompt ‘AI’ to extract certain information and return in a good structure\n\nadvantages ➕:\n\nno scraping skills needed whatsoever\ncan deal with complicated structures\n\ndisadvantages ➖:\n\nexpensive (computational, time, but also 💸)\ndoes not scale well\nlimit on the length of html content (depends on model context)\npotential for hallucination\n\n\nverdict:\n👉 don’t believe the hype, skip this one"
-  },
-  {
-    "objectID": "day-5.html#example-using-ai-for-programming",
-    "href": "day-5.html#example-using-ai-for-programming",
-    "title": "Large Language Models in the Social Sciences",
-    "section": "Example: Using ‘AI’ for programming",
-    "text": "Example: Using ‘AI’ for programming\n\n\nLet ‘AI’ write your code (aka. vibe coding)\n\nprompt ‘AI’ to write your application/analysis code for you\n\nadvantages ➕:\n\nno programming skills needed whatsoever to write the code\ncan produce software with some impressive features\n\ndisadvantages ➖:\n\nyou need to understand programming logic to prompt effectivly\nif something goes wrong, this is very hard to fix\nyou might not even realize many of the issue\n\nverdict:\n👉 don’t believe the hype, being able to read+write code is still an important skill\n\nLet ‘AI’ help you write code\n\nyou know what code you need / what it needs to do and which language packages you want to use\nyou prompt ‘AI’ to write a first draft of the code for you\n\nadvantages ➕:\n\nonly some programming skills needed to write the code\ncan speed up your programming\ncan help you with “busy work” (writing documentation and comments)\n\ndisadvantages ➖:\n\ninstead of writing code, you spend most of your time reviewing and debugging code\ndifficult to know in advance when it will save or waste time\n\nverdict:\n👉 try to use them (but with tests and caution!)\n\n\n\n\n\n\n\n\nTip\n\n\n\nGitHub Copilot in RStudio\nGitingest\nLLM code assist with RStudio and Positron"
-  },
-  {
-    "objectID": "day-5.html#technical-things-aside",
-    "href": "day-5.html#technical-things-aside",
-    "title": "Large Language Models in the Social Sciences",
-    "section": "Technical things aside…",
-    "text": "Technical things aside…\n\n\n\nLLMs are probabilistic, not deterministic\nLLMs are “stochastic parrots” mimicking human speech patterns observed in their training corpus (Bender et al. 2021)"
-  },
-  {
-    "objectID": "day-5.html#technical-things-aside-1",
-    "href": "day-5.html#technical-things-aside-1",
-    "title": "Large Language Models in the Social Sciences",
-    "section": "Technical things aside…",
-    "text": "Technical things aside…\n\n\n\nLLMs are probabilistic, not deterministic\nLLMs are “stochastic parrots” mimicking human speech patterns observed in their training corpus (Bender et al. 2021)\nLLMs are trained to please and sound confident and eloquent\nLLMs of “hallucinate” (or bullshit (Frankfurt 2005))\n\n\n\n\n\nHicks, Humphries, and Slater (2024)"
-  },
-  {
-    "objectID": "day-5.html#technical-things-aside-2",
-    "href": "day-5.html#technical-things-aside-2",
-    "title": "Large Language Models in the Social Sciences",
-    "section": "Technical things aside…",
-    "text": "Technical things aside…\n\n\n\nLLMs are probabilistic, not deterministic\nLLMs are “stochastic parrots” mimicking human speech patterns observed in their training corpus (Bender et al. 2021)\nLLMs are trained to please and sound confident and eloquent\nLLMs of “hallucinate” (or bullshit (Frankfurt 2005))\n“All quantitative models of language are wrong—but some are useful” (Grimmer and Stewart 2013)\n\n\n\n\n\nWeber and Reichardt (2023)"
-  },
-  {
-    "objectID": "day-5.html#some-use-cases",
-    "href": "day-5.html#some-use-cases",
-    "title": "Large Language Models in the Social Sciences",
-    "section": "Some use cases",
-    "text": "Some use cases\n\n\n\nSurvey Research: Automated coding and response generation\nExperimental Studies: Creating stimuli and analyzing responses\nHypothesis Generation: Theory development assistance\nInterview Analysis: Qualitative data coding\nContent Analysis: Processing large text datasets\nWriting and editing\nLiterature review\nProgramming\n\n\n Maximalfocus via unsplash.com"
+    "text": "Self-Attention\n\nIn general terms, self-attention works encodes how similar each word is to all the words in the sentence, including itself.\nOnce the similarities are calculated, they are used to determine how the transformers encodes each word.",
+    "crumbs": [
+      "Home",
+      "Daily Sessions",
+      "Large Language Models in the Social Sciences"
+    ]
   },
   {
     "objectID": "day-5.html#so-why-are-transformer-models-important",
     "href": "day-5.html#so-why-are-transformer-models-important",
     "title": "Large Language Models in the Social Sciences",
     "section": "So why are transformer models important?",
-    "text": "So why are transformer models important?\n\n\n\nTransformer models apply an evolving set of mathematical techniques, called attention or self-attention, to detect subtle ways even distant data elements in a series influence and depend on each other.\nthis actually simplifies learning:\n\nNo need for recurrent or convolutional network structures\nBased solely on attention mechanism (stacked on top of one another)\nRequired less training time (can be parallelized)\n\nIt thereby outperformed prior state-of-the-art models in a variety of tasks\nThe transformer architecture is the back-bone of all current large language models and so far drives the entire “AI revolution”\n\n\n\n\n\nSource: Vaswani et al. (2017)"
+    "text": "So why are transformer models important?\n\n\n\nTransformer models apply an evolving set of mathematical techniques, called attention or self-attention, to detect subtle ways even distant data elements in a series influence and depend on each other.\nthis actually simplifies learning:\n\nNo need for recurrent or convolutional network structures\nBased solely on attention mechanism (stacked on top of one another)\nRequired less training time (can be parallelized)\n\nIt thereby outperformed prior state-of-the-art models in a variety of tasks\nThe transformer architecture is the back-bone of all current large language models and so far drives the entire “AI revolution”\n\n\n\n\n\nSource: Vaswani et al. (2017)",
+    "crumbs": [
+      "Home",
+      "Daily Sessions",
+      "Large Language Models in the Social Sciences"
+    ]
+  },
+  {
+    "objectID": "day-5.html#what-are-large-language-models-1",
+    "href": "day-5.html#what-are-large-language-models-1",
+    "title": "Large Language Models in the Social Sciences",
+    "section": "What are Large language models",
+    "text": "What are Large language models\n\n\n\nLarge language models are language models that are large\nLike the “big” in “big” data, the term is relative to what is considered at the time\nIt refers to the training data, the parameter size, and the computational resources needed for training\nAs models get larger, they approach what appears like general-purpose language understanding\nCurrent generations of LLMs are still just a type of artificial neural networks (mainly transformers!) and are (pre-)trained using self-supervised learning and semi-supervised learning",
+    "crumbs": [
+      "Home",
+      "Daily Sessions",
+      "Large Language Models in the Social Sciences"
+    ]
+  },
+  {
+    "objectID": "day-5.html#what-are-generative-large-language-models",
+    "href": "day-5.html#what-are-generative-large-language-models",
+    "title": "Large Language Models in the Social Sciences",
+    "section": "What are generative large language models",
+    "text": "What are generative large language models\n\ntrained to predict/generate next word in a conversation\nsurprisingly good at emulating humans to complete tasks\ncan be controlled with natural language\nhave become very popular through ChatGPT (a browser interface to communicate with OpenAI’s GPT models)\n\n\n\n\nHow GPT3 Works - Visualizations and Animations",
+    "crumbs": [
+      "Home",
+      "Daily Sessions",
+      "Large Language Models in the Social Sciences"
+    ]
+  },
+  {
+    "objectID": "day-5.html#next-token-prediction",
+    "href": "day-5.html#next-token-prediction",
+    "title": "Large Language Models in the Social Sciences",
+    "section": "Next token prediction",
+    "text": "Next token prediction",
+    "crumbs": [
+      "Home",
+      "Daily Sessions",
+      "Large Language Models in the Social Sciences"
+    ]
+  },
+  {
+    "objectID": "day-5.html#model-categories",
+    "href": "day-5.html#model-categories",
+    "title": "Large Language Models in the Social Sciences",
+    "section": "Model categories",
+    "text": "Model categories",
+    "crumbs": [
+      "Home",
+      "Daily Sessions",
+      "Large Language Models in the Social Sciences"
+    ]
+  },
+  {
+    "objectID": "day-5.html#technical-things-aside",
+    "href": "day-5.html#technical-things-aside",
+    "title": "Large Language Models in the Social Sciences",
+    "section": "Technical things aside…",
+    "text": "Technical things aside…\n\n\n\nLLMs are probabilistic, not deterministic\nLLMs are “stochastic parrots” mimicking human speech patterns observed in their training corpus (Bender et al. 2021)",
+    "crumbs": [
+      "Home",
+      "Daily Sessions",
+      "Large Language Models in the Social Sciences"
+    ]
+  },
+  {
+    "objectID": "day-5.html#technical-things-aside-1",
+    "href": "day-5.html#technical-things-aside-1",
+    "title": "Large Language Models in the Social Sciences",
+    "section": "Technical things aside…",
+    "text": "Technical things aside…\n\n\n\nLLMs are probabilistic, not deterministic\nLLMs are “stochastic parrots” mimicking human speech patterns observed in their training corpus (Bender et al. 2021)\nLLMs are trained to please and sound confident and eloquent\nLLMs of “hallucinate” (or bullshit (Frankfurt 2005))\n\n\n\n\n\nHicks, Humphries, and Slater (2024)",
+    "crumbs": [
+      "Home",
+      "Daily Sessions",
+      "Large Language Models in the Social Sciences"
+    ]
+  },
+  {
+    "objectID": "day-5.html#technical-things-aside-2",
+    "href": "day-5.html#technical-things-aside-2",
+    "title": "Large Language Models in the Social Sciences",
+    "section": "Technical things aside…",
+    "text": "Technical things aside…\n\n\n\nLLMs are probabilistic, not deterministic\nLLMs are “stochastic parrots” mimicking human speech patterns observed in their training corpus (Bender et al. 2021)\nLLMs are trained to please and sound confident and eloquent\nLLMs of “hallucinate” (or bullshit (Frankfurt 2005))\n“All quantitative models of language are wrong—but some are useful” (Grimmer and Stewart 2013)\n\n\n\n\n\nWeber and Reichardt (2023)",
+    "crumbs": [
+      "Home",
+      "Daily Sessions",
+      "Large Language Models in the Social Sciences"
+    ]
+  },
+  {
+    "objectID": "day-5.html#some-use-cases",
+    "href": "day-5.html#some-use-cases",
+    "title": "Large Language Models in the Social Sciences",
+    "section": "Some use cases",
+    "text": "Some use cases\n\n\n\nSurvey Research: Automated coding and response generation\nExperimental Studies: Creating stimuli and analyzing responses\nHypothesis Generation: Theory development assistance\nInterview Analysis: Qualitative data coding\nContent Analysis: Processing large text datasets\nWriting and editing\nLiterature review\nProgramming\n\n\n Maximalfocus via unsplash.com",
+    "crumbs": [
+      "Home",
+      "Daily Sessions",
+      "Large Language Models in the Social Sciences"
+    ]
+  },
+  {
+    "objectID": "day-5.html#example-using-ai-web-scrapers",
+    "href": "day-5.html#example-using-ai-web-scrapers",
+    "title": "Large Language Models in the Social Sciences",
+    "section": "Example: Using ‘AI’ web scrapers",
+    "text": "Example: Using ‘AI’ web scrapers\nEssentially two kinds of ‘AI’ web scrapers:\n\n\n‘AI’ parsers\n\ndownload html of a website\nprompt ‘AI’ to extract certain information and return in a good structure\n\nadvantages ➕:\n\nno scraping skills needed whatsoever\ncan deal with complicated structures\n\ndisadvantages ➖:\n\nexpensive (computational, time, but also 💸)\ndoes not scale well\nlimit on the length of html content (depends on model context)\npotential for hallucination\n\n\nverdict:\n👉 don’t believe the hype, skip this one",
+    "crumbs": [
+      "Home",
+      "Daily Sessions",
+      "Large Language Models in the Social Sciences"
+    ]
+  },
+  {
+    "objectID": "day-5.html#using-ai-web-scrapers",
+    "href": "day-5.html#using-ai-web-scrapers",
+    "title": "Large Language Models in the Social Sciences",
+    "section": "Using ‘AI’ web scrapers",
+    "text": "Using ‘AI’ web scrapers\nEssentially two kinds of ‘AI’ web scrapers:\n\n\n\n\n‘AI’ written parsers\n\ndownload html of a website\nprompt ‘AI’ to extract appropriate CSS selectors / write R code\n\nadvantages ➕:\n\nonly some scraping skills needed\ncan deal with complicated structures\nscales well\n\ndisadvantages ➖:\n\npotential for hallucination (and inaccuracies)\nlimit on the length of html content (depends on model context)\n\n\nverdict:\n👉 try to use them (but with tests and caution!)",
+    "crumbs": [
+      "Home",
+      "Daily Sessions",
+      "Large Language Models in the Social Sciences"
+    ]
+  },
+  {
+    "objectID": "day-5.html#using-ai-web-scrapers-1",
+    "href": "day-5.html#using-ai-web-scrapers-1",
+    "title": "Large Language Models in the Social Sciences",
+    "section": "Using ‘AI’ web scrapers",
+    "text": "Using ‘AI’ web scrapers\nEssentially two kinds of ‘AI’ web scrapers:\n\n\n‘AI’ parsers\n\ndownload html of a website\nprompt ‘AI’ to extract certain information and return in a good structure\n\nadvantages ➕:\n\nno scraping skills needed whatsoever\ncan deal with complicated structures\n\ndisadvantages ➖:\n\nexpensive (computational, time, but also 💸)\ndoes not scale well\nlimit on the length of html content (depends on model context)\npotential for hallucination\n\nverdict:\n👉 don’t believe the hype, skip this one\n\n‘AI’ written parsers\n\ndownload html of a website\nprompt ‘AI’ to extract appropriate CSS selectors / write R code\n\nadvantages ➕:\n\nonly some scraping skills needed\ncan deal with complicated structures\nscales well\n\ndisadvantages ➖:\n\npotential for hallucination (and inaccuracies)\nlimit on the length of html content (depends on model context)\n\nverdict:\n👉 try to use them (but with tests and caution!)",
+    "crumbs": [
+      "Home",
+      "Daily Sessions",
+      "Large Language Models in the Social Sciences"
+    ]
+  },
+  {
+    "objectID": "day-5.html#example-using-ai-for-programming",
+    "href": "day-5.html#example-using-ai-for-programming",
+    "title": "Large Language Models in the Social Sciences",
+    "section": "Example: Using ‘AI’ for programming",
+    "text": "Example: Using ‘AI’ for programming\n\n\nLet ‘AI’ write your code (aka. vibe coding)\n\nprompt ‘AI’ to write your application/analysis code for you\n\nadvantages ➕:\n\nno programming skills needed whatsoever to write the code\ncan produce software with some impressive features\n\ndisadvantages ➖:\n\nyou need to understand programming logic to prompt effectivly\nif something goes wrong, this is very hard to fix\nyou might not even realize many of the issue\n\nverdict:\n👉 don’t believe the hype, being able to read+write code is still an important skill\n\nLet ‘AI’ help you write code\n\nyou know what code you need / what it needs to do and which language packages you want to use\nyou prompt ‘AI’ to write a first draft of the code for you\n\nadvantages ➕:\n\nonly some programming skills needed to write the code\ncan speed up your programming\ncan help you with “busy work” (writing documentation and comments)\n\ndisadvantages ➖:\n\ninstead of writing code, you spend most of your time reviewing and debugging code\ndifficult to know in advance when it will save or waste time\n\nverdict:\n👉 try to use them (but with tests and caution!)\n\n\n\n\n\n\n\n\nTip\n\n\n\nGitHub Copilot in RStudio\nGitingest\nLLM code assist with RStudio and Positron",
+    "crumbs": [
+      "Home",
+      "Daily Sessions",
+      "Large Language Models in the Social Sciences"
+    ]
+  },
+  {
+    "objectID": "day-5.html#why-use-gllms",
+    "href": "day-5.html#why-use-gllms",
+    "title": "Large Language Models in the Social Sciences",
+    "section": "Why use gLLMs?",
+    "text": "Why use gLLMs?\n\n\ncheaper to use 💸 (experts &gt; research assistants &gt; crowd workers &gt; gLLMs)\nmore accurate 🧠 (experts &gt; research assistants &gt; gLLMs &gt; crowd workers)\nbetter at annotating complex categories 🤔 (human* &gt; gLLM &gt; LLM &gt; SML)\ncan use contextual information (human* &gt; gLLM &gt; LLM &gt; ❌ SML)\nmultilingual1\neasier* to use: plain English prompting\n\n(e.g., Gilardi, Alizadeh, and Kubli 2023; Heseltine and Hohenberg 2023; Zhong et al. 2023; Törnberg 2023)",
+    "crumbs": [
+      "Home",
+      "Daily Sessions",
+      "Large Language Models in the Social Sciences"
+    ]
+  },
+  {
+    "objectID": "day-5.html#how-do-you-work-with-them---simple-example",
+    "href": "day-5.html#how-do-you-work-with-them---simple-example",
+    "title": "Large Language Models in the Social Sciences",
+    "section": "How do you work with them - simple example",
+    "text": "How do you work with them - simple example\n\n\nOpenAI GPT via API\n\nlibrary(askgpt)\noptions(askgpt_chat_model = \"gpt-4\")\naskgpt(\"What are generative Large Language Models?\")\n#&gt; ── Answer ────────────────────────────────────────────────────────\n#&gt; Generative Large Language Models are artificial\n#&gt; intelligence models that generate human-like text.\n#&gt; They are designed to understand and predict human \n#&gt; language patterns. GPT-3 by OpenAI is a good \n#&gt; example of a Generative Large Language Model. \n#&gt; They can generate stories, poems, or even technical\n#&gt; content.\n#&gt;\n#&gt; These models are 'generative' because they create \n#&gt; (or generate) new content. They are 'large' because\n#&gt; they are trained on large amounts of data, and the \n#&gt; term 'language model' is due to their ability to \n#&gt; use and understand human language. They learn to \n#&gt; produce text by being fed huge amounts of existing \n#&gt; text data, learning patterns and context from that \n#&gt; data, and using this understanding to create new, \n#&gt; relevant text that follows the rules of the \n#&gt; language it was trained on. \n\n\nRunning model locally through Ollama\n\nlibrary(rollama)\nquery(\"What are generative Large Language Models?\", model = \"llama3:8b\")\n#&gt; ── Answer from llama3:8b───────────────────────────────────────────\n#&gt; \n#&gt; Generative large language models (LLMs) are a type\n#&gt; of artificial intelligence (AI) model that is\n#&gt; capable of generating new, &gt; original text or\n#&gt; language based on patterns and structures learned\n#&gt; from large datasets. These models have become\n#&gt; increasingly popular in recent years due to their\n#&gt; ability to generate human-like text, respond to\n#&gt; questions, and even create entire stories.\n#&gt; \n#&gt; Here's how they work: \n#&gt; \n#&gt; 1. **Training**: Generative LLMs are trained on \n#&gt; massive amounts of text data, which can be sourced\n#&gt; from various places like books, articles, social\n#&gt; media, or online forums. \n#&gt; 2. **Language patterns**: The models analyze the training data to identify patterns,\n#&gt; relationships, and structures in language. This\n#&gt; helps them learn how to generate new text that is\n#&gt; coherent, natural-sounding, and meaningful.\n#&gt; 3. **Generator**: The trained model has a generator\n#&gt; component that produces new text based on the\n#&gt; learned patterns. This can be done by sampling\n#&gt; from probability distributions or using techniques\n#&gt; like autoregressive models.\n#&gt; 4. **Conditioning**: To control the output of the \n#&gt; model, conditioning mechanisms are used to specify\n#&gt; what kind of text should be generated. For example,\n#&gt; you might provide a prompt or topic for the model\n#&gt; to generate text about. \n#&gt; \n#&gt; Some key characteristics of generative LLMs include:\n#&gt; \n#&gt; 1. **Autoregressive**: Generative models predict \n#&gt; the next token in a sequence (e.g., word) based on \n#&gt; the previous tokens.\n#&gt; 2. **Probabilistic**: The models assign \n#&gt; probabilities to each possible output, allowing \n#&gt; them to generate diverse and creative text.\n#&gt; 3. **Adversarial training**: Some models are trained\n#&gt; using adversarial examples, which helps them learn\n#&gt; to generate text that is more realistic and\n#&gt; challenging for humans to distinguish from\n#&gt; human-written text. \n#&gt; \n#&gt; Applications of generative LLMs:\n#&gt; \n#&gt; 1. **Text generation**: These models can\n#&gt; be used to generate text for various purposes, such\n#&gt; as chatbots, customer service &gt; responses, or\n#&gt; content marketing.  \n#&gt; 2. **Language translation**:\n#&gt; Generative LLMs can be fine-tuned for language\n#&gt; translation tasks, allowing them to translate text\n#&gt; from one language to another.\n#&gt; 3. **Content\n#&gt; creation**: They can help generate new ideas,\n#&gt; stories, or scripts by providing a starting point\n#&gt; and then &gt; continuing the narrative.\n#&gt; 4. **Summarization**: Generative models can summarize\n#&gt; long pieces of text into shorter summaries while\n#&gt; preserving the original meaning.\n#&gt; \n#&gt; Some popular examples of generative LLMs include: \n#&gt; \n#&gt; 1. **OpenAI's GPT-3**: A highly advanced language \n#&gt; model capable of generating human-like text and \n#&gt; responding to questions. \n#&gt; 2. **Google's BERT**: A transformer-based model \n#&gt; that has achieved state-of-the-art results in \n#&gt; various natural language processing (NLP) tasks, \n#&gt; including sentiment analysis and question answering.\n#&gt; \n#&gt; These models have the potential to revolutionize \n#&gt; many areas, from customer service and content \n#&gt; creation to creative writing and &gt; education.\n#&gt; However, they also require careful consideration \n#&gt; of their ethical implications and limitations.",
+    "crumbs": [
+      "Home",
+      "Daily Sessions",
+      "Large Language Models in the Social Sciences"
+    ]
+  },
+  {
+    "objectID": "day-5.html#classificationstrategies",
+    "href": "day-5.html#classificationstrategies",
+    "title": "Large Language Models in the Social Sciences",
+    "section": "Classification–Strategies",
+    "text": "Classification–Strategies\n\n\nPrompting strategies\n\n\n\n\n\n\nPrompting Strategy\nExample Structure\n\n\n\n\nZero-shot\n{\"role\": \"system\", \"content\": \"Text of System Prompt\"},{\"role\": \"user\", \"content\": \"(Text to classify) + classification question\"}\n\n\nOne-shot\n{\"role\": \"system\", \"content\": \"Text of System Prompt\"},{\"role\": \"user\", \"content\": \"(Example text) + classification question\"},{\"role\": \"assistant\", \"content\": \"Example classification\"},{\"role\": \"user\", \"content\": \"(Text to classify) + classification question\"}\n\n\nFew-shot\n{\"role\": \"system\", \"content\": \"Text of System Prompt\"},{\"role\": \"user\", \"content\": \"(Example text) + classification question\"},{\"role\": \"assistant\", \"content\": \"Example classification\"},{\"role\": \"user\", \"content\": \"(Example text) + classification question\"},{\"role\": \"assistant\", \"content\": \"Example classification\"},. . . more examples{\"role\": \"user\", \"content\": \"(Text to classify) + classification question\"}\n\n\nChain-of-Thought\n{\"role\": \"system\", \"content\": \"Text of System Prompt\"},{\"role\": \"user\", \"content\": \"(Text to classify) + reasoning question\"},{\"role\": \"assistant\", \"content\": \"Reasoning\"},{\"role\": \"user\", \"content\": \"Classification question\"}\n\n\n\n\nSee: Weber and Reichardt (2023)",
+    "crumbs": [
+      "Home",
+      "Daily Sessions",
+      "Large Language Models in the Social Sciences"
+    ]
+  },
+  {
+    "objectID": "day-5.html#classificationzero-shot",
+    "href": "day-5.html#classificationzero-shot",
+    "title": "Large Language Models in the Social Sciences",
+    "section": "Classification–Zero-shot",
+    "text": "Classification–Zero-shot\n\nq &lt;- tribble(\n  ~role,    ~content,\n  \"system\", \"You assign texts into categories. Answer with just the correct category.\",\n  \"user\",   \"text: the pizza tastes terrible\\ncategories: positive, neutral, negative\"\n)\nquery(q)",
+    "crumbs": [
+      "Home",
+      "Daily Sessions",
+      "Large Language Models in the Social Sciences"
+    ]
+  },
+  {
+    "objectID": "day-5.html#classificationone-shot",
+    "href": "day-5.html#classificationone-shot",
+    "title": "Large Language Models in the Social Sciences",
+    "section": "Classification–One-shot",
+    "text": "Classification–One-shot\n\nq &lt;- tribble(\n  ~role,    ~content,\n  \"system\", \"You assign texts into categories. Answer with just the correct category.\",\n  \"user\", \"text: the pizza tastes terrible\\ncategories: positive, neutral, negative\",\n  \"assistant\", \"Category: Negative\",\n  \"user\", \"text: the service is great\\ncategories: positive, neutral, negative\"\n)\nquery(q)\n#&gt; \n#&gt; ── Answer ────────────────────────────────────────────────────────\n#&gt; Category: Positive\n\n\nNeat effect: change the output structure\n\nq &lt;- tribble(\n  ~role,    ~content,\n  \"system\", \"You assign texts into categories. Answer with just the correct category.\",\n  \"user\", \"text: the pizza tastes terrible\\ncategories: positive, neutral, negative\",\n  \"assistant\", \"{'Category':'Negative','Confidence':'100%','Important':'terrible'}\",\n  \"user\", \"text: the service is great\\ncategories: positive, neutral, negative\"\n)\nanswer &lt;- query(q)\n#&gt; \n#&gt; ── Answer ────────────────────────────────────────────────────────\n#&gt; {'Category':'Positive','Confidence':'100%','Important':'great'}",
+    "crumbs": [
+      "Home",
+      "Daily Sessions",
+      "Large Language Models in the Social Sciences"
+    ]
+  },
+  {
+    "objectID": "day-5.html#classificationfew-shot",
+    "href": "day-5.html#classificationfew-shot",
+    "title": "Large Language Models in the Social Sciences",
+    "section": "Classification–Few-shot",
+    "text": "Classification–Few-shot\n\nq &lt;- tribble(\n  ~role,    ~content,\n  \"system\", \"You assign texts into categories. Answer with just the correct category.\",\n  \"user\", \"text: the pizza tastes terrible\\ncategories: positive, neutral, negative\",\n  \"assistant\", \"Category: Negative\",\n  \"user\", \"text: the service is great\\ncategories: positive, neutral, negative\",\n  \"assistant\", \"Category: Positive\",\n  \"user\", \"text: I once came here with my wife\\ncategories: positive, neutral, negative\",\n  \"assistant\", \"Category: Neutral\",\n  \"user\", \"text: I once ate pizza\\ncategories: positive, neutral, negative\"\n)\nquery(q)",
+    "crumbs": [
+      "Home",
+      "Daily Sessions",
+      "Large Language Models in the Social Sciences"
+    ]
+  },
+  {
+    "objectID": "day-5.html#classificationchain-of-thought",
+    "href": "day-5.html#classificationchain-of-thought",
+    "title": "Large Language Models in the Social Sciences",
+    "section": "Classification–Chain-of-Thought",
+    "text": "Classification–Chain-of-Thought\n\nq_thought &lt;- tribble(\n  ~role,    ~content,\n  \"system\", \"You assign texts into categories. \",\n  \"user\",   \"text: the pizza tastes terrible\\nWhat sentiment (positive, neutral, or negative) would you assign? Provide some thoughts.\"\n)\noutput_thought &lt;- query(q_thought)\n\n\nNow we can use these thoughts in classification\n\nq &lt;- tribble(\n  ~role,    ~content,\n  \"system\", \"You assign texts into categories. \",\n  \"user\",   \"text: the pizza tastes terrible\\nWhat sentiment (positive, neutral, or negative) would you assign? Provide some thoughts.\",\n  \"assistant\", pluck(output_thought, \"message\", \"content\"),\n  \"user\",   \"Now answer with just the correct category (positive, neutral, or negative)\"\n)\nquery(q)",
+    "crumbs": [
+      "Home",
+      "Daily Sessions",
+      "Large Language Models in the Social Sciences"
+    ]
   },
   {
     "objectID": "day-5.html#example-sentiment-analysis",
     "href": "day-5.html#example-sentiment-analysis",
     "title": "Large Language Models in the Social Sciences",
     "section": "Example: Sentiment Analysis",
-    "text": "Example: Sentiment Analysis\n\n\n\ngLLMs often perform better on standard text classification problems\nLet’s put this to a test with data from Atteveldt, Velden, and and (2021)\nWhat do they do? Compare trained human annotators, crowd-coding, dictionary approaches, and supervised machine learning algorithms (including deep learning) on Dutch sentiment"
+    "text": "Example: Sentiment Analysis\n\n\n\ngLLMs often perform better on standard text classification problems\nLet’s put this to a test with data from Atteveldt, Velden, and and (2021)\nWhat do they do? Compare trained human annotators, crowd-coding, dictionary approaches, and supervised machine learning algorithms (including deep learning) on Dutch sentiment",
+    "crumbs": [
+      "Home",
+      "Daily Sessions",
+      "Large Language Models in the Social Sciences"
+    ]
   },
   {
     "objectID": "day-5.html#the-setup",
     "href": "day-5.html#the-setup",
     "title": "Large Language Models in the Social Sciences",
     "section": "The Setup",
-    "text": "The Setup\n\n\nGet the data\n\nsentiment_data &lt;- \"https://raw.githubusercontent.com/vanatteveldt/ecosent/master/data/intermediate/sentences_ml.csv\" |&gt;\n  read.csv() |&gt;\n  dplyr::filter(gold)\n\n\ndefine queries and an output schema.\n\nqueries_list &lt;- make_query(\n  text = sentiment_data$headline,\n  prompt = \"Annotate the sentiment in this text\"\n)\n\noutput_schema &lt;- list(\n  \"object\",\n  properties = list(\n    sentiment = list(\n      type = \"string\",\n      enum = c(\"negative\", \"neutral\", \"positive\")\n    )\n  ),\n  required = \"sentiment\"\n)\n\n\nUsing the structured output, we can make sure it is easy to process the results."
+    "text": "The Setup\n\n\nGet the data\n\nsentiment_data &lt;- \"https://raw.githubusercontent.com/vanatteveldt/ecosent/master/data/intermediate/sentences_ml.csv\" |&gt;\n  read.csv() |&gt;\n  dplyr::filter(gold)\n\n\ndefine queries and an output schema.\n\nqueries_list &lt;- make_query(\n  text = sentiment_data$headline,\n  prompt = \"Annotate the sentiment in this text\"\n)\n\noutput_schema &lt;- list(\n  \"object\",\n  properties = list(\n    sentiment = list(\n      type = \"string\",\n      enum = c(\"negative\", \"neutral\", \"positive\")\n    )\n  ),\n  required = \"sentiment\"\n)\n\n\nUsing the structured output, we can make sure it is easy to process the results.",
+    "crumbs": [
+      "Home",
+      "Daily Sessions",
+      "Large Language Models in the Social Sciences"
+    ]
   },
   {
     "objectID": "day-5.html#testing-the-setup",
     "href": "day-5.html#testing-the-setup",
     "title": "Large Language Models in the Social Sciences",
     "section": "Testing the setup",
-    "text": "Testing the setup\n\nquery(\n  queries_list[1],\n  model = \"llama3.2:3b-instruct-q8_0\",\n  screen = FALSE, # turn off priting answers\n  model_params = list(seed = 42),\n  output = \"text\",\n  format = output_schema\n) |&gt;\n  purrr::map(jsonlite::fromJSON) |&gt;\n  purrr::map_chr(\"sentiment\")\n\n[1] \"positive\""
+    "text": "Testing the setup\n\nquery(\n  queries_list[1],\n  model = \"llama3.2:3b-instruct-q8_0\",\n  screen = FALSE, # turn off priting answers\n  model_params = list(seed = 42),\n  output = \"text\",\n  format = output_schema\n) |&gt;\n  purrr::map(jsonlite::fromJSON) |&gt;\n  purrr::map_chr(\"sentiment\")\n\n[1] \"positive\"",
+    "crumbs": [
+      "Home",
+      "Daily Sessions",
+      "Large Language Models in the Social Sciences"
+    ]
   },
   {
     "objectID": "day-5.html#comparing-a-few-models",
     "href": "day-5.html#comparing-a-few-models",
     "title": "Large Language Models in the Social Sciences",
     "section": "Comparing a few models",
-    "text": "Comparing a few models\n\nextract_sentiment &lt;- function(resp) {\n  saveRDS(resp, \"resp.rds\")\n  resp |&gt;\n    purrr::map_chr(c(\"message\", \"content\")) |&gt;\n    purrr::map(jsonlite::fromJSON) |&gt;\n    purrr::map_chr(\"sentiment\", .default = \"\")\n}\n\nextract_time &lt;- function(resp) {\n  purrr::map_dbl(resp, \"eval_duration\") * 1e-9\n}\n\npb &lt;- list(\n  format = c(\"{cli::pb_spin} {cli::pb_percent} done [ETA: {cli::pb_eta}]\")\n)\n\nbench_file &lt;- \"data/sentiment_bench.rds\"\nif (file.exists(bench_file)) {\n  bench &lt;- readRDS(bench_file)\n} else {\n  bench &lt;- sentiment_data |&gt;\n    tidyr::expand_grid(\n      model = c(\n        \"llama2:7b\",\n        \"llama3:8b\",\n        \"llama3.1:8b\",\n        \"llama3.2:3b\",\n        \"llama3.2:3b-instruct-q8_0\",\n        \"llama3.3:70b\",\n        \"llama3.1:70b-instruct-q5_1\",\n        \"deepseek-r1:7b\",\n        \"deepseek-r1:8b\",\n        \"deepseek-r1:14b\",\n        \"qwen2.5:7b\",\n        \"gemma:2b\",\n        \"gemma:7b\",\n        \"gemma2:9b\",\n        \"deepseek-r1:1.5b\",\n        \"smollm2:latest\",\n        \"qwq:32b\"\n      )\n    ) |&gt;\n    dplyr::arrange(model) |&gt;\n    dplyr::mutate(\n      query = make_query(\n        text = headline,\n        prompt = \"Annotate the sentiment in this text\"\n      ),\n      resp = query(\n        query,\n        model = model,\n        screen = FALSE, # turn off printing answers\n        model_params = list(seed = 42),\n        output = \"response\",\n        verbose = pb,\n        format = output_schema\n      ),\n      sentiment = extract_sentiment(resp),\n      eval_time = extract_time(resp)\n    )\n  saveRDS(bench, bench_file)\n}\n\nbenchmark_data &lt;- bench |&gt;\n  mutate(\n    annotation_human = c(\"negative\", \"neutral\", \"positive\")[value + 2],\n    annotation_human = as.factor(annotation_human),\n    sentiment = ifelse(sentiment == \"\", NA_character_, sentiment),\n    sentiment = as.factor(sentiment)\n  )"
+    "text": "Comparing a few models\n\nextract_sentiment &lt;- function(resp) {\n  saveRDS(resp, \"resp.rds\")\n  resp |&gt;\n    purrr::map_chr(c(\"message\", \"content\")) |&gt;\n    purrr::map(jsonlite::fromJSON) |&gt;\n    purrr::map_chr(\"sentiment\", .default = \"\")\n}\n\nextract_time &lt;- function(resp) {\n  purrr::map_dbl(resp, \"eval_duration\") * 1e-9\n}\n\npb &lt;- list(\n  format = c(\"{cli::pb_spin} {cli::pb_percent} done [ETA: {cli::pb_eta}]\")\n)\n\nbench_file &lt;- \"data/sentiment_bench.rds\"\nif (file.exists(bench_file)) {\n  bench &lt;- readRDS(bench_file)\n} else {\n  bench &lt;- sentiment_data |&gt;\n    tidyr::expand_grid(\n      model = c(\n        \"llama2:7b\",\n        \"llama3:8b\",\n        \"llama3.1:8b\",\n        \"llama3.2:3b\",\n        \"llama3.2:3b-instruct-q8_0\",\n        \"llama3.3:70b\",\n        \"llama3.1:70b-instruct-q5_1\",\n        \"deepseek-r1:7b\",\n        \"deepseek-r1:8b\",\n        \"deepseek-r1:14b\",\n        \"qwen2.5:7b\",\n        \"gemma:2b\",\n        \"gemma:7b\",\n        \"gemma2:9b\",\n        \"deepseek-r1:1.5b\",\n        \"smollm2:latest\",\n        \"qwq:32b\"\n      )\n    ) |&gt;\n    dplyr::arrange(model) |&gt;\n    dplyr::mutate(\n      query = make_query(\n        text = headline,\n        prompt = \"Annotate the sentiment in this text\"\n      ),\n      resp = query(\n        query,\n        model = model,\n        screen = FALSE, # turn off printing answers\n        model_params = list(seed = 42),\n        output = \"response\",\n        verbose = pb,\n        format = output_schema\n      ),\n      sentiment = extract_sentiment(resp),\n      eval_time = extract_time(resp)\n    )\n  saveRDS(bench, bench_file)\n}\n\nbenchmark_data &lt;- bench |&gt;\n  mutate(\n    annotation_human = c(\"negative\", \"neutral\", \"positive\")[value + 2],\n    annotation_human = as.factor(annotation_human),\n    sentiment = ifelse(sentiment == \"\", NA_character_, sentiment),\n    sentiment = as.factor(sentiment)\n  )",
+    "crumbs": [
+      "Home",
+      "Daily Sessions",
+      "Large Language Models in the Social Sciences"
+    ]
+  },
+  {
+    "objectID": "day-5.html#results",
+    "href": "day-5.html#results",
+    "title": "Large Language Models in the Social Sciences",
+    "section": "Results",
+    "text": "Results\n\n\n\n\n\n\n\n\n\n\n\nmodel\naccuracy\nprecision\nrecall\nf_meas\n\n\n\n\ndeepseek-r1:7b\n0.36\n0.59\n0.37\n0.23\n\n\nsmollm2:latest\n0.4\n0.27\n0.45\n0.34\n\n\ndeepseek-r1:8b\n0.51\n0.58\n0.55\n0.44\n\n\ndeepseek-r1:14b\n0.52\n0.61\n0.56\n0.45\n\n\ndeepseek-r1:1.5b\n0.4\n0.44\n0.42\n0.46\n\n\nllama3.2:3b-instruct-q8_0\n0.51\n0.5\n0.51\n0.49\n\n\nllama2:7b\n0.52\n0.51\n0.55\n0.49\n\n\ngemma:2b\n0.51\n0.5\n0.51\n0.5\n\n\nllama3.2:3b\n0.53\n0.54\n0.54\n0.51\n\n\ngemma:7b\n0.57\n0.64\n0.6\n0.54\n\n\nllama3:8b\n0.59\n0.58\n0.61\n0.57\n\n\nllama3.1:8b\n0.63\n0.64\n0.62\n0.63\n\n\nqwen2.5:7b\n0.64\n0.67\n0.63\n0.64\n\n\ngemma2:9b\n0.68\n0.71\n0.71\n0.67\n\n\nqwq:32b\n0.7\n0.72\n0.7\n0.71\n\n\nllama3.3:70b\n0.72\n0.72\n0.73\n0.73\n\n\n\n\n\n\n\n\nTable 1: Performance of the tested models for sentiment analysis on data from Atteveldt, Velden, and and (2021)",
+    "crumbs": [
+      "Home",
+      "Daily Sessions",
+      "Large Language Models in the Social Sciences"
+    ]
   },
   {
     "objectID": "day-5.html#example-improved-machine-learning",
     "href": "day-5.html#example-improved-machine-learning",
     "title": "Large Language Models in the Social Sciences",
     "section": "Example: Improved machine learning",
-    "text": "Example: Improved machine learning\n\nWe saw earlier that these models can produce embeddings for full texts\nThese texts are dense representations of the “meaning” of text\nWe can use them to improve supervised machine learning approaches"
+    "text": "Example: Improved machine learning\n\nWe saw earlier that these models can produce embeddings for full texts\nThese texts are dense representations of the “meaning” of text\nWe can use them to improve supervised machine learning approaches",
+    "crumbs": [
+      "Home",
+      "Daily Sessions",
+      "Large Language Models in the Social Sciences"
+    ]
   },
   {
     "objectID": "day-5.html#the-setup-1",
     "href": "day-5.html#the-setup-1",
     "title": "Large Language Models in the Social Sciences",
     "section": "The Setup",
-    "text": "The Setup\n\n\nGet the data\n\nset.seed(1)\nreviews &lt;- readRDS(\"data/imdb.rds\") # |&gt;\n  # sample to make this quicker\n  # slice_sample(n = 5000)\n\n\nTurn them into embeddings\n\nreviews_embeddings &lt;- reviews |&gt;\n  mutate(embeddings = embed_text(text = text, model = \"nomic-embed-text\")) |&gt;\n  select(id, label, embeddings) |&gt;\n  unnest_wider(embeddings)\nreviews_embeddings |&gt; \n  select(1:10)\n\n\n\n# A tibble: 50,000 × 10\n      id label    dim_1  dim_2 dim_3   dim_4   dim_5 dim_6   dim_7  dim_8\n   &lt;int&gt; &lt;fct&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;\n 1     1 neg    0.00258 -0.171 -2.74 -0.706  -0.488   1.48 -0.479  -0.193\n 2     2 neg   -0.497   -0.623 -3.53 -0.0592  0.424   1.17 -0.839  -0.249\n 3     3 neg    0.230   -0.531 -2.39  0.0430 -0.616   1.64 -0.209   0.957\n 4     4 neg    0.102    0.309 -2.26 -0.373   0.850   1.30  0.595   0.366\n 5     5 neg   -0.312   -0.246 -2.78 -0.237   0.226   1.31  0.303   0.644\n 6     6 neg    0.146    0.375 -2.91  0.935   1.28    1.23  0.237   0.529\n 7     7 neg    0.289    0.275 -3.25  0.692   0.216   1.30  0.307   1.57 \n 8     8 neg   -0.0703   0.513 -3.46  1.21    0.0697  1.43  0.0469  1.26 \n 9     9 neg    0.522    0.421 -2.90 -0.149  -0.760   1.58 -0.0315 -0.630\n10    10 neg    0.853   -0.428 -2.90 -0.312   0.367   1.35 -1.13    0.755\n# ℹ 49,990 more rows"
+    "text": "The Setup\n\n\nGet the data\n\nset.seed(1)\nreviews &lt;- readRDS(\"data/imdb.rds\") # |&gt;\n  # sample to make this quicker\n  # slice_sample(n = 5000)\n\n\nTurn them into embeddings\n\nreviews_embeddings &lt;- reviews |&gt;\n  mutate(embeddings = embed_text(text = text, model = \"nomic-embed-text\")) |&gt;\n  select(id, label, embeddings) |&gt;\n  unnest_wider(embeddings)\nreviews_embeddings |&gt; \n  select(1:10)\n\n\n\n# A tibble: 50,000 × 10\n      id label    dim_1  dim_2 dim_3   dim_4   dim_5 dim_6   dim_7  dim_8\n   &lt;int&gt; &lt;fct&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;\n 1     1 neg    0.00258 -0.171 -2.74 -0.706  -0.488   1.48 -0.479  -0.193\n 2     2 neg   -0.497   -0.623 -3.53 -0.0592  0.424   1.17 -0.839  -0.249\n 3     3 neg    0.230   -0.531 -2.39  0.0430 -0.616   1.64 -0.209   0.957\n 4     4 neg    0.102    0.309 -2.26 -0.373   0.850   1.30  0.595   0.366\n 5     5 neg   -0.312   -0.246 -2.78 -0.237   0.226   1.31  0.303   0.644\n 6     6 neg    0.146    0.375 -2.91  0.935   1.28    1.23  0.237   0.529\n 7     7 neg    0.289    0.275 -3.25  0.692   0.216   1.30  0.307   1.57 \n 8     8 neg   -0.0703   0.513 -3.46  1.21    0.0697  1.43  0.0469  1.26 \n 9     9 neg    0.522    0.421 -2.90 -0.149  -0.760   1.58 -0.0315 -0.630\n10    10 neg    0.853   -0.428 -2.90 -0.312   0.367   1.35 -1.13    0.755\n# ℹ 49,990 more rows",
+    "crumbs": [
+      "Home",
+      "Daily Sessions",
+      "Large Language Models in the Social Sciences"
+    ]
   },
   {
     "objectID": "day-5.html#use-tidymodels",
     "href": "day-5.html#use-tidymodels",
     "title": "Large Language Models in the Social Sciences",
     "section": "Use tidymodels",
-    "text": "Use tidymodels\n\nlibrary(tidymodels)\n# split data into training an test set (for validation)\nset.seed(1)\nreviews_split &lt;- initial_split(reviews_embeddings)\n\nreviews_train &lt;- training(reviews_split)\n\n# set up the model we want to use\nlasso_spec &lt;- logistic_reg(penalty = tune(), mixture = 1) |&gt;\n  set_engine(\"glmnet\")\n\n# we specify that we want to do some hyperparameter tuning and bootstrapping\nparam_grid &lt;- grid_regular(penalty(), levels = 50)\nreviews_boot &lt;- bootstraps(reviews_train, times = 10)\n\n# and we define the model. Here we use the embeddings to predict the rating\nrec_spec &lt;- recipe(label ~ ., data = select(reviews_train, -id))\n\n# bringing this together in a workflow\nwf_fh &lt;- workflow() |&gt;\n  add_recipe(rec_spec) |&gt;\n  add_model(lasso_spec)\n\n# now we do the tuning\nset.seed(42)\nlasso_grid &lt;- tune_grid(\n  wf_fh,\n  resamples = reviews_boot,\n  grid = param_grid\n)\n\n# select the best model\nwf_fh_final &lt;- wf_fh |&gt;\n  finalize_workflow(parameters = select_best(lasso_grid, metric = \"roc_auc\"))\n\n# and train a new model + predict the classes for the test set\nfinal_res &lt;- last_fit(wf_fh_final, reviews_split)\n\n# we extract these predictions\nfinal_pred &lt;- final_res |&gt;\n  collect_predictions()"
+    "text": "Use tidymodels\n\nlibrary(tidymodels)\n# split data into training an test set (for validation)\nset.seed(1)\nreviews_split &lt;- initial_split(reviews_embeddings)\n\nreviews_train &lt;- training(reviews_split)\n\n# set up the model we want to use\nlasso_spec &lt;- logistic_reg(penalty = tune(), mixture = 1) |&gt;\n  set_engine(\"glmnet\")\n\n# we specify that we want to do some hyperparameter tuning and bootstrapping\nparam_grid &lt;- grid_regular(penalty(), levels = 50)\nreviews_boot &lt;- bootstraps(reviews_train, times = 10)\n\n# and we define the model. Here we use the embeddings to predict the rating\nrec_spec &lt;- recipe(label ~ ., data = select(reviews_train, -id))\n\n# bringing this together in a workflow\nwf_fh &lt;- workflow() |&gt;\n  add_recipe(rec_spec) |&gt;\n  add_model(lasso_spec)\n\n# now we do the tuning\nset.seed(42)\nlasso_grid &lt;- tune_grid(\n  wf_fh,\n  resamples = reviews_boot,\n  grid = param_grid\n)\n\n# select the best model\nwf_fh_final &lt;- wf_fh |&gt;\n  finalize_workflow(parameters = select_best(lasso_grid, metric = \"roc_auc\"))\n\n# and train a new model + predict the classes for the test set\nfinal_res &lt;- last_fit(wf_fh_final, reviews_split)\n\n# we extract these predictions\nfinal_pred &lt;- final_res |&gt;\n  collect_predictions()",
+    "crumbs": [
+      "Home",
+      "Daily Sessions",
+      "Large Language Models in the Social Sciences"
+    ]
   },
   {
     "objectID": "day-5.html#check-out-results",
     "href": "day-5.html#check-out-results",
     "title": "Large Language Models in the Social Sciences",
     "section": "Check out results",
-    "text": "Check out results\n\nlibrary(gt)\nmy_metrics &lt;- metric_set(accuracy, kap, precision, recall, f_meas)\n\nmy_metrics(final_pred, truth = label, estimate = .pred_class) |&gt; \n  # I use gt to make the table look a bit nicer, but it's optional\n  gt() |&gt; \n  data_color(\n    columns = .estimate,\n    fn = scales::col_numeric(\n      palette = c(\"red\", \"orange\", \"green\"),\n      domain = c(0, 1)\n    )\n  )\n\n\n\n\n\n\n\n.metric\n.estimator\n.estimate\n\n\n\n\naccuracy\nbinary\n0.9264800\n\n\nkap\nbinary\n0.8529560\n\n\nprecision\nbinary\n0.9239043\n\n\nrecall\nbinary\n0.9282258\n\n\nf_meas\nbinary\n0.9260600\n\n\n\n\n\n\n\nComparison to day-3: F1 = 0.72 and 0.71"
+    "text": "Check out results\n\nlibrary(gt)\nmy_metrics &lt;- metric_set(accuracy, kap, precision, recall, f_meas)\n\nmy_metrics(final_pred, truth = label, estimate = .pred_class) |&gt; \n  # I use gt to make the table look a bit nicer, but it's optional\n  gt() |&gt; \n  data_color(\n    columns = .estimate,\n    fn = scales::col_numeric(\n      palette = c(\"red\", \"orange\", \"green\"),\n      domain = c(0, 1)\n    )\n  )\n\n\n\n\n\n\n\n.metric\n.estimator\n.estimate\n\n\n\n\naccuracy\nbinary\n0.9264800\n\n\nkap\nbinary\n0.8529560\n\n\nprecision\nbinary\n0.9239043\n\n\nrecall\nbinary\n0.9282258\n\n\nf_meas\nbinary\n0.9260600\n\n\n\n\n\n\n\nComparison to day-3: F1 = 0.72 and 0.71",
+    "crumbs": [
+      "Home",
+      "Daily Sessions",
+      "Large Language Models in the Social Sciences"
+    ]
   },
   {
     "objectID": "day-5.html#conclusion-1",
     "href": "day-5.html#conclusion-1",
     "title": "Large Language Models in the Social Sciences",
     "section": "Conclusion",
-    "text": "Conclusion\n\n\n\nLLMs bring many new possibilities for new research\nA lot of it is untested and comes with risks\nIf you want to use models, think about: responsibility\nTrust but verify!"
+    "text": "Conclusion\n\n\n\nLLMs bring many new possibilities for new research\nA lot of it is untested and comes with risks\nIf you want to use models, think about: responsibility\nTrust but verify!",
+    "crumbs": [
+      "Home",
+      "Daily Sessions",
+      "Large Language Models in the Social Sciences"
+    ]
+  },
+  {
+    "objectID": "day-5.html#footnotes",
+    "href": "day-5.html#footnotes",
+    "title": "Large Language Models in the Social Sciences",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nbut still need of validation!",
+    "crumbs": [
+      "Home",
+      "Daily Sessions",
+      "Large Language Models in the Social Sciences"
+    ]
   }
 ]

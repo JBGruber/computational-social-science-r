@@ -31,7 +31,7 @@ The goal of this course is to introduce you to Computational Social Science with
 | Day 2 | Obtaining Data | [Slides](day-2.html) |
 | Day 3 | Computational Text Analysis | [Slides](day-3.html) |
 | Day 4 | Computational Network Analysis | [Slides](day-4.html) |
-| Day 5 | Social Simulation & Agent-based Models | Coming Soon |
+| Day 5 | Social Simulation & Agent-based Models | [Slides](day-5.html)  |
 
 ## Quick Start
 
