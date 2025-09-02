@@ -3,6 +3,8 @@ title: "Exercises Day 2 - Obtaining data"
 format: html
 ---
 
+# Static Pages
+
 1. Consider the toy HTML example below. Which selectors do you need to put into `html_elements()` (which extracts all elements matching the selector) to extract the information
 
 
@@ -105,3 +107,22 @@ links <- c(
 )
 ```
 
+# APIs
+
+6. `httr2` has several more functions to customize how a request is performed. What do these functions do?
+
+- `req_throttle`:
+- `req_error`:
+- `req_retry`:
+
+
+7. Make your own request to the Guardian API with a different search term
+
+8. You might want to add more information to the data.frame. Adapt the function parse_response to also extract: apiUrl, lastModifiedDate, pillarId
+
+9. Request page 2 from the API. You can search for the correct query parameter in the documentation here: <https://open-platform.theguardian.com/documentation/>
+
+
+# Interactive Website & Browser Automation
+
+10. Try to identify an interactive website. Can you identify a difference between what `read_html` and `read_html_live` give you?
