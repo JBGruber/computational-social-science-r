@@ -46,8 +46,8 @@ bibliography: references.bib
 |--------|----------------------------------------------|
 | **Day 1**  | **Introduction to Computational Social Science** |
 | Day 2  | Obtaining Data                               |
-| Day 3  | Computational Text Analysis                  |
-| Day 4  | Computational Network Analysis               |
+| Day 3  | Computational Network Analysis               |
+| Day 4  | Computational Text Analysis                  |
 | Day 5  | Large Language Models in the Social Sciences |
 
 : Course Schedule {.striped .hover}
@@ -60,16 +60,19 @@ bibliography: references.bib
 :::: {.columns}
 
 ::: {.column width="60%"}
-- PostDoc at Department of Language, Literature and Communication at Vrije Universiteit Amsterdam and University of Amsterdam
+- Senior Researcher/Team Lead in *Data Services for the Social Sciences* @ GESIS
+- Previously PostDoc in Communication at VU Amsterdam, University of Amsterdam, and European New School of Digital Studies  
 - Interested in:
   - Computational Social Science
-  - Automated Text Analysis
+  - Data Quality
+  - Open and reproducible science
+  - Automated Content Analysis
   - Hybrid Media Systems and Information Flows
   - Protest and Democracy
 - Experience:
-  - R user since 2015 years
+  - R user since 2015
   - R package developer since 2017
-  - Worked on several packages for text analysis, API access and web scraping (spacyr, quanteda.textmodels, LexisNexisTools, paperboy, traktok, rollama, amcat4-r, and more)
+  - Worked on several packages for text analysis, API access and web scraping (spacyr, quanteda.textmodels, LexisNexisTools, paperboy, traktok, rollama, amcat4-r, atrrr, rwhatsapp and more)
 :::
 
 ::: {.column width="40%"}

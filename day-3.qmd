@@ -1,13 +1,13 @@
 ---
-title: "Computational Text Analysis"
-subtitle: "[**Module 03**]{.kn-pink} [GESIS Fall Seminar \"Introduction to Computational Social Science\"]{.kn-blue}"
+title: "Generative<br>Network Analysis"
+subtitle: "[DAY FOUR]{.kn-pink} [GESIS Fall Seminar in Computational Social Science]{.kn-blue}"
 author:
-  - name: Johannes B. Gruber
-    affiliations:
-      - name: GESIS
   - name: John McLevey
     affiliations:
       - name: University of Waterloo
+  - name: Johannes B. Gruber
+    affiliations:
+      - name: GESIS
 format:
   revealjs:
     theme: [default, custom.scss]
@@ -15,6 +15,7 @@ format:
     height: 900
     embed-resources: true
     execute:
+      eval: true
       echo: true
       warning: false
       cache: true
@@ -24,7 +25,7 @@ format:
     preview-links: auto
     smaller: true
     fig-align: left
-    fig-format: svg
+    fig-format: png
     lightbox: true
     scrollable: true
     code-overflow: scroll
@@ -32,1082 +33,1332 @@ format:
     code-line-numbers: true
     code-copy: hover
     reference-location: document
+    tbl-cap-location: margin
     logo: media/logo_gesis.png
     footer: "[CC BY-SA 4.0]{.nord-footer}"
     email-obfuscation: javascript
-highlight-style: "nord" 
+highlight-style: "nord"
 bibliography: references.bib
 ---
 
+# Introduction
 ## Schedule: GESIS Fall Seminar in Computational Social Science
 
 | time   | Session                                      |
 |--------|----------------------------------------------|
 | Day 1  | Introduction to Computational Social Science |
 | Day 2  | Obtaining Data                               |
-| **Day 3**  | **Computational Text Analysis**                  |
-| Day 4  | Computational Network Analysis               |
+| **Day 3**  | **Computational Network Analysis**               |
+| Day 4  | Computational Text Analysis                  |
 | Day 5  | Large Language Models in the Social Sciences |
 
 : Course Schedule {.striped .hover}
 
 <!-- This is a comment. You can leave them here to take notes linked to the slides. -->
 
-## Plan for today
 
-- What is Computational Text Analysis?
-- Dictionary-based Approaches
-- Supervised Machine Learning
-- Unsupervised Machine Learning
-- Word Embeddings
-- generative Large Language Models
 
-# What is Computational Text Analysis?
-## Basics
-
-- Definition: Computational Text Analysis involves using computer algorithms and techniques to process, analyse, and derive insights from textual data
-- Data Sources: Textual data can come from various sources such as social media posts, news articles, academic papers, emails, forums, and other digital communications
-
-## Text/Content Analysis in Social Science
-
-- Researchers have long recognised that much of what is social interaction is expressed through words
-- Traditionally these texts are analysed using content analysis in one of several forms (e.g., Quantitative Content Analysis, Discourse Analysis or Hermeneutic Content Analysis)
-- The goal was to understand what actors are saying and writing and sometimes why they might say or write something
-- The steps could involve theory/category building, classification of text and finding relations between texts/actors
-- But scholars struggle with volume: ***there are often simply too many relevant texts***
-- At least linear increase of costs with larger text corpora (structured collections of text)
-
-## Promises of Automatic Content Analysis
-
-- *Systematic analysis* of large-scale text collections without massive funding support
-- Depending on the method, results are available almost immediately
-- Perfect reliability in the sense that presented the same data and method, the computer will generate same results
-
-## Pitfalls of Automatic Content Analysis: Four Principles [@grimmer_text_2013]
-
-1. All quantitative models of language are wrong—but some are useful 
-2. Quantitative methods augment humans, not replace them
-3. There is no globally best method for automated text analysis
-4. Validate, Validate, Validate!
-- Problem with 4: The discipline is still young and validation methods are often not canonical or do not exist yet.
-
-## text-as-data methods
-
-![](media/tada.png)
-
-From @grimmer_text_2013
-
-## text-as-data methods
-
-![](media/stock.png)
-
-From @boumans_taking_2015
-
-## text-as-data methods
-
-![](media/optimal_tada_method.png){width=600}
-
-From myself.
-
-# Dictionary-based Approaches
-## What are Dictionary-based Approaches?
+## SNA Origins
+[@freeman2004development]{.nord-light}
 
 :::: {.columns}
+::: {.column width="45%"}
+![](media/Simmel.png){width=41.5%} ![](media/jacob_moreno.jpg){width=41%}<br>[Left, Georg **Simmel** (1858-1918)<br>Right, Jacob **Moreno** (1889-1974)]{.nord-footer}
 
-::: {.column width="70%"}
-- Lexicon/Dictionary: the words in a language and their meaning
-- Lexicon/Dictionary-based approaches: simply count how often pre-defined words appear to infer meaning of text
-- Wordcounts are usualy used to categorise text (e.g., non-/relevant, positive/negative, a-/political)
-- To infer category from count, researchers define mapping function (e.g., N positive terms > N negative terms = positive text) 
-- Like 'normal' dictionaries: several forms of the word carry same meaning, expressed through wildcards (e.g., econom*) or regular expressions (e.g., econom.+) (matches economists, economic, and so on)
+**Simmel**'s [[-@simmel2010conflict]]{.nord-light} "The Web of Group Affiliations" and **Moreno**'s [[-@moreno1934shall]]{.nord-light} *Who Shall Survive?* are generally considered to be the intellectual beginnings of SNA.
 :::
 
-::: {.column width="30%"}
-![](media/lexicon.jpeg)
+::: {.column width="10%"}
+:::
+
+::: {.column width="45%"}
+![](media/who_shall_survive.gif){width=100%}
+
+*Who Shall Survive?* Helen Hall **Jennings** co-authored this classic without credit.
+:::
+::::
+
+
+##
+
+:::: {.columns}
+::: {.column width="45%"}
+![The vertical line marks the publication of the first edition of the<br>*Sage Handbook of Social Network Analysis* [[@scott2011sage]]{.nord-light}.<br>Figure reproduced from [[@mclevey2023sage]]{.nord-light}.](media/social_networks_over_time.png){#fig-social_networks_over_time width=80%}
+:::
+
+::: {.column width="55%"}
+![](media/SHSNA-Contents.png){width=100%}
+:::
+::::
+
+##
+
+![Latent topics in *Social Networks* over time. Reproduced from [@mclevey2023sage]{.nord-light}.](media/mclevey_scott_carrington_sna_topic_heatmap.png){#fig-mclevey_scott_carrington_sna_topic_heatmap}
+
+SNA (and network science more generally) is [increasingly computational]{.kn-pink} [[see also @tindall2022big]]{.nord-light}. Subgroup analysis, clustering, multilevel models, statistical modelling, Bayesian inference, and social influence are especially important topics.
+
+
+## Learning Objectives
+
+We will focus on [generative modelling]{.kn-pink} for network analysis, especially "community detection" and visualization.
+
+<br>
+
+:::: {.columns}
+::: {.column width="60%"}
+By the end of this module, students will be able to:
+
+- differentiate heuristic and generative approaches to network analysis in general, and community detection in particular
+- explain problems with heuristic approaches to community detection, specifically modularity-maximization
+- understand the logic of generative modelling and Bayesian data analysis (BDA) applied to networks
+- understand how Bayesian Stochastic Blockmodels offer a flexible, interpretable, and statistically principled approach to analyzing networks
+- iteratively fit, refine, assess, compare, visualize, and interpret Nested Stochastic Blockmodels in Python using `graph-tool`
+:::
+::: {.column width="40%"}
+:::
+::::
+
+##
+
+:::: {.columns}
+::: {.column width="50%"}
+![](media/reduction.jpg){width=70% .shadow-img}
+
+### Community Detection
+[is like a good reduction]{.nord-footer}
+:::
+
+::: {.column width="50%"}
+- an essential topic in network analysis [[see @prell2011social; @robins2015doing; @light2020oxford; @mclevey2022doing; @moody2023cohesion; @peixoto2023descriptive; @mclevey2023sage; @borgatti2024analyzing]]{.nord-light}
+- high-level goal is to simplify network structure by partitioning and [reducing]{.kn-pink} complex observed networks
+- there are different kinds of structure and subgroups
+  - assortative-connective, equivalent-positional
+- there are different methods and models we can use
+  - **heuristic-descriptive**
+    - have been popular for some time
+    - are deeply flawed and should be avoided
+  - **generative-inferential**
+    - not new [[e.g., @holland1983stochastic; @snijders1997estimation; @bearman2004chains]]{.nord-light}, better and more accessible than ever
+    - strong opinion: must become be the standard
+:::
+::::
+
+::: {.notes}
+**The reduction analogy**
+
+- Starting with Complexity: Just as you begin cooking with a variety of ingredients in a sauce, you start with a complex network that has many nodes and edges representing different interactions or relationships.
+- Reducing to Essentials: In cooking, reducing a sauce involves simmering it to evaporate excess liquid, concentrating the flavors, and focusing on the essential ingredients. Similarly, blockmodeling simplifies the network by grouping similar nodes into blocks or communities, thereby reducing the complexity of the network and focusing on the essential structural patterns.
+- Enhancing Understanding: The goal of reducing a sauce is to create a richer, more flavorful dish that enhances the overall meal. Likewise, the goal of blockmodeling is to create a clearer, more understandable representation of the network, making it easier to identify key patterns, relationships, and structures.
+- Striking the Right Balance: Just as you must be careful not to reduce a sauce too much (which could lead to an overly intense or burnt flavor), in blockmodeling, it’s important to strike the right balance between simplification and preserving the network’s meaningful structure. Over-simplification could result in loss of important details.
+:::
+
+##
+
+<br><br>
+
+![](media/heuristic.png){width=40% .shadow-img}
+
+### pitfalls and problems <br>with [heuristic]{.kn-pink} network analysis
+
+##
+
+:::: {.columns}
+::: {.column width="50%"}
+![](media/divided_they_blog.png){#fig-divided_they_blog width="100%" .shadow-img}
+
+### Divided They Blog
+:::
+
+::: {.column width="50%"}
+$\longleftarrow$<br>This famous figure from @adamic2005political shows a conservative-liberal divide in the American political blogosphere circa 2004.
+
+- Nodes: political blogs
+- Edges: links [("citations")]{.nord-light} to other blogs
+- Color: liberal (blue), conservative (red) [(not CD!)]{.nord-light}
+- Size: indegree
+- Layout: force directed
+
+<br>
+
+[Is the network structure<br>[[self-evident]{.kn-pink}]{.large-text}<br>here?]{.fragment}
+
+:::
+::::
+
+
+##
+
+:::: {.columns}
+::: {.column width="55%"}
+![Wickham's loop.](media/data-science.png){#fig-data-science width=60%}
+
+<br>
+
+### Common First Steps
+
+- reduce the network [(e.g., detect subgroup structure)]{.nord-light}
+- visualize network [(usually force-directed layouts)]{.nord-light}
+- interpret and ...
+
+When do we exit the loop?
+
+Can we trust intuition?
+:::
+
+::: {.column width="5%"}
+:::
+
+::: {.column width="40%"}
+![Box's loop.](media/box_loop.png){#fig-box_loop width=60%}
+
+<br>
+
+![](media/divided_they_blog.png){width=60% .shadow-img}
+:::
+::::
+
+##
+
+:::: {.columns}
+::: {.column width="50%"}
+![](media/divided_they_blog.png){width=100% .shadow-img}
+
+### How sure are you?
+:::
+
+::: {.column width="50%"}
+<br>
+
+#### Common pitfalls and problems
+
+[@peixoto2021modularity; @peixoto2023descriptive; @peixoto2021hairball]{.nord-footer}
+
+- (Implicitly?) believing some approaches are more "model-free" than others
+- (Implicitly?) believing that network structure will be self-evident and our intuitions will hold up when reasoning about high-dimensional network structure
+
+<br>
+
+Which often translates to:
+
+- using heuristic approaches [(esp. modularity-maximization)]{.nord-light} to partition/reduce networks
+- interpreting generic network visualizations [(esp. force-directed)]{.nord-light} without sufficient model criticism
+:::
+::::
+
+##
+
+![These loops encourage us to explicate, criticize, and refine **models** in order to be confident in our inferences.](media/box_loop.png){width=80% .shadow-img}
+
+There is [no inference without models]{.kn-blue}, so we should always make our models explicit.
+
+##
+
+### Heuristic Community Detection<br>via Modularity Maximization
+
+<br><br>
+
+:::: {.columns}
+::: {.column width="55%"}
+
+The Louvain [[@blondel2008fast]]{.nord-light} algorithm purports to detect communities in networks by maximizing a "modularity" score $Q$ [[@newman2004finding]]{.nord-light}, where higher $Q$ values indicate more modular networks.
+
+![](media/Louvain.png){width=100%}
+:::
+
+::: {.column width="5%"}
+:::
+
+::: {.column width="40%"}
+![Figure reproduced from [@blondel2008fast]{.nord-light}](media/Louvain_alg.png){.shadow-img width=100%}
+:::
+::::
+
+::: {.notes}
+It starts by assuming that every node in a network is in it's own community and calculates a modularity score $Q$ for the network. Nodes are then randomly moved into different groups and $Q$ is re-calculated. If it increased, the community assignment is retained. This process continues until the node assignments have maximized $Q$ at the level of the observed network.
+
+Next, a simplified network is created by aggregating nodes into their assigned communities and the modularity maximization process is repeated. Communities are merged with other communities, and the mergers are retained if $Q$ increases. This process continues iteratively until $Q$ has been maximized.
+:::
+
+
+##
+
+:::: {.columns}
+::: {.column width="55%"}
+
+[😲😰😰😰]{.large-text}
+
+Some **well-known problems**:
+
+- the resolution limit
+- getting stuck in local optima
+- creating disconnected communities
+- can only identify assortative structure
+- finds "communities" in random networks
+- the illusion of greater objectivity<br>[[see @moody2023cohesion]]{.nord-footer}
+- simultaneously over- and under-fit<br>[[see @peixoto2023descriptive]]{.nord-footer}
+- often has a degenerate solution space<br>[[see @peixoto2023descriptive]]{.nord-footer}
+- etc.
+
+[There have been some improvements to modularity-maximization approaches [[e.g., @traag2019louvain]]{.nord-light}, but these only go so far. There are **fundamental problems** with the modularity-maximization idea, and heuristic approaches in general.]{.fragment}
+:::
+::: {.column width=45%}
+:::
+::::
+
+::: {.notes}
+...
+
+There are well-known problems with the Louvain algorithm, including **the resolution limit**, which prevents Louvain from detecting meaningful small communities due to inappropriate merging at higher levels. Louvain can also get **stuck in local optima**, causing it to stop looking for better partitions because it "thinks" (incorrectly) that $Q$ has been maximized. And sometimes it **creates disconnected communities**!
+:::
+
+
+##
+
+
+### What is $Q$?
+
+[[@newman2004finding; @blondel2008fast]]{.nord-footer}
+
+<br>
+
+:::: {.columns}
+::: {.column width="45%"}
+$$
+Q(A, b) = \frac{1}{2E} \sum_{ij} \left( A_{ij} - \gamma \frac{k_i k_j}{2E} \right) \delta_{b_i, b_j}
+$$
+:::
+
+::: {.column width=10%}
+:::
+
+::: {.column width=45%}
+$A$ is the binary adjacency matrix for an observed network and $b$ is a vector of node community assignments, so $Q(A,b)$ is the modularity score we would obtain for matrix $A$ given a proposed vector of community assignments $b$.
+
+<br>
+
+The goal is to find $\hat{b}$, the vector $b$ that maximizes $Q$.
+
+$$
+\hat{b} = \mathop{\mathrm{argmax}}_{b} \, Q(A, b)
+$$
+
+<!-- $$
+More recent version include a [resolution parameter]{.kn-pink} $\gamma$ that determines how the algorithm considers within community edges relative to a null model. Larger $\gamma$ values tend to result in a larger number of smaller communities. In the original equation ($\longleftarrow$), this was set to 1 by default, which **gave the impression** that researchers could find the optimal community partition with little subjective judgement. -->
 :::
 
 ::::
 
-## Why choose Lexicon/Dictionary-based Approaches?
-
-- Fully transparent even without technical knowledge
-- Lightweight to run, even on enormous data sets
-- Easy to implement it for nonconsumptive research (e.g., Google Books let's you search, but not read/consume books)
-- Valid choice under 3 conditions (@cssbook):
-  1. Variable we want to code is <u>manifest</u> and <u>concrete</u> rather than latent and abstract: names of actors, specific physical objects, specific phrases, etc., rather than feelings, frames, or topics.
-  2. All synonyms to be included must be known beforehand.
-  3. And third, the dictionary entries must not have multiple meanings.
-
-## Setup Environment
-
-- Switch to Quarto View
-
-```{r setup}
-library(ngramr)
-library(tidyverse)
-library(tidytext)
-library(yardstick)
-```
-
-## Example: Non-Consupmtive Research with Google Books
-
-Taken from @duneier_ghetto_2017: Ghetto: The Invention of a Place, the History of an Idea 
-
-- **RQ**: How did the meaning of ghetto change over time?
-- **Method**: Non-Consumptive Research with the Google Books Ngram Viewer
-
-```{r}
-#| output-location: column
-#| echo: true
-#| fig-asp: 1
-ng  <- ngram(
-  phrases = c("ghetto", 
-              "(Warsaw ghetto) + (Jewish ghetto)", 
-              "(black ghetto) + (negro ghetto)"), 
-  year_start = 1920,
-  year_end = 1975,
-  smoothing = 0,
-  count = TRUE
-) |> 
-  group_by(Year) |> 
-  mutate(pct = Frequency / Frequency[Phrase == "ghetto"]) |> 
-  filter(Phrase != "ghetto")
-
-ggplot(ng, aes(x = Year, y = pct, colour = Phrase)) +
-  geom_line() +
-  theme(legend.position = "bottom")
-```
-
-## Example 2: Sentiment Analysis
-
-This part is taken from [@cssbook Chapter 11.2](https://cssbook.net/content/chapter11.html#sec-reviewdataset).
-We first get the data for this, which consists of movie reviews from the IMDB database [@aclimdb].
-
-```{r}
-# You can ignore this part where I download and process the data. The code is
-# not really applicable for other dataset. But I left it in here in case you
-# find it interesting.
-data_file <- "data/imdb.rds"
-if (!file.exists(data_file)) {
-  message("Downloading data")
-  temp <- file.path(tempdir(), "imdb") 
-  dir.create(temp, recursive = TRUE)
-  curl::curl_download("https://cssbook.net/d/aclImdb_v1.tar.gz",
-                      file.path(temp, "imdb.tar.gz"), quiet = FALSE)
-  untar(file.path(temp, "imdb.tar.gz"), exdir = temp)
-  files <- list.files(temp, 
-                      pattern = ".txt", 
-                      recursive = TRUE,
-                      full.names = TRUE)
-  imdb <- map(files, function(f) {
-    tibble(
-      file = f,
-      text = readLines(f, warn = FALSE)
-    )
-  }) |> 
-    bind_rows() |> 
-    mutate(label = str_extract(file, "/pos/|/neg/"),
-           label = str_remove_all(label, "/"),
-           label = factor(label)) |>
-    filter(!is.na(label)) |>
-    select(-file) |> 
-    # adding unique IDs for later
-    mutate(id = row_number())
-  saveRDS(imdb, data_file)
-} else {
-  message("Using cached data")
-  imdb <- readRDS(data_file)
-}
-```
-
-## Getting a dictionary
-
-We download a dictionary from the *Computational Analysis of Communication* website [@cssbook], which consists of a list of positive, and one list of negative words.
-
-```{r dict-r}
-poswords <- "https://cssbook.net/d/positive.txt"
-negwords <- "https://cssbook.net/d/negative.txt"
-sentiment_dict <- bind_rows(
-  tibble(word = scan(poswords, what = "character"), value = 1),
-  tibble(word = scan(negwords, what = "character"), value = -1)
-)
-sentiment_dict[c(1:5, 5660:5664), ]
-```
-
-## Applying dictionary
-
-We then go through all reviews and construct a sentiment score by looking up each word and adding up its score:
-
-```{r sentsimple-r}
-scores_df <- imdb |> 
-  # For speed, we only take the first 100 reviews
-  head(100) |> 
-  # This splits up the texts into its individual words
-  unnest_tokens(output = "word", input = "text", drop = FALSE) |> 
-  # We attach the sentiment_dict to the text data.frame. inner_join drops
-  # rows where the word is not in both data.frames
-  inner_join(sentiment_dict, by = "word") |>
-  # For each text, we calcuate the sum of values
-  group_by(id) |> 
-  summarise(senti_score = sum(value),
-            text = head(text, 1))
-
-head(scores_df)
-```
-
-## Applying dictionary
-
-More commonly, people normalize the absolute count of positive and negative words to construct a score:
-
-- -1 (most negative sentiment) to +1 (most positive sentiment).
-- mapping function
-  - N positive terms >= N negative terms = positive text
-  - N positive terms < N negative terms = negative text
-
-```{r sentnorm-r}
-scores_df <- imdb |> 
-  # For speed, we only take the first 100 reviews
-  head(100) |>  
-  unnest_tokens(output = "token", input = "text", drop = FALSE) |> 
-  inner_join(sentiment_dict, by = c("token" = "word")) |> 
-  group_by(id) |>
-  # here, we normalise the outcome and assign a sentiment category
-  summarise(senti_score = sum(value) / n(),
-            sentiment = ifelse(senti_score >= 0, "pos", "neg"),
-            text = head(text, 1))
-
-head(scores_df)
-```
-
-## Plotting the scores
-
-We can plot these results to get an impression how often each category was predicted and how strong the senti_score was in these cases.
-
-```{r sent-plot-r}
-scores_df |> 
-  mutate(id = fct_reorder(as.character(id), senti_score)) |> 
-  ggplot(aes(x = senti_score, y = id, fill = sentiment)) +
-  geom_col() +
-  labs(y = NULL, fill = NULL)
-```
-
-## Validation
-
-We can validate this approach by comparing the measured sentiment to the real sentiment, as given in the dataset:
-
-```{r}
-validation_df <- scores_df |> 
-  select(-text) |> 
-  left_join(imdb, by = "id")
-
-# have a look at the new data.frame
-validation_df |> 
-  select(id, label, sentiment, senti_score)
-```
-
-An easy way to validate performance is to calculate how often the prediction and the real sentiment match:
-
-```{r}
-validation_df |> 
-  count(match = label == sentiment)
-```
-
-However, the absolute count of matches, or accuracy, is prone to errors, since it does not take into account chance.
-For example, by taking only the first 100 reviews, we happen to have gather data that has just negative cases:
-
-```{r}
-validation_df |> 
-  count(label)
-```
-
-So while optimising our mapping function we could accidentally make a wrong adjustment:
-
-```{r}
-scores_df_error <- imdb |> 
-  head(100) |>  
-  unnest_tokens(output = "token", input = "text", drop = FALSE) |> 
-  inner_join(sentiment_dict, by = c("token" = "word")) |> 
-  group_by(id) |>
-  summarise(senti_score = sum(value) / n(),
-            sentiment = ifelse(senti_score >= 0, "neg", "neg"),
-            #                 see the error here --^
-            text = head(text, 1))
 
-scores_df_error |> 
-  select(-text) |> 
-  left_join(imdb, by = "id") |> 
-  count(match = label == sentiment)
-```
 
-Now suddenly our accuracy is perfect!
-This is why we use a couple of metrics that control for chance:
 
-```{r}
-conf_matrix <- table(validation_df$label, validation_df$sentiment)
-ml_metrics <- metric_set(accuracy, precision, recall, f_meas, kap)
-conf_matrix
-ml_metrics(conf_matrix)
-```
+##
 
-## quick explanation of the common metrics
 
-1. **Precision**: This is the ratio of correctly predicted positive observations to the total predicted positives. High precision means that an algorithm returned more relevant results than irrelevant ones.
+### What is $Q$?
 
-2. **Recall** (Sensitivity): This is the ratio of correctly predicted positive observations to the all observations in actual class. High recall means that an algorithm returned most of the relevant results.
+[[@newman2004finding; @blondel2008fast]]{.nord-footer}
 
-3. **F1 Score**: This is the weighted average of Precision and Recall. It tries to find the balance between precision and recall. High F1 score means that both recall and precision are high.
+<br>
 
-We often use a confusion matrix to calculate these metrics. A confusion matrix is a 2x2 table that contains 4 outputs provided by the binary classifier. The terminology can vary, but it's often formatted as follows:
+:::: {.columns}
+::: {.column width="40%"}
 
-|                    | Actual Positive     | Actual Negative     |
-|--------------------|---------------------|---------------------|
-| Predicted Positive | True Positive (TP)  | False Positive (FP) |
-| Predicted Negative | False Negative (FN) | True Negative (TN)  |
+$$
+Q(A, b) = \frac{1}{2E} \sum_{ij} \left( A_{ij} - \gamma \frac{k_i k_j}{2E} \right) \delta_{b_i, b_j}
+$$
 
-Based on this matrix:
+$$
+\hat{b} = \mathop{\mathrm{argmax}}_{b} \, Q(A, b)
+$$
+:::
 
-- Precision = TP / (TP + FP)
-- Recall = TP / (TP + FN)
-- F1 Score = 2*(Recall * Precision) / (Recall + Precision)
+::: {.column width=10%}
+:::
 
-## A quick example
+::: {.column width=50%}
+- $E$ is the total weight of edges in the network.
+- $A_{ij}$ is a specific entry in $A$ [($A_{ij} \in \{0, 1\}$ if $A$ is binary)]{.nord-light}.
+- $\gamma$ is a resolution parameter [(more recent addition)]{.nord-light} that governs the size and number of communities detected.
+- $\frac{k_i k_j}{2E}$ is a null model for baseline expectations [(next slide)]{.nord-light}.
+- $\delta(c_i, c_j)$ is an indicator function that equals 1 if $i$ and $j$ are in the same community and 0 if not. This limits the summation to within-community edges.
+- Normalizing with $\frac{1}{2E}$ constrains the maximum modularity score to 1.
+- $\hat{b}$ is the vector of community assignments $b$ with the maximum $Q$ score.
+:::
+::::
 
-Let's say we have a binary classifier that's being used to predict whether a given email is "spam" (positive class) or "not spam" (negative class).
-Suppose our classifier is tested on a dataset of 100 emails, which include 20 actual spam messages and 80 actual non-spam messages. The classifier outputs the following results:
 
-|                    | Actual Spam     | Actual Not Spam |
-|--------------------|-----------------|-----------------|
-| Predicted Spam     | 15 (TP)         | 5 (FP)          |
-| Predicted Not Spam | 5 (FN)          | 75 (TN)         |
 
-Here, the precision, recall, and F1 score would be calculated as:
+##
 
-- Precision = TP / (TP + FP) = 15 / (15 + 5) = 0.75
-- Recall = TP / (TP + FN) = 15 / (15 + 5) = 0.75
-- F1 Score = 2*(Recall * Precision) / (Recall + Precision) = 2*(0.75 * 0.75) / (0.75 + 0.75) = 0.75
 
-So in this case, the classifier has a precision of 0.75 (meaning that 75% of the emails it labeled as "spam" were actually spam), a recall of 0.75 (meaning that it correctly identified 75% of the total spam emails), and an F1 score of 0.75 (giving a balance between precision and recall).
-Which of these metrics is most useful depends on the task.
-If you detect cancer in patients, false positives are not great, but false negatives might be deadly!
-In this case you should optimise the **recall** and only look at the other metrics as an afterthought.
-However, most of the time, we want to get a good F1 value (rule of thumb is above 0.7 or better 0.8).
-Note that in most cases, we do not really care about a "positive" class as both classes are equally important.
-And often, we have more than 2 classes.
-A good strategy here is to calculate F1 for each class and reporting all values plus the average.
+### What is $Q$?
 
-## Issues
+[[@newman2004finding; @blondel2008fast]]{.nord-footer}
 
-![](media/136.png)
+<br>
 
-- The more terms we add to our dictionary, the more false positives we will get
-- Building a good dictionary is a lot of work (complexity-resource plot):
-  - Negation and bag-of-word issues ("not good" will be counted as positive + modifiers such as "very good")
-  - "great" should be more positive than "good"
-- Negative image of dictionaries in academia
-  - Many negative examples where dictionaries were applied often outside of the domain they had been developed
-  - Wrong believe that popular off-the-shelf dictionaries do not need validation
-  - Many papers that show that dictionaries do not perform as well as machine learning: e.g. @van_atteveldt_validity_2021; @bailon_signals_2015; @boukes_whats_2020
+:::: {.columns}
+::: {.column width="40%"}
 
-Now that you know about dictionaries, remember to apply them only under some circumstances:
+$$
+Q(A, b) = \frac{1}{2E} \sum_{ij} \left( A_{ij} - \gamma \frac{k_i k_j}{2E} \right) \delta_{b_i, b_j}
+$$
 
-  0. When no other method is available, e.g., in data retrieval or nonconsumptive research
-  1. Variable we want to code is manifest and concrete rather than latent and abstract: names of actors, specific physical objects, specific phrases, etc., rather than feelings, frames, or topics.
-  2. All synonyms to be included must be known beforehand.
-  3. And third, the dictionary entries must not have multiple meanings.
+$$
+\hat{b} = \mathop{\mathrm{argmax}}_{b} \, Q(A, b)
+$$
+:::
 
+::: {.column width=5%}
+:::
 
-# Supervised Machine Learning
-## What are Supervised Machine Learning Approaches?
+::: {.column width=55%}
+$\frac{k_i k_j}{2E}$ represents the edges expected under a **null model with no community structure at all**, in which the probability of an edge is proportional to node degrees ($k_i k_j$) and otherwise random.
 
-![](media/machine-learning-0.png)
+<br>
 
-## What are Supervised Machine Learning Approaches? {visibility="uncounted"}
+The resolution parameter $\gamma$ varies the number and size of clusters identified by weighting the comparison of observed edges with edges expected under this [entirely implausible and inappropriate]{.nord-light} null model.
 
-![](media/machine-learning-1.png)
+$$
+\sum_{ij} \left( A_{ij} - \gamma \frac{k_i k_j}{2E} \right)
+$$
 
-## Steps in SML
+This is not good inference.
+:::
+::::
 
-We proceed in 4 (or 5) steps:
 
-1. preprocessing the incoming text
-2. splitting the dataset into training and a test set (which is not included in the model and just used for validation)
-3. fitting (or training) the model 
-4. using the test set to compare predictions against the real values for validation
-5. (using the model on new documents)
 
-## Why choose Supervised Machine Learning Approaches?
 
-- Usually more accurate than dictionaries
-- Straightforward way to construct and validate models
-- Even when models are not valid (enough) you still have hand coded data that you can fall back on
+##
 
-## What should you use?
+[But wait, there's more...]{.nord-light}
+
+### Force Directed Visualization
+
+:::: {.columns}
+::: {.column width="60%"}
+![](media/divided_they_blog.png){width=100% .shadow-img}
+:::
+
+::: {.column width="40%"}
+<br><br><br><br><br><br>
+
+Is the network structure<br>[self-evident? 🤔]{.large-text}
+:::
+::::
+
+::: {.notes}
+Nodes are initially placed randomly. Repulsive forces push then away from one another, but edges act like springs to pull connected nodes back towards one another. Repulsive and attractive forces are then summed to update node positions. This continues until equilibrium or the maximum number of iterations has been reached.
+:::
+
+
+## Nope
+
+:::: {.columns}
+::: {.column width="55%"}
+![Figure reproduced from @peixoto2023descriptive](media/face_mars.png){width=86%}
+:::
+
+::: {.column width="5%"}
+:::
+
+::: {.column width="40%"}
+![😂 [From https://x.com/GrandjeanMartin/status/1600154712380014594]{.nord-light}](media/jaws.png){width=80%}
+:::
+::::
+
+
+## Force Directed Visualization
+
+[From @peixoto2021hairball]{.nord-light}
+
+:::: {.columns}
+::: {.column width="50%"}
+![The political blogs network from @adamic2005political, redrawn for easier comparison with @fig-divided_they_blog_sbm.](media/divided_they_blog_tiago.png){width=100% #fig-divided_they_blog_tiago}
+:::
+
+
+::: {.column width="50%"}
+![Subgroup membership assigned using a generative network model.<br>Which is the problem? The visualization model, or the SBM? [(It's the visualization...)]{.nord-light}](media/divided_they_blog_sbm.png){width=90%  #fig-divided_they_blog_sbm}
+:::
+::::
+
+
+##
+
+:::: {.columns}
+::: {.column width="69%"}
+![Things look *very* different if we add attractive forces between nodes placed in the same group rather than just between adjacent nodes. [Image reproduced from @peixoto2021hairball.]{.nord-light}](media/divided_they_blog_lay.png){width=100% #fig-divided_they_blog_lay}
+:::
+
+::: {.column width="1%"}
+:::
+
+::: {.column width="30%"}
+$\longleftarrow$<br>
+This is still force directed, but this time the **model has been explicated, criticized, and refined** for the task at hand.
+<br><br>
+
+<!-- > [There’s no good reason for us to accept the status quo: We can simply modify how the layout behaves based on what we know about the network data, or what we have discovered using a well-defined methodology that is relevant for our research question. Equipped with this information, we can then use it to constrain the visualization, rather than the other way around. In the case of a force-directed layout we can simply add an additional attractive force between nodes that belong to the same detected module.<br><br>@peixoto2021hairball]{.small-text} -->
+We are not limited to force directed visualizations, of course.
+
+![Another view of subgroup structure in the political blogs network, this time with hierarchical edge bundling.](media/divided_they_blog_chordal.png){width=60% #fig-divided_they_blog_chordal}
+
+:::
+::::
+
+## Generative Network Analysis
+
+"generative," "Bayesian," "probabilistic," "inferential," ...
+
+:::: {.columns}
+::: {.column width="30%"}
+<br>
+
+![Tiago Peixoto is the developer of `graph-tool` and has made many important contributions to network science, primarily the nested stochastic blockmodel.](media/tiago.png){.shadow-img width=70%}
+:::
+
+::: {.column width="5%"}
+:::
+
+::: {.column width="65%"}
+<br><br>
+
+> "The remedy to this problem is to **think probabilistically**. We need to ascribe to each possible explanation of the data a probability that it is correct, which takes into account modeling assumptions, the statistical evidence available in the data, as well as any source of prior information we may have. Imbued in the whole procedure must be the principle of parsimony -- or **Occam's razor** -- where a simpler model is preferred if the evidence is not sufficient to justify a more complicated one."
+>
+> Tiago @peixoto2019bayesian, page 291
+:::
+::::
+
+::: {.notes}
+NOTES
+:::
+
+
+##
+
+[Thinking probabilistically about networks]{.nord-light}
+
+### Generative Modelling, BDA, & Stochastic Blockmodels
+
+:::: {.columns}
+::: {.column width="45%"}
+<br>
+
+[First]{.kn-blue}, we'll focus on understanding latent variables and the generative logic of Bayesian data analysis (**BDA**).
+
+![Several people have translated SR2's base R code into tidyverse R code, Julia, and **Python** using `PyMC` and `bambi`. See [xcelab.net/rm/](https://xcelab.net/rm/) for links.](media/statistical_rethinking.png){.shadow-img width=90%}
+:::
+
+::: {.column width="10%"}
+:::
+
+::: {.column width="45%"}
+<br>
+
+[Second]{.kn-blue}, we'll learn about stochastic blockmodelling as a principled **application of BDA** to networks.
+
+![McElreath's 2023 lecture series (YouTube) features new content on modelling networks that will be part of SR3. I recommend the entire playlist!](media/statistical_rethinking_2023_yt_networks.png){.shadow-img width=100%}
+:::
+::::
+
+##
+
+<br><br><br><br>
+
+:::: {.columns}
+::: {.column width="45%"}
+### Bayesian data analysis (BDA)
+:::
+
+::: {.column width="10%"}
+:::
+
+::: {.column width="45%"}
+1. is a workflow
+2. is mature and statistically principled
+3. re-allocates credibility
+4. infers the distribution of latent variables
+:::
+::::
+
+
+##
+
+[Thinking probabilistically about networks]{.nord-light}
+
+### BDA is a workflow
+
+<br>
+
+:::: {.columns}
+::: {.column width="55%"}
+@blei2014build "Build, Compute, Critique, Repeat"
+
+> [(...) Here, we take the perspective -- inspired by the work of George Box -- that **models are developed in an iterative process: we formulate a model, use it to analyze data, assess how the analysis succeeds and fails, revise the model, and repeat**. With this view, we describe how new research in statistics and machine learning has transformed each of these essential activities. (...)]{.small-text}
+
+<br>
+
+@gelman2020bayesian "Bayesian Workflow"
+
+> [(...) Beyond inference, the workflow also includes **iterative model building**, model checking, validation and troubleshooting of computational problems, model understanding, and model comparison. We review all these aspects of workflow in the context of several examples, keeping in mind that in practice we will be **fitting many models** for any given problem, even if only a subset of them will ultimately be relevant for our conclusions.]{.small-text}
+:::
+
+::: {.column width="45%"}
+![Box's loop for iterative model-based data analysis.](media/box_loop.png){#fig-box_loop width=85%}
+:::
+::::
+
+
+
+##
+
+[Thinking probabilistically about networks]{.nord-light}
+
+### BDA is mature and statistically principled
+
+<br><br>
+
+Bayes' theorem
+
+$$
+P(A|B)=\frac{P(B|A)P(A)}{P(B)}
+$$
+
+<br>
+
+is not really "Bayesian!" It's ubiquitous in statistics, including in Frequentism. It becomes "Bayesian" when we use it to compare the relative plausibility of different hypotheses [[@mcelreath2018statistical]]{.nord-light}. The **BDA** version of Bayes' theorem is often presented as
+
+$$
+P(H|E)=\frac{P(E|H)P(H)}{P(E)}
+$$
+
+<br>
+
+where $H$ represents our hypotheses and $E$ represents the observed evidence.
+
+##
+
+[Thinking probabilistically about networks]{.nord-light}
+
+### BDA re-allocates credibility
+[@kruschke2014doing]{.nord-footer}
+<br>
+
+:::: {.columns}
+::: {.column width="25%"}
+$$
+P(H|E)=\frac{P(E|H)P(H)}{P(E)}
+$$
+:::
+
+::: {.column width="5%"}
+:::
+
+::: {.column width="70%"}
+$P(H|E)$ is the **posterior probability** of a given hypothesis conditional upon the observed evidence. [This is what we want to learn.]{.kn-pink}
+
+<br>
+
+$P(E|H)$ is the **likelihood**, or 'sampling probability.' As in Frequentism, it measures the probability of observing the evidence we observed under the assumption that the hypothesis is true.
+
+<br>
+
+$P(H)$ is the **prior**. It represents our knowledge about the hypothesis before observing the data. Bayesian models treat priors as latent variables whose probability distributions are logically determined by the information available [[see @cox1946probability; @jaynes2003probability]]{.nord-light}.
+
+<br>
+
+$P(E)$ is the **unconditional probability of the evidence** and is sometimes referred to as the 'Bayes Denominator' or 'Marginal Probability of the Data.' It's often analytically intractable, so we approximate it (e.g., with MCMC).
+:::
+::::
+
+##
+
+[Thinking probabilistically about networks]{.nord-light}
+
+### BDA infers the distribution of latent variables
+<br><br>
+
+[Bayesian SBMs]{.kn-pink} apply the inferential logic of BDA to network analysis. We have:
+
+- **observed data**^[Although, [as Richard McElreath argues](https://www.youtube.com/watch?v=hnYhJzYAQ60) we can't literally observe a network, so it doesn't really make sense to talk about network "data." From this perspective, all network "data" are latent variables in some sense. The main implication is that we need more generative thinking and Bayesian data analysis.] in the form of an adjacency matrix describing connections among nodes, and
+- **unobserved latent variables** for our block or community memberships.
+
+We want to **infer the distributions of the latent variables** (i.e. the assignment of nodes into latent blocks) conditional on the observed data and our model. In other words, we want to learn $P(b|A)$, which is the **posterior probability** of a latent block partition $b$ conditional on the adjacency matrix $A$ of the network we observed.
+
+<br>
+
+$$
+P(b|A) = \frac{P(A|b)P(b)}{P(A)}
+$$
+
+##
+
+<br><br><br><br>
+
+This SBM is still rather limited.
+
+For example, like most approaches it requires us to pre-specify the number of blocks.
+
+<br>
+
+### The [nested]{.kn-pink} SBM overcomes this problem.
+
+##
+
+[Thinking probabilistically about networks]{.nord-light}
+
+### The Nested Stochastic Blockmodel
+:::: {.columns}
+::: {.column width="45%"}
+![Reproduced from @peixoto2014hierarchical.](media/nested_sbm.png){#fig-nested_sbm width=80%}
+:::
+
+::: {.column width="55%"}
+<br>
+
+The [nested]{.kn-pink} SBM extends the SBM by modelling block structure **hierarchically**. It puts the SBM at the bottom of this nested structure, where it partitions nodes in the observed network based on their probability of connecting to other nodes. Those blocks are then grouped into other blocks as you move up the hierarchy. The number of blocks and their connections are also latent variables. It:
+
+- is not limited to assortative structure
+- can be applied to nearly any type of network
+- does not require pre-specifying the number of blocks
+- does not detect spurious communities
+- can be easily evaluated, refined, and compared
+- scales to large networks well
+:::
+::::
+
+
+##
+
+[Thinking probabilistically about networks]{.nord-light}
+
+### The Nested Stochastic Blockmodel
+
+:::: {.columns}
+::: {.column width=55%}
+![](media/mind_blown.gif){.shadow-img width=100%}
+:::
+
+::: {.column width=10%}
+:::
+
+::: {.column width=35%}
+![](media/nested_sbm.png){width=90%}
+:::
+::::
+
+Nested SBMs can be a **lot** to wrap your head around, so let's code our way through some examples.
+
+<!-- Tutorials -->
+
+<!-- {{< include _day-4-tutorial-plan.qmd >}} -->
+
+# Example: Political Blog Networks
+## Foundations
+
+Political Blog Networks<br>[[@adamic2005political; @peixoto2021hairball]]{.nord-footer}
+
+- graph data structures
+- graph visualisations
+- assess communities using the Louvain and Leiden algorithms
+- fit a first nested Stochastic Blockmodel
+
+## Working with networks in R
 
 :::: {.columns}
 
 ::: {.column width="50%"}
-Several frameworks in R:
-
-- `RTextTools`: includes the most important algorithms, but outdated
-- `caret`: includes a huge variety of models and comes with robust helper functions, but superseded
-- `quanteda`: nice suite of text analysis functions, including `quanteda.textmodels`
-- `tidymodels`: successor of `caret` with an extensive collection of algorithms, preprocessing, validation and comparison functions
+- `igraph`: the "workhorse"; provides functions for modelling, manipulating and plotting
+- `tidygraph`: wraps `igraph` in a familiar "tidyversesque" syntax
+- `ggraph`: uses ggplot2-like syntax to provide network plotting
+- `graphlayouts`: extends `tidygraph`'s/`igraph`'s community detection and `ggraph`'s layouts for plotting
 :::
 
 ::: {.column .fragment width="50%"}
-![](https://jhudatascience.org/tidyversecourse/images/book_figures/simpletidymodels.png)
+![igraph](https://r.igraph.org/logo.png)
+![tidygraph](https://tidygraph.data-imaginist.com/reference/figures/logo.png)
+![ggraph](https://ggraph.data-imaginist.com/reference/figures/logo.png)
+![graphlayouts](https://github.com/schochastics/graphlayouts/raw/main/man/figures/logo.png)
 :::
 
 ::::
 
-## 1. Using `textrecipes` to turn text into features
+## The Blogosphere data
 
-- `textrecipes`  (an extension of the `recipes` package): handles all preprocessing in a unified syntax
-- syntax is similar for a large variety of machine learning (including, e.g., OLS or logisitc regression)
-
-Define recipe:
+:::: {.columns}
+::: {.column width="25%"}
 
 ```{r}
-library(tidymodels)
-library(textrecipes)
-imdb_rec <- recipe(label ~ text, data = imdb) |>
-  # turn text into features/tokens/words
-  step_tokenize(all_predictors()) |>
-  # remove stopwords
-  step_stopwords(all_predictors(), language = "en") |> 
-  step_tokenfilter(all_predictors(), min_times = 3) |>
-  step_tf(all_predictors())
+graph_file <- "data/polblogs.zip"
+if (!file.exists(graph_file)) {
+  curl::curl_download(
+    "https://public.websites.umich.edu/~mejn/netdata/polblogs.zip",
+    graph_file
+  )
+}
 ```
 
-Bake recipe with ingredients (data):
 
 ```{r}
-imdb_rec |> 
-  prep(head(imdb, 10)) |>
-  bake(new_data = NULL)
+#| eval: false
+unz(graph_file, "polblogs.txt") |> 
+  readLines() |> 
+  cat(sep = "\n")
 ```
 
-::: {.callout-note}
-Stopwords are words that are thought to add no meaning to a text and can be safely removed. 
-Many text analysis packages come with their own selection, but whether it's useful depends on context!
-You can look at `stopwords::stopwords()` to see one selection.
 :::
 
-## 2. Splitting the dataset {#splitting-the-dataset}
 
-- important to leave out a portion of the data for validation:
+::: {.column width="65%"}
+> Political blogosphere Feb. 2005  
+> Data compiled by Lada Adamic and Natalie Glance
+> 
+> Node "value" attributes indicate political leaning according to:
+> 
+>   0 (left or liberal)
+>   1 (right or conservative)
+> 
+> Data on political leaning comes from blog directories as indicated.  Some
+> blogs were labeled manually, based on incoming and outgoing links and posts
+> around the time of the 2004 presidential election.  Directory-derived
+> labels are prone to error; manual labels even more so.
+> 
+> Links between blogs were automatically extracted from a crawl of the front
+> page of the blog.
+> 
+> These data should be cited as Lada A. Adamic and Natalie Glance, "The
+> political blogosphere and the 2004 US Election", in Proceedings of the
+> WWW-2005 Workshop on the Weblogging Ecosystem (2005).
+:::
+::::
+
+## graph data structure in `R`
+
+Let's first look at the `igraph` graph class:
+
+```{r}
+polblogs_igraph <- igraph::read_graph(unz(graph_file, "polblogs.gml"), format = "gml") 
+class(polblogs_igraph)
+polblogs_igraph
+```
+
+## graph data structure in `R`
+
+We can convert this to a `tidygraph` object:
+
+```{r}
+#| message: false
+library(tidyverse)
+library(tidygraph)
+polblogs_tbl <- tidygraph::as_tbl_graph(polblogs_igraph)
+class(polblogs_tbl)
+polblogs_tbl
+```
+
+## graph data structure in `R`
+
+Both `igraph` and `tbl_graph` objects essentially consist of two linked tables containing [nodes]{.kn-pink} (aka vertices) and [edges]{.kn-pink}.
+
+:::: {.columns}
+::: {.column width="50%"}
+```{r}
+polblogs_tbl |> 
+  activate("nodes") |> 
+  as_tibble()
+```
+:::
+::: {.column width="50%"}
+```{r}
+polblogs_tbl |> 
+  activate("edges") |> 
+  as_tibble()
+```
+:::
+::::
+
+## working with graph data structures in `R`
+
+We can look up the variables (like political class) for any given node by filtering.
+For example, let's see the node with ID 30:
+
+```{r}
+polblogs_tbl |> 
+  filter(id == 30)
+```
+
+:::{.incremental}
+- we can simply use `filter` like this was a normal table 🤯
+- since the data is linked, all the edges belonging to missing nodes disappear as well 😱
+:::
+
+## working with graph data structures in `R`
+
+If we want to see how many left and right blogs are in the data, we can use `count`.
+But only after converting the nodes to a `data.frame`!
+
+```{r}
+polblogs_tbl |>
+  activate("nodes") |>
+  as_tibble() |> 
+  count(ideology = value)
+```
+
+## working with graph data structures in `R`
+
+The `value` variable is named terribly and stored in a strange format.
+Let's change that using some more tidyverse functions that work out-of-the-box with `tidygraph` graphs:
+
+```{r}
+polblogs_tbl_new <- polblogs_tbl |> 
+  activate("nodes") |> 
+  mutate(ideology = recode_factor(value, 
+                                  "0" = "left",
+                                  "1" = "right"))
+```
+
+:::{.notes}
+It's not necessary to store ideology as a factor, but generally good practice in `R`.
+Whenever you have a variable with just a few repeating character values, a factor is more efficient.
+:::
+
+## first insights
+
+We can answer some initial questions about the data:
+
+- how many left and right blogs are there? 
+
+```{r}
+polblogs_tbl_new |> 
+  as_tibble() |> 
+  count(ideology)
+```
+
+## first insights
+
+We can answer some initial questions about the data:
+
+- how many connections (edges) do nodes have to other nodes?
+
+:::: {.columns}
+::: {.column width="50%"}
+```{r}
+polblogs_tbl_new |> 
+  activate(edges) |> 
+  as_tibble() |> 
+  count(from, sort = TRUE)
+```
+
+Let's have a closer look at the top node:
+
+```{r}
+polblogs_tbl_new |> 
+  filter(id == 855) |> 
+  as_tibble()
+```
+
+:::
+::: {.column width="50%"}
+```{r}
+polblogs_tbl_new |> 
+  activate(edges) |> 
+  as_tibble() |> 
+  count(to, sort = TRUE)
+```
+
+Let's have a closer look at the top node:
+
+```{r}
+polblogs_tbl_new |> 
+  filter(id == 155) |> 
+  as_tibble()
+```
+:::
+::::
+
+## first insights
+
+We can answer some initial questions about the data:
+
+- do left and right blogs reference each other?
+
+```{r}
+polblogs_tbl_new |> 
+  activate(edges) |> 
+  mutate(from_ideo = .N()$ideology[from],
+         to_ideo = .N()$ideology[to]) |> 
+  as_tibble() |> 
+  count(from_ideo, to_ideo)
+```
+
+## visualising graphs in `R`
+
+:::: {.columns}
+::: {.column width="65%"}
+- `ggraph` inherits the idea of a grammar of graphics from `ggplot`
+- hence, we build up plots in layers with visual aesthetics mapped to data
+- the difference is, we address map data from the nodes and edges table
+:::
+
+::: {.column .fragment width="20%"}
+![ggraph](https://ggraph.data-imaginist.com/reference/figures/logo.png)
+:::
+::::
+
+## visualising graphs in `R`
+
+```{r}
+#| output-location: column
+library(ggraph)
+ggraph(graph = polblogs_tbl_new) + 
+  geom_edge_link() + 
+  geom_node_point(aes(colour = ideology))
+```
+
+
+## Recreate the plot from @adamic2005political
+
+```{r}
+#| output-location: column
+polblogs_tbl_new |> 
+  # you can sample the graph to make plotting quicker (but incomplete)
+  # sample_frac(0.1) |> 
+  # the size of the bubbles is influenced by the number of blogs that link to it
+  mutate(referenced = centrality_degree(mode = "in", loops = FALSE)) |> 
+  # remove isolated nodes
+  activate(nodes) |>
+  filter(!node_is_isolated()) |>
+  # the colour of edges is influenced by whether the connection is left, right 
+  # or bipartisan
+  activate(edges) |> 
+  mutate(col = case_when(
+    .N()$ideology[from] == "left" & .N()$ideology[to] == "left" ~ "#2F357E",
+    .N()$ideology[from] == "right" & .N()$ideology[to] == "right" ~ "#D72F32",
+    .N()$ideology[from] == "left" & .N()$ideology[to] == "right" ~ "#f4c23b",
+    .N()$ideology[from] == "right" & .N()$ideology[to] == "left" ~ "#f4c23b"
+  )) |> 
+  # the stress majorization algorithm in ggraph is the closed to the original
+  # force directed layout from
+  ggraph(layout = "stress") +
+  geom_edge_link(aes(colour = col),
+                 arrow = arrow(length = unit(2, "mm"), type = "closed")) +
+  # we map the number of references to the size
+  geom_node_point(aes(fill = ideology, size = referenced),
+                  # black border and a different shape creates bubbles
+                  colour = "black", pch = 21) +
+  scale_fill_manual(values = c(left = "#2F357E", right = "#D72F32")) +
+  scale_edge_colour_identity() + 
+  theme_graph()
+```
+
+## volatile layouts
+
+One thing that always makes me cautious about interpreting network plots is how [volatile]{.kn-pink} the placement of nodes in the plot is and how much it can trick you into finding a pattern where none exists.
+So let's look at an experiment:
+
+:::: {.columns}
+::: {.column width="50%"}
+
+Prepare data for plotting:
 
 ```{r}
 set.seed(1)
-split <- initial_split(
-  data = imdb, 
-  prop = 3 / 4,   # the prop is the default, I just wanted to make that visible
-  strata = label  # this makes sure the prevalence of labels is still the same afterwards
-) 
-imdb_train <- training(split)
-imdb_test <- testing(split)
-```
-
-::: {.callout-important}
-Making the split only once is not good practice, as which texts end up in the training and test portion of the data can influence the performance metrics of the model.
-Some researchers have even been caught trying many different seeds to find one that delivers better looking results.
-What you should do instead is to use the `bootstraps()` to fit multiple different combinations.
-Check out one of [Julia Silge's videos](https://youtu.be/z57i2GVcdww) if you want to learn more.
-:::
-
-
-## 3. Fitting a model {#fitting-a-model}
-
-Let's start with a naïve bayes model, for which we need another package which contains this "engine" (you don't need to know this, the next step would tell you to load the package):
-
-```{r}
-library(discrim)
-nb_spec <- naive_Bayes() |>
-  set_mode("classification") |>
-  set_engine("naivebayes")
-```
-
-Now we bring the recipe and model together in a new workflow:
-
-```{r}
-imdb_wf_nb <- workflow() |> 
-  add_recipe(imdb_rec) |> 
-  add_model(nb_spec)
-```
-
-Now, we fit the model:
-
-```{r}
-model_nb <- fit(imdb_wf_nb, data = imdb_train)
-```
-
-## 4. Evaluating the model {#evaluating-the-model}
-
-```{r}
-imdb_prediction <- imdb_test |> 
-  bind_cols(predict(model_nb, new_data = imdb_test)) |>
-  rename(truth = label, estimate = .pred_class)
-
-conf_mat(imdb_prediction, truth, estimate)
-```
-
-```{r}
-library(gt)
-my_metrics <- metric_set(accuracy, kap, precision, recall, f_meas)
-
-my_metrics(imdb_prediction, truth = truth, estimate = estimate) |> 
-  # I use gt to make the table look a bit nicer, but it's optional
-  gt() |> 
-  data_color(
-    columns = .estimate,
-    fn = scales::col_numeric(
-      palette = c("red", "orange", "green"),
-      domain = c(0, 1)
-    )
-  )
-```
-
-
-## Alternative models
-
-Let's walk through the steps again to train a logistic regression model:
-
-```{r}
-# choosing the model
-lasso_spec <- logistic_reg(penalty = 0.01, mixture = 1) |>
-  set_mode("classification") |>
-  set_engine("glmnet")
-
-# bring preprocessing and model together in a workflow
-imdb_wf_lasso <- workflow() |> 
-  add_recipe(imdb_rec) |> 
-  add_model(lasso_spec)
-
-# train the model
-model_lasso <- fit(imdb_wf_lasso, data = imdb_train)
-
-# evaluate
-imdb_prediction_lasso <- imdb_test |> 
-  bind_cols(predict(model_lasso, new_data = imdb_test)) |> 
-  rename(truth = label, estimate = .pred_class)
-
-my_metrics <- metric_set(accuracy, kap, precision, recall, f_meas)
-
-my_metrics(imdb_prediction_lasso, truth = truth, estimate = estimate) |> 
-  gt() |> 
-  data_color(
-    columns = .estimate,
-    colors = scales::col_numeric(
-      palette = c("red", "orange", "green"),
-      domain = c(0, 1)
-    )
-  )
-```
-
-## Additional step: looking inside the model
-
-A way to make sense of a model is to look at coefficients.
-This tells us essentially, what the model thinks are important terms to say a document is positive or negative.
-
-```{r}
-model_lasso |> 
-  extract_fit_engine() |> 
-  vip::vi() |>
-  group_by(Sign) |>
-  slice_max(Importance, n = 20) |> 
-  ungroup() |>
-  mutate(
-    Variable = str_remove(Variable, "tf_text_"),
-    Variable = fct_reorder(Variable, Importance)
-  ) |>
-  ggplot(aes(x = Importance, y = Variable, fill = Sign)) +
-  geom_col(show.legend = FALSE) +
-  facet_wrap(~Sign, scales = "free_y") +
-  labs(y = NULL)
-```
-
-
-## Issues
-
-- Many training documents needed to build a valid model
-- Even then, there is no guarantee you get good evaluation results
-- Many choices in terms of models and preprocessing, but no one-model-fits all
-- Models are specific to the training data and often will not work in other domains
-
-## Learn more
-
-:::: {.columns}
-
-::: {.column width="70%"}
-- Emil Hvitfeldt, Julia Silge: *Supervised Machine Learning for Text Analysis in R*, https://smltar.com/
-:::
-
-::: {.column width="30%"}
-![](https://www.tidymodels.org/books/smltar/cover.png)
-:::
-
-::::
-
-# Unsupervised Machine Learning
-## What are Unsupervised Machine Learning Approaches?
-
-- The goal of topic modelling is to automatically extract topics from documents without requiring human supervision
-- Explore text collection by letting the computer figure out which words and which texts belong together
-- Commonly Latent Dirichlet Allocation is used for probabilistic topic modelling (although many consider BERTopic to be better now)
-- Newer alternatives like BERTopic improve 
-- Although the idea of an algorithm figuring out topics might sound close to magical (mostly because people have too high expectations of what these 'topics' are), and the mathematics might be a bit challenging, it is actually really simple fit an LDA topic model in R
-
-## Playful exploration^[heavily influenced by this piece: https://medium.com/\@lettier/how-does-lda-work-ill-explain-using-emoji-108abf40fa7d]
-
-A good first step towards understanding what topic models are and how they can be useful, is to simply play around with them, so that's what we'll do first.
-Open the page <https://lettier.com/projects/lda-topic-modeling/> (if possible, in Firefox)
-
-Example Docs:
-
-1.  🐭 🐭 🐭 🐭 🐭 🐭 🐭 🐭 🐭 🐭
-2.  🐱 🐱 🐱 🐱 🐱 🐱 🐱 🐱 🐱 🐱
-3.  🐶 🐶 🐶 🐶 🐶 🐶 🐶 🐶 🐶 🐶
-4.  🐭 🐭 🐭 🐭 🐭 🐭 🐭 🐭 🐭 🐭 🐱 🐱 🐱 🐱 🐱 🐱 🐱 🐱 🐱 🐱 🐶 🐶 🐶
-    🐶 🐶 🐶 🐶 🐶 🐶 🐶
-
-On top, the texts are turned into a document feature matrix.
-
-![](media/lda-dfm.png)
-
-
-## Playful exploration
-
-What LDA does (essentially):
-
-- reduce the dimensions of a text into a set of 'topics' that are easier to interpret
-- express the relation between cases and topics, as well as variables and topics in two matrices
-- If you have used PCA, MDS or factor analysis before, this is essentially the same process
-
-## Playful exploration
-
-The first matrix describes the probability a feature belongs to a topic.
-We call this the feature-topic-matrix:
-
-![](media/lda-ftm.png)
-
-This case makes it pretty clear:
-
-- mice belong into the first topic
-- cats belong into the second
-- dogs belong into the third topic
-
-## Playful exploration
-
-The second table does the same, but with documents.
-We call this the document-term-matrix:
-
-![](media/lda-dtm.png)
-
-
-- The first document has a high probability to belong to the first topic, because it is full of mice
-- The second document has a high probability to belong to the second topic, because it is full of cats
-- The third document has a high probability to belong to the third topic, because it is full of dogs
-
-## Playful exploration
-
-What makes LDA often seem magical, is how well it works for text.
-This is because the underlying assumptions fit the statistical features of document collections quite well, leading to meaningful and interpretable categories that make it easy to explore and summarise what is happening in text.
-
-## Playful exploration
-
-The short example above shows the three broad steps of topic modelling:
-
-1.  Create a document-feature-matrix from your documents (and preprocess it)
-2.  Fit the topic model
-3.  Analyze (and validate) the results
-
-Before we go on, here are a few things I want you to try:
-
-1. Change the Alpha and Beta values
-2. Add and replace your own text
-3. Change the number of topics
-
-## (0) Obtaining the data
-
-We use a subset of the Parlspeech corpus [@parlspeech2020], spanning the 18th legislative period of the Bundestag.
-
-```{r}
-# Again, you can ignore this part where I download and process the data. The code is
-# not really applicable for other dataset. But I left it in here in case you
-# find it interesting..
-data_file <- "data/bundestag18_speeches.rds"
-if (!file.exists(data_file)) {
-  library(dataverse)
-  Sys.setenv("DATAVERSE_SERVER" = "dataverse.harvard.edu")
-  ds <- get_dataset("doi:10.7910/DVN/L4OAKN")
-  as_tibble(ds[["files"]][, c("label", "id")])
-  
-  url <- get_file(3758785, 
-                  dataset = "doi:10.7910/DVN/ZY3RV7",
-                  return_url = TRUE)
-  
-  curl::curl_download(url, destfile = "data/Corp_Bundestag_V2.rds", quiet = FALSE)
-  
-  bundestag18 <- readRDS("data/Corp_Bundestag_V2.rds") |>
-    mutate(date = ymd(date),
-           speechnumber = as.integer(speechnumber)) |>
-    filter(date >= "2013-10-22",
-           date <= "2017-10-24") |>
-  mutate(doc_id = paste0(date, "-", speechnumber)) |>
-  as_tibble()
-  saveRDS(bundestag18, data_file)
-} else {
-  bundestag18 <- readRDS(data_file)
-}
-```
-
-## (1) Creating a DFM
-
-We first tidy the documents:
-
-```{r unnest_bundestag18, cache.lazy=FALSE}
-bundestag18_tidy <- bundestag18 |>  
-  unnest_tokens(output = word, input = "text")
-```
-
-Secondly, we do some light cleaning:
-
-- removing stopwords
-- removing rare terms
-- removing features that aren't words
-
-```{r, cache.lazy=FALSE}
-bundestag18_tidy_clean <- bundestag18_tidy |>
-  filter(!word %in% c(stopwords::stopwords(language = "de"), 
-                      "dass", "kollege", "kollegin", "herr", "frau", "dr")) |>
-  group_by(word) |>
-  filter(
-    n() > 10,                    # keep features that appear more than 10 times
-    !str_detect(word, "[^a-z]")  # keep features that consist only of characters
-  ) |>
-  ungroup()
-
-print(glue::glue(
-  "Cleaning removed {length(unique(bundestag18_tidy$word)) - length(unique(bundestag18_tidy_clean$word))} ",
-  "unique words and ",
-  "{length(unique(bundestag18_tidy$doc_id)) - length(unique(bundestag18_tidy_clean$doc_id))} documents. ",
-  "{length(unique(bundestag18_tidy$word))} unique words remain in ",
-  "{length(unique(bundestag18_tidy$doc_id))} documents"
-))
-```
-
-Now we can create a document-feature-matrix.
-This is a (sparse) matrix showing how often each term (column) occurs in each document (row):
-
-```{r, cache.lazy=FALSE}
-bundestag18_dfm <- bundestag18_tidy_clean %>%
-  count(doc_id, word) |>
-  cast_dfm(doc_id, word, n)
-```
-
-We can inspect a corner of the dfm by casting it to a regular (dense) matrix:
-
-```{r}
-as.matrix(bundestag18_dfm[1:5, 1:5])
-```
-
-## (2) Running the topic model {#running-the-topic-model}
-
-- many different ways to fit a topic model (`topicmodels` or `lda` or `stm` package, stay away from `mallet`, try BERTopic if you know a little python)
-- I use `textmodel_lda()` function from the `seededlda` package due to the clean syntax
-
-```{r seededlda}
-library(seededlda)
-k <- 10
-set.seed(2024) # Note, that we use `set.seed` to create reproducible results
-lda_model <- textmodel_lda(
-  bundestag18_dfm,
-  k = k,              # the number of topics is chosen at random for demonstration purposes
-  max_iter = 200L,    # I would not usually recommend that few iterations, it's just so it runs quicker here
-  alpha = 50L / k,    # these are the default values in the package
-  beta = 0.1,
-  verbose = TRUE
-)
-```
-
-## (3) Inspecting and analysing the results {#inspecting-and-analysing-the-results}
-### Word-topic probabilities {#word-topic-probabilities}
-
-```{r, fig.width=8, fig.height=16}
-bundestag18_ftm <- lda_model$phi |>
-  as.data.frame() |># converting the matrix into a data.frame makes sure it plays nicely with the tidyverse
-  rownames_to_column("topic") |># the topic names/numbers are stored in the row.names, I move them to a column
-  mutate(topic = fct_inorder(topic)) |># turn to factor to maintain the correct order
-  pivot_longer(-topic, names_to = "word", values_to = "phi")
-
-topic_topwords_plot <- bundestag18_ftm |># turn to long for plotting
-  group_by(topic) |># using group_by and slice_max, we keep only the top 10 values from each topic
-  slice_max(order_by = phi, n = 15) |>
-  # using reorder_within does some magic for a nicer plot
-  mutate(word = tidytext::reorder_within(word, by = phi, within = topic)) |>
-  # from here on, we just make a bar plot with facets
-  ggplot(aes(x = phi, y = word, fill = topic)) +                               
-  geom_col() +
-  tidytext::scale_y_reordered() +
-  facet_wrap(~topic, ncol = 2, scales = "free_y")
-topic_topwords_plot
-```
-
-
-::: {.fragment}
-Going forward, I would now name these topics.
-I found this particular format in a Excel sheet helpful.
-
-```{r}
-lda_model$phi |>
-  as.data.frame() |>
-  rowid_to_column("topic") |>
-  pivot_longer(-topic, names_to = "word", values_to = "phi") |>
-  group_by(topic) |>
-  slice_max(order_by = phi, n = 20) |>
-  mutate(top = row_number()) |>
-  pivot_wider(id_cols = top, names_from = topic, values_from = word) |>
-  # Add an extra row where you can write in topic names
-  add_row(top = NA, .before = 1) %>%
-  rio::export("topicsmodel_topwords.xlsx")
-```
-:::
-
-## Topics per document {#topics-per-document}
-
-Similarly to above, we can also extract to topics per document:
-
-```{r}
-bundestag18_dtm <- lda_model$theta |>
-  as.data.frame() |>
-  rownames_to_column("doc_id") |>
-  as_tibble()
-bundestag18_dtm
-```
-
-We can tidy this and join the results back with the original metadata using the `doc_id`:
-
-```{r}
-bundestag18_dtm_tidy <- bundestag18_dtm |>
-  pivot_longer(-doc_id, names_to = "topic", values_to = "theta") |>
-  # again this is to keep track of the order as it is otherwise order by alphabet
-  mutate(topic = fct_inorder(topic)) |>
-  left_join(bundestag18 |> select(-text), by = "doc_id")
-bundestag18_dtm_tidy
-```
-
-Now, we can e.g. compare topic usage per party:
-
-```{r}
-bundestag18_dtm_tidy |> 
-  filter(!is.na(party),
-         party != "independent") |>
-  group_by(party, topic) |> 
-  summarize(theta = mean(theta)) %>%
-  ggplot(aes(x = theta, y = topic, fill = party)) + 
-  geom_col(position = "dodge")  +
-  scale_fill_manual(values = c(
-    "PDS/LINKE" = "#BD3075",
-    "SPD" = "#D71F1D",
-    "GRUENE" = "#78BC1B",
-    "CDU/CSU" = "#121212",
-    "FDP" = "#FFCC00",
-    "AfD" = "#4176C2"
+plot_data <- polblogs_tbl_new |> 
+  # you can sample the graph to make plotting quicker (but incomplete)
+  sample_frac(0.25) |> 
+  mutate(referenced = centrality_degree(mode = "in", loops = FALSE)) |> 
+  activate(nodes) |>
+  filter(!node_is_isolated()) |>
+  activate(edges) |> 
+  mutate(col = case_when(
+    .N()$ideology[from] == "left" & .N()$ideology[to] == "left" ~ "#2F357E",
+    .N()$ideology[from] == "right" & .N()$ideology[to] == "right" ~ "#D72F32",
+    .N()$ideology[from] == "left" & .N()$ideology[to] == "right" ~ "#f4c23b",
+    .N()$ideology[from] == "right" & .N()$ideology[to] == "left" ~ "#f4c23b"
   ))
 ```
-
-Or over time:
-
-```{r}
-bundestag18_dtm_tidy |>
-  group_by(date = floor_date(date, "months"), topic) |> 
-  summarize(theta = mean(theta)) |>
-  ggplot(aes(x = date, y = theta, colour = topic)) +
-  geom_line()
-```
-
-```{r}
-bundestag18_dtm_tidy |>
-  group_by(date = floor_date(date, "months"), topic) |> 
-  summarize(theta = mean(theta)) |>
-  ggplot(aes(x = date, y = theta, colour = topic)) +
-  geom_line() +
-  facet_wrap(vars(topic))
-```
-
-
-## Some alternative ways to explore the model
-
-### LDAvis
-
-A popular way of exploring topics and how they overlap is the `LDAvis` package.
-
-```{r}
-#| eval: false
-library(LDAvis)
-json <- createJSON(phi = lda_model$phi,
-                   theta = lda_model$theta, 
-                   doc.length = quanteda::ntoken(lda_model$data),
-                   vocab = quanteda::featnames(lda_model$data), 
-                   term.frequency = quanteda::featfreq(lda_model$data))
-serVis(json)
-```
-
-LDAvis helps users understand the relationships between topics and the key terms that define them.
-
-
-### `tokenbrowser`
-
-We can check how the probabilities for documents are calculated by looking at the words and topic probabilities in their original context using the using the [tokenbrowser](https://github.com/kasperwelbers/tokenbrowser) package developed by Kasper Welbers.
-
-We first select the 2000 tokens with the highest phi value, i.e., the ones which most clearly belong to one topic.
-
-```{r}
-categories <- bundestag18_ftm %>%
-  group_by(word) |>
-  mutate(phi_rel = phi / sum(phi)) |>
-  slice_max(order_by = phi, n = 1) |>
-  ungroup() |>
-  filter(phi_rel >= 0.5)
-```
-
-Then we attach the categories to the original tidy representation of the texts.
-
-```{r}
-assignments <- bundestag18_tidy |>
-  filter(doc_id %in% unique(bundestag18_tidy$doc_id)[1:5]) |>
-  left_join(categories, by = "word")
-```
-
-Now we can look at the words that clearly belong to a topic in context of the full speeches.
-
-```{r}
-#| eval: false
-library(tokenbrowser)
-categorical_browser(
-  assignments,
-  category = as.factor(assignments$topic), 
-  token_col = "word"
-) |>
-  browseURL()
-```
-
-# Finding an optimal number of topics
-
-- The best way to find the optimal $k$ number of topics is to interpret different models and look for the ones that seems to divide your corpus into the most meaningful topics
-- That is very cumbersome though and there are some statistical methods to make the process easier
-- The idea behind all of them is to compare the metrics of different models to narrow your search down
-
-```{r seededlda_batch}
-library(furrr)
-lda_models <- "data/lda_models.rds"
-# since this takes a long time, I save the results in case I want to run it again
-if (!file.exists(lda_models)) {
-  plan(multisession)  ## for parallel processing
-  lda_fun <- function(k, max_iter = 200) {
-    textmodel_lda(
-      bundestag18_dfm,
-      k = k,
-      max_iter = max_iter,
-      alpha = 50 / k,
-      beta = 0.1,
-      verbose = TRUE
-    )
-  }
-  
-  models_df <- tibble(
-    k = c(10:20),
-    model = future_map(k, lda_fun, .options = furrr_options(seed = 1))
-  )
-  
-  saveRDS(models_df, lda_models)
-} else {
-  models_df <- readRDS(lda_models)
-}
-```
-
-There is no official function in `seededlda` to evaluate different models.
-The `stm` package is much better here [as demonstrated by Julia Silge](https://juliasilge.com/blog/evaluating-stm/).
-But since I did not want to introduce another package, I copied the functions that are currently discussed from [this issue on GitHub](https://github.com/koheiw/seededlda/issues/26).
-
-```{r}
-semantic_coherence <- function(model, top_n = 10) {
-    h <- apply(terms(model, top_n), 2, function(y) {
-        d <- model$data[,y]
-        e <- Matrix::Matrix(docfreq(d), nrow = nfeat(d), ncol = nfeat(d))
-        f <- fcm(d, count = "boolean") + 1
-        g <- Matrix::band(log(f / e), 1, ncol(f))
-        sum(g)
-    })
-    sum(h)
-}
-
-divergence <- function(model) {
-    div <- proxyC::dist(model$phi, method = "kullback")
-    diag(div) <- NA
-    mean(as.matrix(div), na.rm = TRUE)
-}
-
-# this one is taken from stm https://github.com/bstewart/stm/blob/master/R/exclusivity.R
-exclusivity <- function(model, top_n = 10, frexw = 0.7) {
-  
-  tphi <- t(exp(model$phi))
-  s <- rowSums(tphi)
-  mat <- tphi / s # normed by columns of beta now.
-  
-  ex <- apply(mat, 2, rank) / nrow(mat)
-  fr <- apply(tphi, 2, rank) / nrow(mat)
-  frex <- 1 / (frexw / ex + (1 - frexw) / fr)
-  index <- apply(tphi, 2, order, decreasing = TRUE)[1:top_n, ]
-  
-  out <- vector(length = ncol(tphi))
-  for (i in seq_len(ncol(frex))) {
-    out[i] <- sum(frex[index[, i], i])
-  }
-  
-  return(mean(out))
-}
-```
-
-We can now use this plot to evaluate the different models.
-
-```{r}
-models_df_metrics <- models_df |>
-  mutate(semantic_coherence = map_dbl(model, semantic_coherence),
-         exclusivity = map_dbl(model, exclusivity),
-         divergence = map_dbl(model, divergence))
-
-models_df_metrics |>
-  select(-model) |>
-  pivot_longer(-k, names_to = "metric") |>
-  ggplot(aes(x = k, value, color = metric)) +
-  geom_line(linewidth = 1.5, alpha = 0.7, show.legend = FALSE) +
-  scale_x_continuous(breaks = scales::pretty_breaks()) +
-  facet_wrap(~metric, scales = "free_y") +
-  labs(x = "K (number of topics)",
-       y = NULL,
-       title = "Model diagnostics by number of topics",
-       subtitle = "Higher = Better")
-```
-
-
-## Issues
-
-- Often misused for text classification - topic models are for corpus exploration!
-- Hardly ever validated (see [oolong](https://gesistsa.github.io/oolong/))
-- Humans have the tendency to read meaning into meaningless patterns
-
-## Learn more
-
-:::: {.columns}
-::: {.column width="70%"}
-- Wouter van Atteveldt, Damian Trilling & Carlos Arcila: *Computational Analysis of Communication*, https://cssbook.net/
 :::
+::: {.column width="50%"}
 
-::: {.column width="30%"}
-![](https://cssbook.net/content/img/cover.jpg)
+Get all available layouts:
+
+```{r}
+layouts <- c(
+  "auto",       # Automatic layout
+  "circle",     # Circular layout
+  "dh",         # Davidson-Harel layout
+  "drl",        # Distributed Recursive Layout
+  "fr",         # Fruchterman-Reingold layout
+  "gem",        # GEM layout
+  "graphopt",   # Graphopt layout
+  "grid",       # Grid layout
+  "kk",         # Kamada-Kawai layout
+  "lgl",        # Large Graph Layout
+  "linear",     # Linear layout
+  "mds",        # Multidimensional Scaling layout
+  "randomly",   # Random layout
+  "sphere",     # Spherical layout
+  "star",       # Star layout
+  "stress",     # Stress majorization layout
+  "sugiyama",   # Sugiyama layout (for layered graphs)
+  "tree"        # Tree layout
+)
+```
 :::
 ::::
 
+
+## volatile layouts
+
+```{r layouts}
+#| output-location: column
+dir.create("media/layouts/")
+for (layout in layouts) {
+  
+  # plot status message in interactive sessions
+  if (interactive()) {
+    message("plotting using layout ", layout)
+  }
+  
+  plot_f <- paste0("media/layouts/network_", layout, ".png")
+  
+  if (!file.exists(plot_f)) {
+    p <- plot_data |> 
+      ggraph(layout = layout) +
+      geom_edge_link(aes(colour = col),
+                     arrow = arrow(length = unit(2, "mm"), type = "closed")) +
+      # we map the number of references to the size
+      geom_node_point(aes(fill = ideology, size = referenced),
+                      # black border and a different shape creates bubbles
+                      colour = "black", pch = 21) +
+      scale_fill_manual(values = c(left = "#2F357E", right = "#D72F32")) +
+      scale_edge_colour_identity() + 
+      theme_graph() +
+      labs(caption = paste0("Layout: ", layout))
+    ggsave(filename = plot_f, plot = p, width = 7, height = 7)
+  }
+  
+}
+gif_file <- list.files("media/layouts/", full.names = TRUE) |> 
+  gifski::gifski(gif_file = "media/layouts.gif")
+knitr::include_graphics(gif_file)
+```
+
+## community detection
+
+In the previous figure we used the political orientation of blogs manually assigned by @adamic2005political.
+Usually, we want to detect communities from the network structure itself.
+We learned about the [Louvain]{.kn-pink} and [Leiden]{.kn-pink} algorithms (and about their downsides).
+So let's start with these.
+
+```{r}
+#| output-location: column
+polblogs_tbl_new_grouped <- polblogs_tbl_new |> 
+  activate(nodes) |>
+  to_undirected() |> 
+  mutate(group_louvain = group_louvain(),
+         group_leiden = group_leiden())
+
+polblogs_tbl_new_grouped |> 
+  as_tibble()
+```
+
+## community detection
+
+```{r}
+#| output-location: column
+polblogs_tbl_new_grouped |> 
+  activate(nodes) |>
+  mutate(group_louvain = factor(group_louvain()),
+         group_leiden = factor(group_leiden())) |> 
+  # the size of the bubbles is influenced by the number of blogs that link to it
+  mutate(referenced = centrality_degree(mode = "in", loops = FALSE)) |> 
+  # remove isolated nodes
+  filter(!node_is_isolated()) |>
+  ggraph(layout = "stress") +
+  geom_edge_link(colour = "gray",
+                 arrow = arrow(length = unit(2, "mm"), type = "closed")) +
+  # we map the number of references to the size
+  geom_node_point(aes(fill = group_louvain, size = referenced),
+                  # black border and a different shape creates bubbles
+                  colour = "black", pch = 21) +
+  theme_graph() +
+  labs(title = "Blogosphere grouped by Louvain")
+```
+
+## community detection
+
+```{r}
+#| output-location: column
+polblogs_tbl_new_grouped |> 
+  activate(nodes) |>
+  mutate(group_louvain = factor(group_louvain()),
+         group_leiden = factor(group_leiden())) |> 
+  # the size of the bubbles is influenced by the number of blogs that link to it
+  mutate(referenced = centrality_degree(mode = "in", loops = FALSE)) |> 
+  # remove isolated nodes
+  filter(!node_is_isolated()) |>
+  ggraph(layout = "stress") +
+  geom_edge_link(colour = "gray",
+                 arrow = arrow(length = unit(2, "mm"), type = "closed")) +
+  # we map the number of references to the size
+  geom_node_point(aes(fill = group_leiden, size = referenced),
+                  # black border and a different shape creates bubbles
+                  colour = "black", pch = 21, show.legend = FALSE) +
+  theme_graph() +
+  labs(title = "Blogosphere grouped by Leiden")
+```
+
+## (better) community detection
+
+The Nested Stochastic Blockmodel is not currently available in `R`, but only in Python.
+However: 
+
+![](https://raw.githubusercontent.com/JBGruber/python_for_r_users/main/media/reticulate.jpg){.fragment}
+
+## Reticulate setup
+
+```{r}
+#| eval: false
+envname <- "r-graph_tool"
+# check if a version of miniconda is available and install if not
+try(reticulate::install_miniconda(update = TRUE), silent = TRUE)
+
+# check if the conda environment exists already and create if not
+if (!reticulate::condaenv_exists(envname)) {
+  reticulate::conda_install(envname, packages = "graph-tool")
+}
+# make sure reticulate is using the correct environment
+reticulate::use_condaenv(envname)
+
+# check the version graph-tool
+reticulate::py_list_packages(envname) |> 
+  filter(package == "graph-tool")
+```
+
+## push graph to Python
+
+```{r}
+igraph::write_graph(polblogs_igraph, file = "data/polblogs_tbl_new_grouped.graphml", format = "graphml")
+```
+
+```{r}
+#| eval: false
+library(reticulate)
+gt <- reticulate::import("graph_tool.all")
+polblogs_gt <- gt$load_graph("data/polblogs_tbl_new_grouped.graphml")
+polblogs_gt
+```
+
+## fit a Nested Stochastic Blockmodel
+
+```{r}
+#| eval: false
+# extract center part of the graph
+giant <- gt$extract_largest_component(polblogs_gt, directed = TRUE)
+
+# fit model
+blockmodel <- gt$minimize_nested_blockmodel_dl(giant)
+
+# Extract the First Level of the NSBM, which contains membership
+blockstate <- blockmodel$levels[[1]]$get_blocks()
+
+# convert the node membership back into R
+node_membership <- tibble(
+  id = blockstate$get_graph()$vp["id"]$get_array()$tolist() |> 
+    map_int(\(x) x$astype("int")$tolist()),
+  group_nsbm = blockstate$get_array()$tolist()
+) |> 
+  mutate(group_nsbm = paste0("Cluster_", group_nsbm)) |> 
+  # subset to reduced graph
+  slice(giant$get_vertices()$tolist() + 1)
+
+# if you run into issues with Python, you can load the memberships I fitted
+# saveRDS(node_membership, "data/nsbm_group.rds")
+# node_membership <- readRDS("data/nsbm_group.rds") 
+```
+
+## Plot  Nested Stochastic Blockmodel
+
+```{r}
+#| eval: false
+#| output-location: column
+polblogs_tbl_new_grouped |> 
+  activate(nodes) |> 
+  right_join(node_membership, by = "id") |> 
+  # the size of the bubbles is influenced by the number of blogs that link to it
+  mutate(referenced = centrality_degree(mode = "in", loops = FALSE)) |> 
+  # remove isolated nodes
+  activate(nodes) |>
+  filter(!node_is_isolated()) |>
+  ggraph(layout = "stress") +
+  geom_edge_link(colour = "gray",
+                 arrow = arrow(length = unit(2, "mm"), type = "closed")) +
+  # we map the number of references to the size
+  geom_node_point(aes(fill = group_nsbm, size = referenced),
+                  # black border and a different shape creates bubbles
+                  colour = "black", pch = 21, show.legend = FALSE) +
+  theme_graph() +
+  labs(title = "Blogosphere grouped by nested Stochastic Block Model")
+```
+
+## Plot  Nested Stochastic Blockmodel (but better)
+
+```{r}
+#| eval: false
+polblogs_tbl_new_grouped_nsbm <- polblogs_tbl_new_grouped |> 
+  # right join removes all nodes not in the membership table
+  right_join(node_membership, by = "id") |> 
+  mutate(referenced = centrality_degree(mode = "in", loops = FALSE)) |> 
+  # remove isolated nodes
+  activate(nodes) |>
+  filter(!node_is_isolated()) |> 
+  activate(edges) |> 
+  mutate(same_group = .N()$group_nsbm[from] == .N()$group_nsbm[to],
+         weight = ifelse(same_group, 1, 0.04))
+```
+
+```{r}
+#| eval: false
+#| output-location: column
+polblogs_tbl_new_grouped_nsbm |> 
+  ggraph(layout = "stress", weight = weight) +
+  geom_edge_link(colour = "gray",
+                 arrow = arrow(length = unit(2, "mm"), type = "closed")) +
+  # we map the number of references to the size
+  geom_node_point(aes(fill = group_nsbm, size = referenced),
+                  # black border and a different shape creates bubbles
+                  colour = "black", pch = 21, show.legend = FALSE) +
+  theme_graph() +
+  labs(title = "Blogosphere grouped by nested Stochastic Block Model")
+```
+
+## Plot  Nested Stochastic Blockmodel (but better)
+
+```{r}
+#| eval: false
+#| output-location: column
+polblogs_tbl_new_grouped_nsbm |> 
+  ggraph(layout = "stress", weight = weight) +
+  geom_edge_link(colour = "gray",
+                 arrow = arrow(length = unit(2, "mm"), type = "closed")) +
+  # we map the number of references to the size
+  geom_node_point(aes(fill = ideology, size = referenced),
+                  # black border and a different shape creates bubbles
+                  colour = "black", pch = 21, show.legend = FALSE) +
+  theme_graph() +
+  labs(title = "Blogosphere grouped by nested Stochastic Block Model")
+```
+
+## Conclusion
+
+We just:
+
+- used some graph data structure
+- learned about graph visualisations
+- looked at some graph layout and how much they change how a graph might be interpreted
+- learned about community detection using classical methods like Louvain and Leiden
+- fit and plotted a first nested Stochastic Blockmodel
 
 # References

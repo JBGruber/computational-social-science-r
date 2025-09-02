@@ -15,13 +15,13 @@ The Digital Revolution has produced unprecedented amounts of data that are relev
 
 # Schedule
 
-| time  | Session                                      |
-|-------|----------------------------------------------|
-| Day 1 | Introduction to Computational Social Science |
-| Day 2 | Obtaining Data                               |
-| Day 3 | Computational Text Analysis                  |
-| Day 4 | Computational Network Analysis               |
-| Day 5 | Large Language Models in the Social Sciences |
+| time   | Session                                      |
+|--------|----------------------------------------------|
+| Day 1  | Introduction to Computational Social Science |
+| Day 2  | Obtaining Data                               |
+| Day 3  | Computational Network Analysis               |
+| Day 4  | Computational Text Analysis                  |
+| Day 5  | Large Language Models in the Social Sciences |
 
 # Download the course material
 
