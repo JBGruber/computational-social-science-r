@@ -21,10 +21,12 @@ website:
             file: day-1.qmd
           - text: "Day 2: Obtaining Data"
             file: day-2.qmd
-          - text: "Day 3: Computational Text Analysis"
+          - text: "Day 3: Computational Network Analysis"
             file: day-3.qmd
-          - text: "Day 4: Computational Network Analysis"
+          - text: "Day 4: Computational Text Analysis"
             file: day-4.qmd
+          - text: "Day 5: Large Language Models in the Social Sciences"
+            file: day-5.qmd
     right:
       - icon: github
         href: https://github.com/JBGruber/computational-social-science-r

@@ -37,3 +37,7 @@ data/glove.6B.zip
 data/final_pred.rds
 data/reviews_embeddings.rds
 data/sentiment_bench.rds
+day-2_exercises_solutions.qmd
+day-3_exercises_solutions.qmd
+day-4_exercises_solutions.qmd
+day-5_exercises_solutions.qmd
