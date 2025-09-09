@@ -76,10 +76,9 @@ You will be asked if you want to install missing packages, so pay attention to t
 ```{r}
 #| eval: false
 if (!requireNamespace("rlang", quietly = TRUE)) install.packages("rlang", dependencies = TRUE)
-rlang::check_installed("attachment")
 rlang::check_installed("remotes")
-rlang::check_installed(attachment::att_from_qmds(path = ".", recursive = TRUE), 
-                       action = \(pkgs, ...) install.packages("rlang", dependencies = c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")))
+if (!requireNamespace("jbgtemplates", quietly = TRUE)) remotes::install_github("JBGruber/jbgtemplates")
+jbgtemplates::install_deps(pattern = "(?<!exercises)[.]qmd")
 ```
 
 # render the slides

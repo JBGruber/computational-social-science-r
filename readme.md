@@ -15,13 +15,13 @@ The Digital Revolution has produced unprecedented amounts of data that are relev
 
 # Schedule
 
-| time   | Session                                      |
-|--------|----------------------------------------------|
-| Day 1  | Introduction to Computational Social Science |
-| Day 2  | Obtaining Data                               |
-| Day 3  | Computational Network Analysis               |
-| Day 4  | Computational Text Analysis                  |
-| Day 5  | Large Language Models in the Social Sciences |
+| time  | Session                                      |
+|-------|----------------------------------------------|
+| Day 1 | Introduction to Computational Social Science |
+| Day 2 | Obtaining Data                               |
+| Day 3 | Computational Network Analysis               |
+| Day 4 | Computational Text Analysis                  |
+| Day 5 | Large Language Models in the Social Sciences |
 
 # Download the course material
 
@@ -67,10 +67,9 @@ You will be asked if you want to install missing packages, so pay attention to t
 
 ``` r
 if (!requireNamespace("rlang", quietly = TRUE)) install.packages("rlang", dependencies = TRUE)
-rlang::check_installed("attachment")
 rlang::check_installed("remotes")
-rlang::check_installed(attachment::att_from_qmds(path = ".", recursive = TRUE), 
-                       action = \(pkgs, ...) install.packages("rlang", dependencies = c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")))
+if (!requireNamespace("jbgtemplates", quietly = TRUE)) remotes::install_github("JBGruber/jbgtemplates")
+jbgtemplates::install_deps(pattern = "(?<!exercises)[.]qmd")
 ```
 
 # render the slides
